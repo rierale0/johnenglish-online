@@ -1,9 +1,9 @@
 import type { Class } from "@/types"
 
-export const mockClasses: Class[] = [
+export const Classes: Class[] = [
   {
     id: "class-1",
-    name: "Matemáticas Avanzadas",
+    name: "Inglés Básico",
     date: "2025-03-09T10:00:00",
     students: [
       { id: "s1", name: "Ana García", isPresent: false },
@@ -15,7 +15,7 @@ export const mockClasses: Class[] = [
   },
   {
     id: "class-2",
-    name: "Física Cuántica",
+    name: "Inglés Intermedio",
     date: "2025-03-09T12:30:00",
     students: [
       { id: "s6", name: "Miguel Fernández", isPresent: false },
@@ -26,7 +26,7 @@ export const mockClasses: Class[] = [
   },
   {
     id: "class-3",
-    name: "Literatura Contemporánea",
+    name: "Inglés Avanzado",
     date: "2025-03-10T09:00:00",
     students: [
       { id: "s10", name: "Javier Ruiz", isPresent: false },
@@ -39,7 +39,7 @@ export const mockClasses: Class[] = [
   },
   {
     id: "class-4",
-    name: "Historia del Arte",
+    name: "Inglés Conversacional",
     date: "2025-03-10T14:00:00",
     students: [
       { id: "s16", name: "Roberto Navarro", isPresent: false },
@@ -51,7 +51,7 @@ export const mockClasses: Class[] = [
   },
   {
     id: "class-5",
-    name: "Programación Web",
+    name: "Inglés para Profesionales",
     date: "2025-03-11T11:00:00",
     students: [
       { id: "s21", name: "Raquel Herrera", isPresent: false },
@@ -64,4 +64,3 @@ export const mockClasses: Class[] = [
     ],
   },
 ]
-

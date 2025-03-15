@@ -12,3 +12,8 @@ export interface Class {
   lastSaved?: string
 }
 
+export interface Teacher {
+  name: string
+  email: string
+  classes: Class[]
+}

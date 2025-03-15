@@ -4,10 +4,10 @@ import { useState } from "react"
 import { TeacherDashboard } from "@/components/teacher-dashboard"
 import { ClassAttendance } from "@/components/class-attendance"
 import type { Class } from "@/types"
-import { mockClasses } from "@/lib/mock-data"
+import { Classes } from "@/lib/data"
 
 export function DashboardPage() {
-  const [classes, setClasses] = useState<Class[]>(mockClasses)
+  const [classes, setClasses] = useState<Class[]>(Classes)
   const [selectedClassId, setSelectedClassId] = useState<string | null>(null)
 
   const selectedClass = selectedClassId ? classes.find((c) => c.id === selectedClassId) : null
