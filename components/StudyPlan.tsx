@@ -6,23 +6,39 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 
 interface StudyPlanProps {
   title: string;
-  currency?: string;
   price: string;
   features: string[];
   cta: string;
+  currency?: string;
+  cardBgColor?: string;
   ctaBgColor?: string;
   ctaTextColor?: string;
   discount?: string;
-  cardBgColor?: string;
   link?: string;
+  onClick?: () => void;
 }
 
-const isImagePath = (path: string) => {
-  if (!path) return false;
-  return path.includes('/') || /\.(jpg|jpeg|png|gif|svg)$/i.test(path);
-};
+export function StudyPlan({
+  title,
+  price,
+  features,
+  cta,
+  currency,
+  cardBgColor = "#3D3F70",
+  ctaBgColor = "#7FDEFF",
+  ctaTextColor = "black",
+  discount,
+  link,
+  onClick,
+}: StudyPlanProps) {
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else if (link) {
+      window.open(link, '_blank');
+    }
+  };
 
-export function StudyPlan({ title, currency, price, features, cta, ctaBgColor = "#7FDEFF", ctaTextColor = "#242239", discount, cardBgColor = "#2C2A4A", link = "#" }: StudyPlanProps) {
   return (
     <Card 
       style={{ 
@@ -46,7 +62,7 @@ export function StudyPlan({ title, currency, price, features, cta, ctaBgColor = 
         <CardTitle className="text-xl font-bold text-left">{title}</CardTitle>
         <CardDescription className="text-left">
           <span className="text-lg text-white text-[22px] flex items-center gap-1">
-            {currency && isImagePath(currency) ? (
+            {currency && currency.endsWith('.png') ? (
               <Image src={currency} alt="currency" width={20} height={20} className="object-contain" />
             ) : (
               currency
@@ -67,23 +83,12 @@ export function StudyPlan({ title, currency, price, features, cta, ctaBgColor = 
       <div className="mt-auto">
         <CardFooter className="pb-5">
           <Button 
-          onClick={() => {
-            if (link?.startsWith('http') || link?.startsWith('https')) {
-              window.open(link, '_blank');
-            } else {
-              document.getElementById(link)?.scrollIntoView({ behavior: 'smooth' });
-            }
-          }}
-          style={{ 
-            background: `
-              linear-gradient(145deg, ${ctaBgColor}dd, ${ctaBgColor}99),
-              radial-gradient(circle at 30% 20%, #ffffff10 0%, transparent 30%)
-            `,
+          className="w-full text-sm font-medium transition-all duration-300 hover:brightness-110"
+          style={{
+            backgroundColor: ctaBgColor,
             color: ctaTextColor,
-            backdropFilter: 'blur(5px)',
-            WebkitBackdropFilter: 'blur(5px)',
           }}
-          className="w-full hover:brightness-125 hover:text-white text-md font-regular py-6 shadow-lg hover:shadow-xl transition-all border border-white/5 hover:border-white/20 whitespace-normal min-h-[72px] flex items-center justify-center"
+          onClick={handleClick}
         >
           {cta}
         </Button>

@@ -1,9 +1,15 @@
+"use client";
+
+import { useState } from 'react';
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { StudyPlan } from "@/components/StudyPlan";
 import { ScrollButton } from "@/components/ScrollButton";
+import ClassPicker from "@/components/ClassPicker";
 
 export default function Home() {
+  const [isClassPickerOpen, setIsClassPickerOpen] = useState(false);
+  
   return (
     <main className="min-h-screen bg-[#2C2A4A] text-white flex flex-col gap-8">
       {/* Header Section */}
@@ -235,6 +241,7 @@ export default function Home() {
               features={["📚 4 clases por semana", "Total de 16 clases al mes"]}
               cta="Reserva Una Clase"
               ctaTextColor="#242239"
+              onClick={() => setIsClassPickerOpen(true)}
             />
 
             <StudyPlan
@@ -269,6 +276,11 @@ export default function Home() {
           </div>
         </section>
       </div>
+
+      <ClassPicker
+        isOpen={isClassPickerOpen}
+        onClose={() => setIsClassPickerOpen(false)}
+      />
     </main>
   );
 }
