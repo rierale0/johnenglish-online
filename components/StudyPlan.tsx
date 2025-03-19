@@ -35,9 +35,9 @@ export function StudyPlan({ title, currency, price, features, cta, ctaBgColor = 
         backdropFilter: 'blur(10px)',
         WebkitBackdropFilter: 'blur(10px)',
       }} 
-      className="w-full max-w-sm text-white border-none relative border border-white/10 shadow-lg"
+      className="w-full max-w-sm text-white border-none relative border border-white/10 shadow-lg flex flex-col md:min-h-[450px]"
     >
-      <CardHeader className='space-y-0.2 pt-8'>
+      <CardHeader className='space-y-0.2 pt-14'>
         {discount && (
           <div className="absolute top-4 right-4 bg-[#7FDEFF] text-[#242239] px-3 py-1 rounded-lg font-regular text-xs">
             {discount}
@@ -64,8 +64,9 @@ export function StudyPlan({ title, currency, price, features, cta, ctaBgColor = 
           ))}
         </ul>
       </CardContent>
-      <CardFooter>
-        <Button 
+      <div className="mt-auto">
+        <CardFooter className="pb-5">
+          <Button 
           onClick={() => {
             if (link?.startsWith('http') || link?.startsWith('https')) {
               window.open(link, '_blank');
@@ -82,11 +83,12 @@ export function StudyPlan({ title, currency, price, features, cta, ctaBgColor = 
             backdropFilter: 'blur(5px)',
             WebkitBackdropFilter: 'blur(5px)',
           }}
-          className="w-full hover:brightness-125 hover:text-white text-md font-regular py-6 shadow-lg hover:shadow-xl transition-all border border-white/5 hover:border-white/20"
+          className="w-full hover:brightness-125 hover:text-white text-md font-regular py-6 shadow-lg hover:shadow-xl transition-all border border-white/5 hover:border-white/20 whitespace-normal min-h-[72px] flex items-center justify-center"
         >
           {cta}
         </Button>
-      </CardFooter>
+        </CardFooter>
+      </div>
     </Card>
   );
 }

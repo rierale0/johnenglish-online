@@ -19,7 +19,7 @@ export function ScrollButton({ link = "#", bgColor = "7FDEFF", textColor = "#242
         WebkitBackdropFilter: 'blur(5px)',
         border: '1px solid rgba(255, 255, 255, 0.1)'
       }}
-      className="mt-6 w-full max-w-xl mx-auto hover:brightness-110 hover:text-white font-bold text-[24px] py-8 px-8 cursor-pointer transition-all shadow-lg hover:shadow-xl"
+      className="mt-6 w-full max-w-md mx-auto hover:brightness-110 hover:text-white font-bold text-[24px] py-8 px-8 cursor-pointer transition-all shadow-lg hover:shadow-xl"
     >
       Empieza ya
     </Button>
