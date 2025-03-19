@@ -61,6 +61,16 @@ const PaymentForm = ({ selectedDate, selectedTime, onSuccess }: { selectedDate: 
     if (!stripe || !elements) return;
 
     setLoading(true);
+
+    // Fetch the client secret from your serverless function
+    const response = await fetch('/api/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: 5000 }), // Example amount in cents
+    });
+
+    const { clientSecret } = await response.json();
+
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card: elements.getElement(CardElement)!,
@@ -76,9 +86,17 @@ const PaymentForm = ({ selectedDate, selectedTime, onSuccess }: { selectedDate: 
       return;
     }
 
-    // Send paymentMethod.id, selectedDate, selectedTime, name, and email to backend
-    setLoading(false);
-    onSuccess();
+    // Confirm the payment with the client secret
+    const result = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: paymentMethod.id,
+    });
+
+    if (result.error) {
+      console.error(result.error);
+      setLoading(false);
+    } else {
+      onSuccess();
+    }
   };
 
   const [nameFocused, setNameFocused] = useState(false);
