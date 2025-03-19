@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { Calendar } from '@/components/ui/calendar';
@@ -22,29 +22,33 @@ const PaymentForm = ({ selectedDate, selectedTime, onSuccess }: { selectedDate: 
   const [email, setEmail] = useState('');
   const [canMakePayment, setCanMakePayment] = useState(false);
 
-  const paymentRequest = stripe?.paymentRequest({
-    country: 'US',
-    currency: 'usd',
-    total: {
-      label: 'Class Payment',
-      amount: 5000, // Example amount in cents
-    },
-    requestPayerName: true,
-    requestPayerEmail: true,
-  });
+  const paymentRequest = useMemo(() => {
+    return stripe?.paymentRequest({
+      country: 'US',
+      currency: 'usd',
+      total: { label: 'Class Payment', amount: 5000 },
+      requestPayerName: true,
+      requestPayerEmail: true,
+    });
+  }, [stripe]);
 
   useEffect(() => {
-    const checkPaymentRequest = async () => {
-      if (paymentRequest) {
-        const result = await paymentRequest.canMakePayment();
-        setCanMakePayment(!!result);
-      }
-    };
-    checkPaymentRequest();
+    if (paymentRequest) {
+      paymentRequest.canMakePayment().then((result) => setCanMakePayment(!!result));
+    }
   }, [paymentRequest]);
+  
 
   paymentRequest?.on('paymentmethod', async (event) => {
-    const result = await stripe?.confirmCardPayment('{CLIENT_SECRET}', {
+    // First fetch the client secret
+    const response = await fetch('/api/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: 5000 }), // Amount in cents
+    });
+    const { clientSecret } = await response.json();
+    
+    const result = await stripe?.confirmCardPayment(clientSecret, {
       payment_method: event.paymentMethod.id,
     });
 
