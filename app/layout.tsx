@@ -4,7 +4,7 @@ import './globals.css'
 
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['200','400', '500', '600', '700'],
   display: 'swap',
 })
 
@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: 'English with John',
   description: 'Online English Classes',
   generator: 'github.com/rierale0',
+  icons: {
+    icon: '/favicon.png',
+  },
 }
 
 export default function RootLayout({
