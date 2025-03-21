@@ -232,7 +232,7 @@ export default function Home() {
               cta="Toma una Clase Demo"
               ctaBgColor="#B47AD6"
               ctaTextColor="white"
-              link="https://calendar.app.google/owip8XgUuUYdsmpV6"
+              link="https://calendar.app.google/QeYppmPdgYRFVM499"
             />
             <StudyPlan
               title="Una Clase"
