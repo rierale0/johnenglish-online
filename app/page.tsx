@@ -113,7 +113,7 @@ export default function Home() {
                   />
                   <p className="text-white text-start">
                     <span className="font-light text-lg md:text-xl">
-                      Adults and professionals:
+                      Adults and professionals
                     </span>{" "}
                     <br />
                     <span className="font-thin text-md md:text-lg text-[#DEDEDE]">
@@ -131,7 +131,7 @@ export default function Home() {
                     className="md:w-10 md:h-10"
                   />
                   <p className="text-white text-start">
-                    <span className="font-light text-lg md:text-xl">Kids & Teens:</span>{" "}
+                    <span className="font-light text-lg md:text-xl">Kids & Teens</span>{" "}
                     <br />
                     <span className="font-thin text-md md:text-lg text-[#DEDEDE]">
                       Engaging classes with fun activities
@@ -156,7 +156,7 @@ export default function Home() {
                   />
                   <p className="text-white text-start">
                     <span className="font-light text-lg md:text-xl">
-                      Conversation Practice:
+                      Conversation Practice
                     </span>{" "}
                     <br />
                     <span className="font-thin text-md md:text-lg text-[#DEDEDE]">
@@ -174,7 +174,7 @@ export default function Home() {
                     className="md:w-10 md:h-10"
                   />
                   <p className="text-white text-start">
-                    <span className="font-light text-lg md:text-xl">Grammar & Vocabulary:</span>{" "}
+                    <span className="font-light text-lg md:text-xl">Grammar & Vocabulary</span>{" "}
                     <br />
                     <span className="font-thin text-md md:text-lg text-[#DEDEDE]">
                       Structured learning with practical exercises
