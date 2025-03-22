@@ -4,12 +4,20 @@
     {
       "src": "app/api/availability/route.ts",
       "use": "@vercel/node"
+    },
+    {
+      "src": "app/page.tsx",
+      "use": "@vercel/next"
     }
   ],
   "routes": [
     {
       "src": "/api/availability",
       "dest": "/app/api/availability/route.ts"
+    },
+    {
+      "src": "/",
+      "dest": "/app/page.tsx"
     }
   ]
 }
