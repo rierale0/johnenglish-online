@@ -1,7 +1,6 @@
 {
-  "name": "my-v0-project",
+  "name": "johnenglish-online",
   "version": "0.1.0",
-  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
