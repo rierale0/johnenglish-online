@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "app/api/availability/route.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/availability",
+      "dest": "/app/api/availability/route.ts"
+    }
+  ]
+}
