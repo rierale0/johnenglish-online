@@ -5,7 +5,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { StudyPlan } from "@/components/StudyPlan";
 import { ScrollButton } from "@/components/ScrollButton";
-import ClassPicker from "@/components/ClassPicker";
 
 export default function Home() {
   const [isClassPickerOpen, setIsClassPickerOpen] = useState(false);
@@ -241,7 +240,7 @@ export default function Home() {
               features={["📚 4 clases por semana", "Total de 16 clases al mes"]}
               cta="Reserva Una Clase"
               ctaTextColor="#242239"
-              onClick={() => setIsClassPickerOpen(true)}
+              link='/schedule-a-class'
             />
 
             <StudyPlan
@@ -277,10 +276,6 @@ export default function Home() {
         </section>
       </div>
 
-      <ClassPicker
-        isOpen={isClassPickerOpen}
-        onClose={() => setIsClassPickerOpen(false)}
-      />
     </main>
   );
 }
