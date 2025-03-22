@@ -5,6 +5,7 @@ import { getAuthenticatedClient } from '@/lib/google-calendar/auth';
 
 export async function GET(request: Request) {
   try {
+    console.log('Request method:', request.method);
     console.log('Environment Variables:', {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
