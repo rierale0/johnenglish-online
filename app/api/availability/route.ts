@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
-import { google } from 'googleapis';
-import { format, addDays } from 'date-fns';
-import { getAuthenticatedClient } from '@/lib/google-calendar/auth';
+const { NextResponse } = require('next/server');
+const { google } = require('googleapis');
+const { format, addDays } = require('date-fns');
+const { getAuthenticatedClient } = require('@/lib/google-calendar/auth');
 
-export async function GET(request: Request) {
+async function GET(request) {
   try {
     console.log('Request method:', request.method);
     console.log('Environment Variables:', {
@@ -83,3 +83,5 @@ export async function GET(request: Request) {
     }, { status: 500 });
   }
 }
+
+module.exports = { GET };
