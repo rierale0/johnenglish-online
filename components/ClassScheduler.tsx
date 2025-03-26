@@ -285,12 +285,8 @@ export function ClassScheduler({
                             }`}
                           >
                             {hour}
-                            {isSelected && (
-                              <span className={`absolute -top-1 -right-1 text-[10px] px-1 rounded-sm text-white ${styles?.tag}`}>
-                                {classType === 'individual' ? 'Ind' : 
-                                 classType === 'grupal' ? 'Gru' : 'Esp'}
-                              </span>
-                            )}
+                            {isSelected}
+                            
                           </Button>
                         );
                       })
