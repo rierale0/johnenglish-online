@@ -3,7 +3,7 @@ const { google } = require('googleapis');
 const { format, addDays } = require('date-fns');
 const { getAuthenticatedClient } = require('../../../lib/google-calendar/auth.js');
 
-async function GET(request) {
+async function GET(request: Request) {
   try {
     console.log('Request method:', request.method);
     console.log('Environment Variables:', {
@@ -62,7 +62,7 @@ async function GET(request) {
         const slotEnd = new Date(slotStart);
         slotEnd.setMinutes(slotEnd.getMinutes() + workingHours.duration);
 
-        const isSlotBusy = busySlots.some(busy => {
+        const isSlotBusy = busySlots.some((busy: { start: string; end: string }) => {
           const busyStart = new Date(busy.start as string);
           const busyEnd = new Date(busy.end as string);
           return (slotStart >= busyStart && slotStart < busyEnd) ||

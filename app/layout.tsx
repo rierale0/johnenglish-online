@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import './globals.css'
+import FacebookPixel from "@/components/FacebookPixel";
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -22,8 +23,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const FB_PIXEL_ID = process.env.FB_PIXEL_ID;
+
   return (
     <html lang="en" className={poppins.className}>
+      <FacebookPixel pixelId={FB_PIXEL_ID} />
       <body>{children}</body>
     </html>
   )
