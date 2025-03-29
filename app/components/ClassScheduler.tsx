@@ -319,7 +319,7 @@ export function ClassScheduler({
                           return (
                             <Button
                               key={`${slotKey}-${hourIndex}`}
-                              variant="outline"
+                              variant="default"
                               size="sm"
                               disabled={!selectedClassType || !data.available}
                               onClick={() => handleSlotSelect(dateKey, hour)}
@@ -327,7 +327,7 @@ export function ClassScheduler({
                                 isSelected
                                   ? `${styles?.bg} ${styles?.border} ${styles?.text}`
                                   : selectedClassType
-                                  ? "hover:bg-gray-100 cursor-pointer"
+                                  ? "cursor-pointer"
                                   : "opacity-50"
                               }`}
                             >

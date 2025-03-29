@@ -70,22 +70,22 @@ export function ClassSummary({ selectedClasses, total }: ClassSummaryProps) {
   const formatDate = (dateStr: string) => {
     try {
       // More detailed logging
-      console.log('Fecha recibida en ClassSummary:', dateStr, typeof dateStr);
+      // console.log('Fecha recibida en ClassSummary:', dateStr, typeof dateStr);
       
       // Handle ISO format dates (yyyy-MM-dd)
       if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
         const date = parseISO(dateStr);
-        console.log('Fecha parseada:', date, date.toISOString());
+        // console.log('Fecha parseada:', date, date.toISOString());
         if (!isNaN(date.getTime())) {
           const formatted = format(date, "EEEE, d 'de' MMMM 'de' yyyy", { locale: es });
-          console.log('Fecha formateada:', formatted);
+          // console.log('Fecha formateada:', formatted);
           return formatted;
         }
       }
       
       // Try parsing with different formats if the standard approach fails
       const date = new Date(dateStr);
-      console.log('Fecha parseada con constructor Date:', date, date.toISOString());
+      // console.log('Fecha parseada con constructor Date:', date, date.toISOString());
       if (!isNaN(date.getTime())) {
         return format(date, "EEEE, d 'de' MMMM 'de' yyyy", { locale: es });
       }
@@ -93,7 +93,7 @@ export function ClassSummary({ selectedClasses, total }: ClassSummaryProps) {
       // If all parsing attempts fail, return a more user-friendly message
       return "Fecha no disponible";
     } catch (error) {
-      console.error('Error al formatear fecha:', dateStr, error);
+      // console.error('Error al formatear fecha:', dateStr, error);
       return "Fecha no disponible";
     }
   };

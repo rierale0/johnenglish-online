@@ -26,7 +26,7 @@ export default function Footer() {
               <span className="text-xl font-bold">John English</span>
             </div>
             <p className="text-gray-300 text-sm mb-4">
-              Clases de inglés personalizadas para todos los niveles. Aprende con un profesor nativo y experimentado.
+              Clases de inglés personalizadas para todos los niveles.
             </p>
             <div className="flex gap-4 mt-2">
               <Link href="https://facebook.com/johneryslang" target="_blank" className="text-gray-300 hover:text-[#7FDEFF] transition-colors">
