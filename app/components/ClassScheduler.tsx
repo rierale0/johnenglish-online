@@ -123,12 +123,12 @@ export function ClassScheduler({
         const hour = dateParts.pop(); // Get the last part (hour)
         const date = dateParts.join('-'); // Rejoin the date parts
         
-        console.log('Enviando fecha correcta:', date, typeof date, 'hora:', hour);
+        // console.log('Enviando fecha correcta:', date, typeof date, 'hora:', hour);
         return { date, hour, type };
       });
       
       // Log the selected classes before sending them to the parent
-      console.log('Selected classes to send:', selectedClasses);
+     // console.log('Selected classes to send:', selectedClasses);
       
       // Calcular subtotal
       const subtotal = selectedClasses.reduce((sum, cls) => {
@@ -237,14 +237,14 @@ export function ClassScheduler({
           </div>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-4">
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-12">
               <Loader2 className="h-8 w-8 text-[#7FDEFF] animate-spin mb-2" />
               <p className="text-sm text-gray-300">Cargando horarios disponibles...</p>
             </div>
           ) : (
-            <div className="grid grid-cols-7 gap-4">
+            <div className="grid grid-cols-7 gap-1">
               {/* Display the actual day names for the 7 days we're showing */}
               {weekDays.map((day) => (
                 <div key={day.toString()} className="text-center font-medium text-sm text-gray-300">
@@ -267,10 +267,10 @@ export function ClassScheduler({
                     <div className={`mb-2 font-medium ${isWeekend ? 'text-gray-400' : ''}`}>
                       {format(day, 'd')}
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-1">
                       {isWeekend ? (
                         <div className="text-xs text-gray-400 py-2">
-                          No disponible
+{window.innerWidth <= 768 ? "N/D" : "No disponible"}
                         </div>
                       ) : availableSlots.length > 0 ? (
                         availableSlots.map(([hour, data], hourIndex) => {

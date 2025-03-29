@@ -16,15 +16,14 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default function ScheduleClassLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-
   return (
-    <html lang="es" className={poppins.className}>
-      <body>{children}</body>
-    </html>
+    <div className={poppins.className}>
+      {children}
+    </div>
   )
 }
