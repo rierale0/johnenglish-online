@@ -140,8 +140,50 @@ export function ClassSummary({ selectedClasses, total }: ClassSummaryProps) {
         </div>
       ) : (
         <div className="space-y-4">
-          {/* Lista de clases seleccionadas */}
-          <div className="border rounded-md overflow-hidden border-[1px] border-[#353259] text-gray-100">
+          {/* Lista de clases seleccionadas - Versión móvil */}
+          <div className="md:hidden space-y-4">
+            {selectedClasses.map((cls, index) => (
+              <div key={index} className="border border-[#353259] rounded-md p-3 hover:bg-[#4F518C]">
+                <div className="flex justify-between items-center mb-2">
+                  <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${getClassTypeColor(cls.type)}`}>
+                    {getClassTypeName(cls.type)}
+                  </span>
+                  <span className="font-bold">{getClassPrice(cls.type)} EUR</span>
+                </div>
+                <div className="text-sm text-[#C8C9F7]">{formatDate(cls.date)}</div>
+                <div className="text-sm">{cls.hour}</div>
+              </div>
+            ))}
+            
+            {/* Resumen de precios para móvil */}
+            <div className="border border-[#353259] rounded-md p-3 space-y-2">
+              {selectedClasses.length >= 5 && (
+                <>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Subtotal ({selectedClasses.length} clases)</span>
+                    <span className="text-sm">
+                      {selectedClasses.reduce((sum, cls) => sum + getClassPrice(cls.type), 0)} EUR
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center text-green-600">
+                    <span className="text-sm">
+                      Descuento {selectedClasses.length >= 10 ? '(20%)' : '(10%)'}
+                    </span>
+                    <span className="text-sm">
+                      -{(selectedClasses.reduce((sum, cls) => sum + getClassPrice(cls.type), 0) - total).toFixed(2)} EUR
+                    </span>
+                  </div>
+                </>
+              )}
+              <div className="flex justify-between items-center pt-2 border-t border-[#353259]">
+                <span className="text-sm font-medium">Total</span>
+                <span className="text-sm font-bold">{total} EUR</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Lista de clases seleccionadas - Versión desktop */}
+          <div className="hidden md:block border rounded-md border-[#353259] text-gray-100">
             <table className="w-full">
               <thead>
                 <tr>
@@ -210,9 +252,9 @@ export function ClassSummary({ selectedClasses, total }: ClassSummaryProps) {
           </div>
           
           {/* Botón de pago */}
-          <div className="mt-6 flex justify-end">
+          <div className="mt-6 flex justify-center md:justify-end">
             <Button 
-              className="bg-[#7FDEFF] text-[#242239] px-6 py-2 rounded-md hover:bg-[#4F518C] hover:text-[white] transition-colors"
+              className="w-full md:w-auto bg-[#7FDEFF] text-[#242239] px-6 py-2 rounded-md hover:bg-[#4F518C] hover:text-[white] transition-colors"
               disabled={selectedClasses.length === 0 || isLoading}
               onClick={handleCheckout}
             >
