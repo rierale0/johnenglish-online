@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button"
 import { format, addDays, eachDayOfInterval } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { ClassPrices, SelectedClass, classPrices, getClassTypeColor } from '@/types/class'
+import { Loader2 } from "lucide-react"
 
-// Add this type and mock data
 type DayAvailability = {
   [hour: string]: {
     available: boolean;
@@ -36,9 +36,12 @@ export function ClassScheduler({
   const weekEnd = addDays(weekStart, 6);
   const weekDays = eachDayOfInterval({ start: weekStart, end: weekEnd });
   
-  const isPreviousWeekDisabled = addDays(weekStart, -7) < today;
+  // Fix: Only disable previous week button if we're already at the current week
+  const isPreviousWeekDisabled = format(weekStart, 'yyyy-MM-dd') === format(today, 'yyyy-MM-dd');
 
-  // Move fetchAvailability outside of the render loop
+  // Fetch availability data
+
+
   const fetchAvailability = async (startDate: Date) => {
     setIsLoading(true);
     try {
@@ -76,9 +79,10 @@ export function ClassScheduler({
   const handlePreviousWeek = () => {
     const newDate = addDays(currentWeek, -7);
     // Don't go before today
-    if (newDate >= today) {
+    if (format(newDate, 'yyyy-MM-dd') >= format(today, 'yyyy-MM-dd')) {
       setCurrentWeek(newDate);
     } else {
+      // If going back would put us before today, just go to today
       setCurrentWeek(today);
     }
   }
@@ -184,27 +188,27 @@ export function ClassScheduler({
   };
 
   return (
-    <Card className="w-full">
+    <Card className="card w-full">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Selecciona tus clases</CardTitle>
-        <div className="flex items-center gap-1 border rounded-md">
+        <div className="flex items-center gap-1 border-[1px] border-[#353259] rounded-md">
           <Button 
             variant="ghost" 
             size="icon"
             onClick={handlePreviousWeek}
             disabled={isPreviousWeekDisabled}
-            className={`hover:bg-gray-100 ${isPreviousWeekDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`hover:bg-[#4F518C] ${isPreviousWeekDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          <div className="px-4 py-2 font-medium">
+          <div className="px-4 py-2 font-light">
             {format(weekStart, "d MMM", { locale: es })} - {format(weekEnd, "d MMM yyyy", { locale: es })}
           </div>
           <Button 
             variant="ghost" 
             size="icon"
             onClick={handleNextWeek}
-            className="hover:bg-gray-100"
+            className="hover:bg-[#4F518C]"
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
@@ -234,72 +238,79 @@ export function ClassScheduler({
         </div>
 
         <div className="mt-8">
-          <div className="grid grid-cols-7 gap-4">
-            {/* Display the actual day names for the 7 days we're showing */}
-            {weekDays.map((day) => (
-              <div key={day.toString()} className="text-center font-medium text-sm text-gray-600">
-                {format(day, 'EEE', { locale: es }).toUpperCase()}
-              </div>
-            ))}
-            
-            {weekDays.map((day, dayIndex) => {
-              const dateKey = format(day, 'yyyy-MM-dd');
-              const dayAvailability = weekAvailability[dateKey] || {};
-              const isWeekend = day.getDay() === 0 || day.getDay() === 6; // 0 is Sunday, 6 is Saturday
-              
-              // Filter available time slots
-              const availableSlots = isWeekend ? [] : Object.entries(dayAvailability)
-                .filter(([_, data]) => data.available)
-                .sort(([hourA], [hourB]) => hourA.localeCompare(hourB));
-              
-              return (
-                <div key={`${dateKey}-${dayIndex}`} className="text-center">
-                  <div className={`mb-2 font-medium ${isWeekend ? 'text-gray-400' : ''}`}>
-                    {format(day, 'd')}
-                  </div>
-                  <div className="space-y-2">
-                    {isWeekend ? (
-                      <div className="text-xs text-gray-400 py-2">
-                        No disponible
-                      </div>
-                    ) : availableSlots.length > 0 ? (
-                      availableSlots.map(([hour, data], hourIndex) => {
-                        const slotKey = `${dateKey}-${hour}`;
-                        const isSelected = slotKey in selectedSlots;
-                        const classType = selectedSlots[slotKey];
-                        const styles = isSelected ? getClassTypeStyles(classType) : null;
-                        
-                        return (
-                          <Button
-                            key={`${slotKey}-${hourIndex}`}
-                            variant="outline"
-                            size="sm"
-                            disabled={!selectedClassType || !data.available}
-                            onClick={() => handleSlotSelect(dateKey, hour)}
-                            className={`w-full text-xs py-1 relative ${
-                              isSelected 
-                                ? `${styles?.bg} ${styles?.border} ${styles?.text}`
-                                : selectedClassType 
-                                  ? 'hover:bg-gray-50 cursor-pointer' 
-                                  : 'opacity-50'
-                            }`}
-                          >
-                            {hour}
-                            {isSelected}
-                            
-                          </Button>
-                        );
-                      })
-                    ) : (
-                      <div key={`no-slots-${dateKey}`} className="text-xs text-gray-400 py-2">
-                        No hay horas disponibles
-                      </div>
-                    )}
-                  </div>
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center py-12">
+              <Loader2 className="h-8 w-8 text-[#7FDEFF] animate-spin mb-2" />
+              <p className="text-sm text-gray-300">Cargando horarios disponibles...</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-7 gap-4">
+              {/* Display the actual day names for the 7 days we're showing */}
+              {weekDays.map((day) => (
+                <div key={day.toString()} className="text-center font-medium text-sm text-gray-300">
+                  {format(day, 'EEE', { locale: es }).toUpperCase()}
                 </div>
-              );
-            })}
-          </div>
+              ))}
+              
+              {weekDays.map((day, dayIndex) => {
+                const dateKey = format(day, 'yyyy-MM-dd');
+                const dayAvailability = weekAvailability[dateKey] || {};
+                const isWeekend = day.getDay() === 0 || day.getDay() === 6; // 0 is Sunday, 6 is Saturday
+                
+                // Filter available time slots
+                const availableSlots = isWeekend ? [] : Object.entries(dayAvailability)
+                  .filter(([_, data]) => data.available)
+                  .sort(([hourA], [hourB]) => hourA.localeCompare(hourB));
+                
+                return (
+                  <div key={`${dateKey}-${dayIndex}`} className="text-center">
+                    <div className={`mb-2 font-medium ${isWeekend ? 'text-gray-400' : ''}`}>
+                      {format(day, 'd')}
+                    </div>
+                    <div className="space-y-2">
+                      {isWeekend ? (
+                        <div className="text-xs text-gray-400 py-2">
+                          No disponible
+                        </div>
+                      ) : availableSlots.length > 0 ? (
+                        availableSlots.map(([hour, data], hourIndex) => {
+                          const slotKey = `${dateKey}-${hour}`;
+                          const isSelected = slotKey in selectedSlots;
+                          const classType = selectedSlots[slotKey];
+                          const styles = isSelected ? getClassTypeStyles(classType) : null;
+                          
+                          return (
+                            <Button
+                              key={`${slotKey}-${hourIndex}`}
+                              variant="outline"
+                              size="sm"
+                              disabled={!selectedClassType || !data.available}
+                              onClick={() => handleSlotSelect(dateKey, hour)}
+                              className={`text-gray-200 font-light bg-[#4F518C] border-none w-full text-xs py-1 relative ${
+                                isSelected 
+                                  ? `${styles?.bg} ${styles?.border} ${styles?.text}`
+                                  : selectedClassType 
+                                    ? 'hover:bg-gray-100 cursor-pointer' 
+                                    : 'opacity-50'
+                              }`}
+                            >
+                              {hour}
+                              {isSelected}
+                              
+                            </Button>
+                          );
+                        })
+                      ) : (
+                        <div key={`no-slots-${dateKey}`} className="text-xs text-gray-400 py-2">
+                          No hay horas disponibles
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

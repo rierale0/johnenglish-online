@@ -129,63 +129,63 @@ export function ClassSummary({ selectedClasses, total }: ClassSummaryProps) {
   };
 
   return (
-    <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6">
-      <h2 className="text-2xl font-semibold text-blue-800 mb-4">
+    <div className="card w-full max-w-4xl rounded-lg shadow-lg p-6">
+      <h2 className="text-2xl font-semibold mb-4">
         Resumen de Clases Seleccionadas
       </h2>
       
       {selectedClasses.length === 0 ? (
-        <div className="bg-gray-100 p-8 rounded-md text-center text-gray-500">
+        <div className="p-8 rounded-md text-center text-gray-500">
           No has seleccionado ninguna clase todavía
         </div>
       ) : (
         <div className="space-y-4">
           {/* Lista de clases seleccionadas */}
-          <div className="border rounded-md overflow-hidden">
+          <div className="border rounded-md overflow-hidden border-[1px] border-[#353259] text-gray-100">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead>
                 <tr>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Fecha</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Hora</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Tipo</th>
-                  <th className="px-4 py-2 text-right text-sm font-medium text-gray-500">Precio</th>
+                  <th className="px-4 py-2 text-left text-sm font-medium">Fecha</th>
+                  <th className="px-4 py-2 text-left text-sm font-medium">Hora</th>
+                  <th className="px-4 py-2 text-left text-sm font-medium">Tipo</th>
+                  <th className="px-4 py-2 text-right text-sm font-medium">Precio</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-[#353259]">
                 {selectedClasses.map((cls, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 text-sm text-gray-700">
+                  <tr key={index} className="hover:bg-[#4F518C]">
+                    <td className="px-4 py-3 text-sm text-[#C8C9F7]">
                       {formatDate(cls.date)}
                     </td>
-                    <td className="px-4 py-3 text-sm text-gray-700">
+                    <td className="px-4 py-3 text-sm">
                       {cls.hour}
                     </td>
-                    <td className="px-4 py-3 text-sm text-gray-700">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium text-white ${getClassTypeColor(cls.type)}`}>
+                    <td className="px-4 py-3 text-sm">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${getClassTypeColor(cls.type)}`}>
                         {getClassTypeName(cls.type)}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-sm text-gray-700 text-right">
+                    <td className="px-4 py-3 text-sm text-right">
                       {getClassPrice(cls.type)} EUR
                     </td>
                   </tr>
                 ))}
               </tbody>
-              <tfoot className="bg-gray-50">
+              <tfoot className="">
                 {selectedClasses.length >= 5 && (
                   <>
                     <tr>
-                      <td colSpan={3} className="px-4 py-2 text-sm font-medium text-gray-700 text-right">
-                        Subtotal <span className="text-xs text-gray-500 ml-1">({selectedClasses.length} clases)</span>
+                      <td colSpan={3} className="px-4 py-2 text-sm font-medium text-right">
+                        Subtotal <span className="text-xs ml-1">({selectedClasses.length} clases)</span>
                       </td>
-                      <td className="px-4 py-2 text-sm text-gray-700 text-right">
+                      <td className="px-4 py-2 text-sm text-right">
                         {selectedClasses.reduce((sum, cls) => sum + getClassPrice(cls.type), 0)} EUR
                       </td>
                     </tr>
                     <tr>
                       <td colSpan={3} className="px-4 py-2 text-sm font-medium text-green-600 text-right">
                         Descuento {selectedClasses.length >= 10 ? '(20%)' : '(10%)'} 
-                        <span className="text-xs text-gray-500 ml-1">
+                        <span className="text-xs ml-1">
                           {selectedClasses.length >= 10 
                             ? '(Por reservar 10+ clases)' 
                             : '(Por reservar 5+ clases)'}
@@ -198,10 +198,10 @@ export function ClassSummary({ selectedClasses, total }: ClassSummaryProps) {
                   </>
                 )}
                 <tr>
-                  <td colSpan={3} className="px-4 py-3 text-sm font-medium text-gray-700 text-right">
+                  <td colSpan={3} className="px-4 py-3 text-sm font-medium text-right">
                     Total
                   </td>
-                  <td className="px-4 py-3 text-sm font-bold text-gray-900 text-right">
+                  <td className="px-4 py-3 text-sm font-bold text-right">
                     {total} EUR
                   </td>
                 </tr>
@@ -212,7 +212,7 @@ export function ClassSummary({ selectedClasses, total }: ClassSummaryProps) {
           {/* Botón de pago */}
           <div className="mt-6 flex justify-end">
             <Button 
-              className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors"
+              className="bg-[#7FDEFF] text-[#242239] px-6 py-2 rounded-md hover:bg-[#4F518C] hover:text-[white] transition-colors"
               disabled={selectedClasses.length === 0 || isLoading}
               onClick={handleCheckout}
             >
