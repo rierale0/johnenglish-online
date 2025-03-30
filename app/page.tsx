@@ -4,46 +4,42 @@ import Image from "next/image";
 import { StudyPlan } from "@/app/components/StudyPlan";
 import { ScrollButton } from "@/app/components/ScrollButton";
 import Header from "./components/Header";
+import Chatbot from "./components/Chatbot";
 import Footer from "./components/Footer";
 
 export default function Home() {
   return (
     <main className="min-h-screen text-white flex flex-col gap-8">
-
-      
-      
-      
       {/* Header Section */}
       <Header />
       {/* Hero Section */}
       <section className="rounded-xl px-8 md:px-12 lg:px-16 py-12 text-center max-w-7xl mx-auto w-full">
         {/* Global styles for emoji support */}
 
-              {/* Background with gradient, dots and grain effect */}
-      <div className="fixed inset-0 w-full h-full -z-10 bg-gradient-to-b from-[#1A1832] via-[#242239] to-[#1A1832] overflow-hidden">
-        {/* Grain overlay */}
-        <div className="absolute inset-0 opacity-15 bg-noise"></div>
-        
-      </div>
-      
-      <style jsx global>{`
-        .animation-delay-300 {
-          animation-delay: 300ms;
-        }
-        .animation-delay-600 {
-          animation-delay: 600ms;
-        }
-        
-        /* Grain effect */
-        .bg-noise {
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-          background-repeat: repeat;
-          background-size: 200px 200px;
-        }
-      `}</style>
-      
+        {/* Background with gradient, dots and grain effect */}
+        <div className="fixed inset-0 w-full h-full -z-10 bg-gradient-to-b from-[#1A1832] via-[#242239] to-[#1A1832] overflow-hidden">
+          {/* Grain overlay */}
+          <div className="absolute inset-0 opacity-15 bg-noise"></div>
+        </div>
+
+        <style jsx global>{`
+          .animation-delay-300 {
+            animation-delay: 300ms;
+          }
+          .animation-delay-600 {
+            animation-delay: 600ms;
+          }
+
+          /* Grain effect */
+          .bg-noise {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 200px 200px;
+          }
+        `}</style>
+
         <h1 className="text-2xl md:text-5xl lg:text-4xl font-bold mb-8 w-full">
-          🗣️ <span className="text-[#DABFFF]">Speak English</span> with
+          🗣️ <span className="text-[#DABFFF]">Speak English </span> with
           <br />
           Confidence and Clarity!
         </h1>
@@ -112,7 +108,7 @@ export default function Home() {
                   <div className="w-2 h-2 rounded-full bg-[#DABFFF] animate-pulse animation-delay-300"></div>
                   <div className="w-1.5 h-1.5 rounded-full bg-[#7FDEFF] animate-pulse animation-delay-600"></div>
                 </div>
-                
+
                 <div className="flex items-center gap-4">
                   <Image
                     src="/home/usa-flag.png"
@@ -123,7 +119,10 @@ export default function Home() {
                   />
                   <div className="text-white text-left">
                     <p className="font-regular italic text-lg md:text-xl lg:text-2xl">
-                      Me encanta ayudar a los estudiantes a hablar <span className="text-[#7FDEFF]">con confianza y claridad!</span>
+                      Me encanta ayudar a los estudiantes a hablar{" "}
+                      <span className="text-[#7FDEFF]">
+                        con confianza y claridad!
+                      </span>
                     </p>
                   </div>
                 </div>
@@ -232,7 +231,7 @@ export default function Home() {
               </div>
             </div>
 
-<div className="w-full max-w-md mx-auto border-t border-gray-600 my-[6em]" />
+            <div className="w-full max-w-md mx-auto border-t border-gray-600 my-[6em]" />
 
             {/* Languages are my passion */}
             <div className="mt-12 px-10 md:px-12 lg:px-16 max-w-4xl mx-auto">
@@ -336,8 +335,22 @@ export default function Home() {
             /> */}
         </section>
       </div>
+
+      {/* Chatbot */}
+
+      <Chatbot
+      logoPath="home\eve-profpic-rounded.png"
+      companyName="Eve"
+      title="¿Cómo puedo ayudarte hoy?"
+      subtitle="Chatea conmigo"
+      primaryColor="#4F518C"
+      ctaText="✨ Quiero una clase gratuita"
       
+      
+      />
+
       {/* Footer */}
+
       <Footer />
     </main>
   );
