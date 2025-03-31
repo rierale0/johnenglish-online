@@ -228,8 +228,8 @@ const Chatbot: React.FC<ChatbotProps> = ({
   const styles = {
     chatbotContainer: {
       position: "fixed" as const,
-      bottom: "20px",
-      right: "20px",
+      bottom: isOpen && window.innerWidth <= 768 ? '0px' : '20px',
+      right: isOpen && window.innerWidth <= 768 ? '0px' : '20px',
       zIndex: 1000,
       ...baseFontStyles,
     },
@@ -257,8 +257,8 @@ const Chatbot: React.FC<ChatbotProps> = ({
       position: "absolute" as const,
       bottom: "0",
       right: "0",
-      width: "350px",
-      height: "600px",
+      width: isOpen && window.innerWidth <= 768 ? '100vw' : '390px',
+      height: isOpen && window.innerWidth <= 768 ? '100vh' : '650px',
       backgroundColor: darkMode ? "#1a1a1a" : "#f5f5f7",
       borderRadius: "10px",
       boxShadow: darkMode
