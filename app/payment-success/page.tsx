@@ -18,6 +18,8 @@ interface PaymentData {
   lineItems?: any[]; // Add this line to store line items
 }
 
+const webhookUrl = process.env.PAYMENT_SUCCESS_WEBHOOK_URL;
+
 function PaymentSuccessContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -37,14 +39,12 @@ function PaymentSuccessContent() {
       fetch(`/api/checkout-sessions/${sessionId}`)
         .then(res => res.json())
         .then(data => {
-          console.log('Session data:', data); // For debugging
           
           // If we have a payment intent, we can fetch more details
-          const paymentIntent = data.payment_intent;
           
-          if (paymentIntent) {
+          if (sessionId) {
             // Fetch payment intent details
-            return fetch(`/api/payment-intents/${paymentIntent}`)
+            return fetch(`/api/payment-intents/${sessionId}`)
               .then(res => res.json())
               .then(paymentData => {
                 console.log('Payment intent data:', paymentData);
@@ -87,9 +87,10 @@ function PaymentSuccessContent() {
   }, [router, searchParams])
 
   // Function to send data to n8n webhook
+  
   const sendToN8nWebhook = async (data: any) => {
     try {
-      const response = await fetch('https://n8n.johnenglish.online/webhook-test/910ec546-81b5-4084-99da-eb73600c731c', {
+      const response = await fetch('/api/payment-webhook', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -114,12 +115,12 @@ function PaymentSuccessContent() {
       });
       
       if (response.ok) {
-        console.log('Successfully sent data to n8n webhook');
+        console.log('Successfully sent data to webhook');
       } else {
-        console.error('Failed to send data to n8n webhook:', await response.text());
+        console.error('Failed to send data to webhook:', await response.text());
       }
     } catch (error) {
-      console.error('Error sending data to n8n webhook:', error);
+      console.error('Error sending data to webhook:', error);
     }
   };
 

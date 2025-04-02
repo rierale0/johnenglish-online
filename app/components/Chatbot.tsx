@@ -193,6 +193,49 @@ const Chatbot: React.FC<ChatbotProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // This useEffect disables the body scroll when the chatbot is open on mobile devices.
+
+  useEffect(() => {
+    const handleScroll = (e: Event) => {
+      if (isOpen && window.innerWidth <= 768) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    if (isOpen && window.innerWidth <= 768) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      // Store the current scroll position
+      document.body.style.top = `-${window.scrollY}px`;
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      // Restore scroll position
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY.replace('-', '')) || 0);
+      }
+    }
+
+    // Add event listener to prevent scroll on mobile
+    document.addEventListener('touchmove', handleScroll, { passive: false });
+
+    return () => {
+      // Cleanup: remove event listener and restore body styles
+      document.removeEventListener('touchmove', handleScroll);
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+    };
+  }, [isOpen]);
+
+
+
   const handleScroll = () => {
     setShowScrollbar(true);
     // Hide scrollbar after 5 seconds of inactivity
@@ -673,6 +716,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
                   gap: "10px",
                   overflowY: "auto",
                   height: "100%",
+                  paddingRight: "10px", // Add padding for scrollbar separation
                   scrollbarWidth: "thin",
                   scrollbarColor: `${
                     showScrollbar ? primaryColor : "transparent"
@@ -730,7 +774,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
                       <ReactMarkdown
                         components={{
                           p: ({node, ...props}) => <p style={{margin: '0.5em 0'}} {...props} />,
-                          a: ({node, ...props}) => <a style={{color: primaryColor, textDecoration: 'underline'}} {...props} />,
+                          a: ({node, ...props}) => <a target="_blank" style={{color: primaryColor, textDecoration: 'underline'}} {...props} />,
                           ul: ({node, ...props}) => <ul style={{paddingLeft: '20px', margin: '0.5em 0'}} {...props} />,
                           ol: ({node, ...props}) => <ol style={{paddingLeft: '20px', margin: '0.5em 0'}} {...props} />,
                           li: ({node, ...props}) => <li style={{margin: '0.25em 0'}} {...props} />,

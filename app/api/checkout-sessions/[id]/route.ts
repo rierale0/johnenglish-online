@@ -7,10 +7,11 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
-    const sessionId = params.id;
+    // Await the params object to ensure it's resolved
+    const { id: sessionId } = await context.params;
 
     if (!sessionId) {
       return NextResponse.json(
