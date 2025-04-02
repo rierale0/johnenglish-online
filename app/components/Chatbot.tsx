@@ -193,25 +193,22 @@ const Chatbot: React.FC<ChatbotProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // This useEffect disables the body scroll when the chatbot is open on mobile devices.
-
   useEffect(() => {
-    const handleScroll = (e: Event) => {
-      if (isOpen && window.innerWidth <= 768) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    };
-
     if (isOpen && window.innerWidth <= 768) {
-      document.body.style.overflow = 'hidden';
+      // Store the current scroll position
+      const scrollY = window.scrollY;
       document.body.style.position = 'fixed';
       document.body.style.width = '100%';
-      // Store the current scroll position
-      document.body.style.top = `-${window.scrollY}px`;
+      document.body.style.top = `-${scrollY}px`;
+      
+      // Allow scrolling within the chat container
+      const chatContainer = document.querySelector('.custom-scrollbar');
+      if (chatContainer) {
+        (chatContainer as HTMLElement).style.overflow = 'auto';
+        (chatContainer as HTMLElement).style.height = '100%';
+      }
     } else {
       const scrollY = document.body.style.top;
-      document.body.style.overflow = '';
       document.body.style.position = '';
       document.body.style.width = '';
       document.body.style.top = '';
@@ -221,13 +218,8 @@ const Chatbot: React.FC<ChatbotProps> = ({
       }
     }
 
-    // Add event listener to prevent scroll on mobile
-    document.addEventListener('touchmove', handleScroll, { passive: false });
-
     return () => {
-      // Cleanup: remove event listener and restore body styles
-      document.removeEventListener('touchmove', handleScroll);
-      document.body.style.overflow = '';
+      // Cleanup
       document.body.style.position = '';
       document.body.style.width = '';
       document.body.style.top = '';
