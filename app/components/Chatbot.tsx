@@ -293,7 +293,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
       bottom: "0",
       right: "0",
       width: isOpen && window.innerWidth <= 768 ? '100vw' : '390px',
-      height: isOpen && window.innerWidth <= 768 ? '100vh' : '650px',
+      height: isOpen && window.innerWidth <= 768 ? '85vh' : '650px',
       backgroundColor: darkMode ? "#1a1a1a" : "#f5f5f7",
       borderRadius: "10px",
       boxShadow: darkMode
