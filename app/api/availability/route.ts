@@ -25,7 +25,7 @@ async function GET(request: Request) {
         timeMin: startDate.toISOString(),
         timeMax: endDate.toISOString(),
         items: [{ id: process.env.GOOGLE_CALENDAR_ID }],
-        timeZone: 'Europe/Madrid',
+        timeZone: 'Europe/Madrid', 
       },
     });
 
