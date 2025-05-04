@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import './globals.css'
-import FacebookPixel from "@/app/components/FacebookPixel";
-import JsonLd from "@/app/components/JsonLd";
+import { AuthProvider } from "./(firebase auth)/context/AuthContext";
+import FacebookPixel from "@/app/global-components/FacebookPixel";
+import JsonLd from "@/app/global-components/JsonLd";
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -81,7 +82,12 @@ export default function RootLayout({
         <JsonLd data={jsonLdData} />
       </head>
       {FB_PIXEL_ID && <FacebookPixel pixelId={FB_PIXEL_ID} />}
-      <body>{children}</body>
+      <body>
+      <AuthProvider> 
+        {children}
+        </AuthProvider> 
+        </body>
+        
     </html>
   )
 }

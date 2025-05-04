@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import { ClassScheduler } from "@/app/components/ClassScheduler";
-import { ClassSummary } from "@/app/components/ClassSummary";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import { ClassScheduler } from "@/app/global-components/ClassScheduler";
+import { ClassSummary } from "@/app/global-components/ClassSummary";
+import Header from "../global-components/Header";
+import Footer from "../global-components/Footer";
 
 type SelectedClass = {
   date: string;

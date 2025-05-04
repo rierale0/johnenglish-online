@@ -5,8 +5,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { CheckCircle } from 'lucide-react'
 import { Suspense } from 'react'
-import Footer from '../components/Footer'
-import Header from '../components/Header'
+import Footer from '../global-components/Footer'
+import Header from '../global-components/Header'
 
 interface PaymentData {
   sessionId?: string;

@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { StudyPlan } from "@/app/components/StudyPlan";
-import { ScrollButton } from "@/app/components/ScrollButton";
-import Header from "./components/Header";
-import Chatbot from "./components/Chatbot";
-import Footer from "./components/Footer";
+import { StudyPlan } from "@/app/global-components/StudyPlan";
+import { ScrollButton } from "@/app/global-components/ScrollButton";
+import Header from "./global-components/Header";
+import Chatbot from "./global-components/Chatbot";
+import Footer from "./global-components/Footer";
 
 export default function Home() {
   return (
@@ -44,13 +44,14 @@ export default function Home() {
           Confidence and Clarity!
         </h1>
 
-        <div className="relative w-full aspect-[21/9] max-w-md mx-auto mb-8 rounded-xl overflow-hidden shadow-xl">
-          <Image
-            src="/home/hero-john-students.png"
-            alt="English Learning"
-            fill
-            priority
-            className="object-cover"
+        <div className="relative w-full max-w-[560px] aspect-video mx-auto mb-8 rounded-xl overflow-hidden shadow-xl">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/5q5Ul8jzb8o?modestbranding=1&rel=0&showinfo=0"
+            width="560"
+            height="315"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="absolute top-0 left-0 w-full h-full border-0"
           />
         </div>
 
@@ -139,7 +140,7 @@ export default function Home() {
             `}</style>
 
             {/* Teaching All Levels */}
-            <div className="mt-4 flex flex-col md:grid md:grid-cols-2 gap-3 mt-14 md:gap-6 px-8 md:px-12 lg:px-16 max-w-7xl mx-auto">
+            <div className="mt-4 flex flex-col gap-3 mt-14 md:gap-6 px-8 md:px-12 lg:px-16 max-w-7xl mx-auto">
               <div className="mx-auto w-full max-w-xl">
                 <h3 className="text-2xl text-start font-bold text-[#FFF9E3] mt-[22px] mb-4 md:mb-6">
                   📚 Para todos los niveles
@@ -165,6 +166,7 @@ export default function Home() {
                   </p>
                 </div>
 
+                {/* Kids */}
                 <div className="flex items-start gap-3 md:gap-4 mt-4 md:mt-4 md:bg-[#3D3F70]/50 md:p-6 md:rounded-xl md:hover:bg-[#3D3F70] md:transition-all">
                   <Image
                     src="/home/user-female.svg"
@@ -184,69 +186,17 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-
-              {/* Teaching Methods */}
-              <div className="mx-auto w-full max-w-xl">
-                <h3 className="text-2xl text-start font-bold text-[#FFF9E3] mt-[22px] mb-4 md:mb-6">
-                  🎯 Métodos de enseñanza
-                </h3>
-
-                <div className="flex items-start gap-3 md:gap-4 md:bg-[#3D3F70]/50 md:p-6 md:rounded-xl md:hover:bg-[#3D3F70] md:transition-all">
-                  <Image
-                    src="/home/speech-bubble.svg"
-                    alt="Conversation"
-                    width={34}
-                    height={34}
-                    className="md:w-10 md:h-10"
-                  />
-                  <p className="text-white text-start">
-                    <span className="font-light text-lg md:text-xl">
-                      Práctica de conversación:
-                    </span>{" "}
-                    <br />
-                    <span className="font-thin text-md md:text-lg text-[#DEDEDE]">
-                      Escenarios reales y situaciones cotidianas
-                    </span>
-                  </p>
-                </div>
-
-                <div className="flex items-start gap-3 md:gap-4 mt-4 md:mt-4 md:bg-[#3D3F70]/50 md:p-6 md:rounded-xl md:hover:bg-[#3D3F70] md:transition-all">
-                  <Image
-                    src="/home/for-you.svg"
-                    alt="Grammar"
-                    width={34}
-                    height={34}
-                    className="md:w-10 md:h-10"
-                  />
-                  <p className="text-white text-start">
-                    <span className="font-light text-lg md:text-xl">
-                      Gramática y vocabulario:
-                    </span>{" "}
-                    <br />
-                    <span className="font-thin text-md md:text-lg text-[#DEDEDE]">
-                      Aprendizaje estructurado con ejercicios prácticos
-                    </span>
-                  </p>
-                </div>
-              </div>
             </div>
 
             <div className="w-full max-w-md mx-auto border-t border-gray-600 my-[6em]" />
 
             {/* Languages are my passion */}
             <div className="mt-12 px-10 md:px-12 lg:px-16 max-w-4xl mx-auto">
-              <h3 className="text-lg lg:text-3xl font-regular text-center text-[#DABFFF] pt-6 pb-4 rounded-xl">
-                Entiendo lo que se necesita para aprender inglés porque...
-              </h3>
               <h3 className="text-2xl lg:text-3xl font-regular text-center rounded-xl mb-6">
-                <span className="text-[#7FDEFF]">&lt;Los idiomas/&gt;</span> son
-                mi pasión
+                I'm passionate about <span className="text-[#7FDEFF]">&lt;Languages/&gt;</span>
               </h3>
-              <p className="text-white text-center text-lg lg:text-2xl">
-                <span className="font-light text-[#DEDEDE]">
-                  ¡Me encantan el árabe, chino, inglés, francés, italiano,
-                  portugués, español y JavaScript!
-                </span>
+              <p className="text-[#DEDEDE] font-light text-center text-3xl md:px-12 lg:text-2xl">
+                  Como aprendiz de idiomas, entiendo perfectamente el proceso y puedo ayudarte a alcanzar la fluidez que&nbsp;deseas&nbsp;✨
               </p>
 
               <div className="relative w-full h-[50px] mx-auto mt-6">
@@ -267,7 +217,7 @@ export default function Home() {
             id="toma-una-demo"
             className="text-2xl md:text-4xl font-bold text-center rounded-xl mb-8"
           >
-            🆓 Prueba una clase
+            Prueba una clase
           </h3>
 
           <StudyPlan
@@ -279,10 +229,12 @@ export default function Home() {
             ctaBgColor="#B47AD6"
             ctaTextColor="white"
             glow={true}
-            link="https://calendar.app.google/QeYppmPdgYRFVM499"
+            link="https://calendar.app.google/5imfJ6mN6wJvHq4E8"
           />
 
           <div className="w-full max-w-md mx-auto border-t border-gray-600 my-8" />
+
+          {/*
           <h3
             id="toma-una-demo"
             className="text-2xl md:text-4xl font-bold text-center rounded-xl mb-8 mt-8"
@@ -290,19 +242,22 @@ export default function Home() {
             🚀 ¿Listo para avanzar?
           </h3>
 
+          
           <StudyPlan
             title="Una clase"
             currency="/home/euro.png"
             price="€16/h"
             features={[
               "⏳ Horarios flexibles que se adaptan a ti",
-              "💰 Descuentos al reservar más de 5 clases",
+              "💰 Descuentos al reservar más de 5 clases", 
               "🚀 Avanza rápido con un plan a tu medida",
             ]}
             cta="Toma una clase"
             ctaTextColor="#242239"
             link="/schedule-a-class"
           />
+
+          */}
 
           {/* <StudyPlan
               title="Plan Mensual"
@@ -339,14 +294,12 @@ export default function Home() {
       {/* Chatbot */}
 
       <Chatbot
-      logoPath="home\eve-profpic-rounded.png"
-      companyName="Eve"
-      title="¿Cómo puedo ayudarte hoy?"
-      subtitle="Chatea conmigo"
-      primaryColor="#4F518C"
-      ctaText="✨ Quiero una clase gratuita"
-      
-      
+        logoPath="home\eve-profpic-rounded.png"
+        companyName="Eve"
+        title="¿Cómo puedo ayudarte hoy?"
+        subtitle="Chatea conmigo"
+        primaryColor="#4F518C"
+        ctaText="✨ Quiero una clase gratuita"
       />
 
       {/* Footer */}

@@ -34,3 +34,7 @@ yarn-error.log*
 *.swp
 *.swo
 .DS_Store
+
+serviceAccount.json
+convert.js
+firebase.env
