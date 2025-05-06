@@ -1,7 +1,10 @@
 // lib/firebase-db.ts
 import { initializeApp, cert, getApps } from 'firebase-admin/app'
 import { getFirestore } from 'firebase-admin/firestore'
-import serviceAccount from './serviceAccount.json'  // tu JSON privado, ignorado por Git
+
+const serviceAccount = JSON.parse(
+  process.env.FIREBASE_SERVICE_ACCOUNT_KEY as string
+)
 
 if (!getApps().length) {
   initializeApp({

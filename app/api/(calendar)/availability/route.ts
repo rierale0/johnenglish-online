@@ -1,7 +1,7 @@
 const { NextResponse } = require('next/server');
 const { google } = require('googleapis');
 const { format, addDays } = require('date-fns');
-const { getAuthenticatedClient } = require('../../../lib/google-calendar/auth.js');
+const { getAuthenticatedClient } = require('@/lib/google-calendar/auth.js');
 
 async function GET(request: Request) {
   try {

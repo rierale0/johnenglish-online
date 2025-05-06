@@ -11,8 +11,6 @@ import { doc, onSnapshot, setDoc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import debounce from "lodash/debounce";
 import isEqual from "lodash/isEqual";
-import { serverTimestamp } from "firebase/firestore";
-import { createParagraphBlock } from "./yooptaBlocks";
 
 import Editor, { createYooptaEditor, YooptaContentValue } from "@yoopta/editor";
 
