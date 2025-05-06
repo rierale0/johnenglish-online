@@ -1,5 +1,4 @@
 "use client"; // This directive is necessary for using Context API and hooks in Next.js App Router
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '@/lib/firebase/config'; // Adjust the import path if necessary

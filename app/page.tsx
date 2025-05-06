@@ -232,8 +232,6 @@ export default function Home() {
             link="https://calendar.app.google/5imfJ6mN6wJvHq4E8"
           />
 
-          <div className="w-full max-w-md mx-auto border-t border-gray-600 my-8" />
-
           {/*
           <h3
             id="toma-una-demo"
