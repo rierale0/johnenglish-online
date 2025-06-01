@@ -10,6 +10,8 @@ import { signOut } from "firebase/auth";
 
 export default function Header() {
   const { user, loading } = useAuth();
+  const displayName = user?.displayName || "";
+  const firstName = displayName.split(" ")[0] || "";
   const pathname = usePathname(); // <--- Obtiene la ruta actual
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,7 +33,7 @@ export default function Header() {
   const showLoginButton = !user && pathname !== '/login' && pathname !== '/signup';
 
   return (
-    <nav className="flex justify-between items-center px-4 md:px-8 lg:px-8 py-6">
+    <nav className="flex justify-between items-center px-4 md:px-8 lg:px-8 py-4 bg-[#343154]">
       <Link href="/"> {/* Cambiado <a> por <Link> para navegación Next.js */}
         <span className="flex items-center gap-1 cursor-pointer"> {/* Añadido cursor-pointer */}
           <Image 
@@ -55,7 +57,7 @@ export default function Header() {
           <> {/* Usamos Fragment para agrupar los elementos */}
             <Link href="/my"> {/* Enlace a Mi Curso */}
               <span className="flex items-center gap-2 text-white font-medium cursor-pointer hover:text-gray-300 transition-colors">
-              <Image src="/home/usa-flag.png" width={15} height={15} alt="US Flag"></Image>Mi curso
+              <Image src="/home/usa-flag.png" width={15} height={15} alt="US Flag"></Image>Welcome back, {firstName}!
               </span>
             </Link>
             <div className="relative">

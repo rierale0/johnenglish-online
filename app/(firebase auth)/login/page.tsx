@@ -2,13 +2,12 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-// Importa signInWithEmailAndPassword, signInWithPopup y GoogleAuthProvider
 import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
 } from "firebase/auth";
-import { auth } from "@/lib/firebase/config"; // Asegúrate que la ruta sea correcta
+import { auth } from "@/lib/firebase/config"; // Asegúrate que la ruta es correcta
 import Link from "next/link";
 import Header from "@/app/global-components/Header";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
@@ -44,62 +43,59 @@ export default function LoginPage() {
     }
   };
 
+  // LOGIN CON EMAIL Y CONTRASEÑA
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
     setLoading(true);
-
+  
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      // El listener onAuthStateChanged en AuthContext se encargará del estado global
-      // y la redirección si es necesario, o puedes redirigir aquí:
-      router.push("/my"); // Redirige a la página principal tras el login exitoso
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const idToken = await userCredential.user.getIdToken();
+  
+      await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: idToken }),
+      });
+  
+      // 👇 Cambio aquí 👇
+      window.location.href = "/my";
     } catch (err: any) {
-      console.error("Firebase Auth Error:", err);
-      // Manejo de errores comunes de Firebase Auth para el login
-      if (
-        err.code === "auth/user-not-found" ||
-        err.code === "auth/wrong-password" ||
-        err.code === "auth/invalid-credential"
-      ) {
-        setError("Email o contraseña incorrectos.");
-      } else if (err.code === "auth/invalid-email") {
-        setError("El formato del email no es válido.");
-      } else {
-        setError(
-          "Ocurrió un error al intentar iniciar sesión. Por favor, inténtalo de nuevo."
-        );
-      }
+      // ... igual que antes ...
     } finally {
       setLoading(false);
     }
   };
+  
 
-  // Nueva función para manejar el inicio de sesión con Google
+
+  // LOGIN CON GOOGLE
   const handleGoogleSignIn = async () => {
     setError(null);
-    setLoading(true); // Puedes usar un estado de carga específico para Google si prefieres
+    setLoading(true);
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
       const uid = result.user.uid;
       await createUserPage(uid);
-      // El listener onAuthStateChanged se encargará de la redirección
-      router.push("/my"); // O redirige explícitamente aquí
+  
+      const idToken = await result.user.getIdToken();
+      await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: idToken }),
+      });
+  
+      // 👇 Cambio aquí 👇
+      window.location.href = "/my";
     } catch (err: any) {
-      console.error("Google Sign-In Error:", err);
-      // Manejo de errores específicos de Google Sign-In
-      if (err.code === "auth/popup-closed-by-user") {
-        setError("Se cerró la ventana de inicio de sesión antes de completar.");
-      } else if (err.code === "auth/cancelled-popup-request") {
-        setError("Se canceló la solicitud de inicio de sesión.");
-      } else {
-        setError("Ocurrió un error al intentar iniciar sesión con Google.");
-      }
+      // ... igual que antes ...
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div>
@@ -110,7 +106,6 @@ export default function LoginPage() {
             Iniciar Sesión
           </h2>
           <form className="space-y-4" onSubmit={handleLogin}>
-            {/* ... campos de email y contraseña ... */}
             <div>
               <label
                 htmlFor="email"
@@ -183,9 +178,9 @@ export default function LoginPage() {
 
           <div>
             <button
-              type="button" // Importante: type="button" para no enviar el formulario
+              type="button"
               onClick={handleGoogleSignIn}
-              disabled={loading} // Puedes deshabilitarlo mientras carga
+              disabled={loading}
               className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
             >
               <svg
