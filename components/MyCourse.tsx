@@ -109,7 +109,19 @@ export default function MyCourse() {
           <section>
             <h2 className="text-lg text-white font-bold mb-4">Tus clases</h2>
             {loading ? (
-              <div className="text-center text-gray-400">Cargando clases...</div>
+             <div className="flex flex-col items-center justify-center min-h-[120px]">
+             <svg
+               className="animate-spin h-10 w-10 mb-3 text-blue-600"
+               xmlns="http://www.w3.org/2000/svg"
+               fill="none"
+               viewBox="0 0 24 24"
+             >
+               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+             </svg>
+             <p className="text-gray-600 text-base font-medium">Cargando clases...</p>
+           </div>
+           
             ) : (
               <NotionTable data={classData} />
             )}

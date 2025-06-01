@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BarChart3, BookOpen, Calendar, CheckCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { BarChart3, BookOpen, Calendar, CheckCircle, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
 import { formatLocalDate } from "@/lib/formatLocalDate";
 
 type RowData = {
@@ -15,15 +15,14 @@ interface NotionTableProps {
 }
 
 export default function NotionTable({ data }: NotionTableProps) {
-  // Separa por estado
   const completed = data.filter(i => i.status === "Completado").sort((a, b) => b.date.localeCompare(a.date));
   const scheduled = data.filter(i => i.status === "Programado").sort((a, b) => a.date.localeCompare(b.date));
 
-  // Control de paginación
   const [completedCount, setCompletedCount] = useState(10);
   const [scheduledCount, setScheduledCount] = useState(10);
 
-  // Sublistas a mostrar
+  const [hoveredRow, setHoveredRow] = useState<string | null>(null);
+
   const completedToShow = completed.slice(0, completedCount);
   const scheduledToShow = scheduled.slice(0, scheduledCount);
 
@@ -67,22 +66,42 @@ export default function NotionTable({ data }: NotionTableProps) {
                 <tr>
                   <td colSpan={4} className="bg-green-50 font-bold px-4 py-2 text-green-900">Clases Completadas</td>
                 </tr>
-                {completedToShow.map((item, idx) => (
-                  <tr
-                    key={"c" + idx}
-                    className="hover:bg-gray-50 transition cursor-pointer"
-                    onClick={() => window.open(item.link, "_blank")}
-                  >
-                    <td className="px-4 py-2 text-gray-700">{formatLocalDate(item.date)}</td>
-                    <td className="px-4 py-2 text-gray-700">{item.title}</td>
-                    <td className="px-4 py-2">
-                      <span className="inline-block rounded-full px-2 py-0.5 text-xs font-semibold bg-green-100 text-green-800">
-                        {item.status}
-                      </span>
-                    </td>
-                    <td className="px-4 py-2 text-gray-700">{item.level || "—"}</td>
-                  </tr>
-                ))}
+                {completedToShow.map((item, idx) => {
+                  const key = "c" + idx;
+                  return (
+                    <tr
+                      key={key}
+                      className="hover:bg-gray-50 transition cursor-pointer group"
+                      onMouseEnter={() => setHoveredRow(key)}
+                      onMouseLeave={() => setHoveredRow(null)}
+                    >
+                      <td className="px-4 py-2 text-gray-700">{formatLocalDate(item.date)}</td>
+                      <td className="px-4 py-2 text-gray-700 flex items-center gap-2">
+                        <span className="flex-1">{item.title}</span>
+                        <a
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          className={
+                            "inline-flex items-center gap-1 px-2 py-1 rounded-md bg-blue-100 text-blue-700 hover:bg-blue-200 transition text-xs font-semibold " +
+                            (hoveredRow === key ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none")
+                          }
+                          style={{ minWidth: 64, justifyContent: 'center' }}
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          Abrir
+                        </a>
+                      </td>
+                      <td className="px-4 py-2">
+                        <span className="inline-block rounded-full px-2 py-0.5 text-xs font-semibold bg-green-100 text-green-800">
+                          {item.status}
+                        </span>
+                      </td>
+                      <td className="px-4 py-2 text-gray-700">{item.level || "—"}</td>
+                    </tr>
+                  );
+                })}
                 {completed.length > completedCount && (
                   <tr>
                     <td colSpan={4} className="px-4 py-2 text-center">
@@ -117,22 +136,42 @@ export default function NotionTable({ data }: NotionTableProps) {
                 <tr>
                   <td colSpan={4} className="bg-blue-50 font-bold px-4 py-2 text-blue-900">Clases Programadas</td>
                 </tr>
-                {scheduledToShow.map((item, idx) => (
-                  <tr
-                    key={"s" + idx}
-                    className="hover:bg-gray-50 transition cursor-pointer"
-                    onClick={() => window.open(item.link, "_blank")}
-                  >
-                    <td className="px-4 py-2 text-gray-700">{formatLocalDate(item.date)}</td>
-                    <td className="px-4 py-2 text-gray-700">{item.title}</td>
-                    <td className="px-4 py-2">
-                      <span className="inline-block rounded-full px-2 py-0.5 text-xs font-semibold bg-blue-100 text-blue-800">
-                        {item.status}
-                      </span>
-                    </td>
-                    <td className="px-4 py-2 text-gray-700">{item.level || "—"}</td>
-                  </tr>
-                ))}
+                {scheduledToShow.map((item, idx) => {
+                  const key = "s" + idx;
+                  return (
+                    <tr
+                      key={key}
+                      className="hover:bg-gray-50 transition cursor-pointer group"
+                      onMouseEnter={() => setHoveredRow(key)}
+                      onMouseLeave={() => setHoveredRow(null)}
+                    >
+                      <td className="px-4 py-2 text-gray-700">{formatLocalDate(item.date)}</td>
+                      <td className="px-4 py-2 text-gray-700 flex items-center gap-2">
+                        <span className="flex-1">{item.title}</span>
+                        <a
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          className={
+                            "inline-flex items-center gap-1 px-2 py-1 rounded-md bg-blue-100 text-blue-700 hover:bg-blue-200 transition text-xs font-semibold " +
+                            (hoveredRow === key ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none")
+                          }
+                          style={{ minWidth: 64, justifyContent: 'center' }}
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          Abrir
+                        </a>
+                      </td>
+                      <td className="px-4 py-2">
+                        <span className="inline-block rounded-full px-2 py-0.5 text-xs font-semibold bg-blue-100 text-blue-800">
+                          {item.status}
+                        </span>
+                      </td>
+                      <td className="px-4 py-2 text-gray-700">{item.level || "—"}</td>
+                    </tr>
+                  );
+                })}
                 {scheduled.length > scheduledCount && (
                   <tr>
                     <td colSpan={4} className="px-4 py-2 text-center">
@@ -180,7 +219,13 @@ export default function NotionTable({ data }: NotionTableProps) {
                 className="block border border-gray-200 rounded-xl p-4 bg-white shadow-sm hover:bg-gray-50 transition"
               >
                 <p className="text-xs text-gray-500 mb-1">📅 {formatLocalDate(item.date)}</p>
-                <p className="text-sm font-semibold text-gray-700 mb-2">📌 {item.title}</p>
+                <div className="flex justify-between items-center">
+                  <p className="text-sm font-semibold text-gray-700 mb-2">📌 {item.title}</p>
+                  <span className="ml-2 inline-flex items-center gap-1 px-2 py-1 rounded-md bg-blue-100 text-blue-700 hover:bg-blue-200 transition text-xs font-semibold">
+                    <ExternalLink className="w-4 h-4" />
+                    Abrir
+                  </span>
+                </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="inline-block rounded-full px-2 py-0.5 text-xs font-semibold bg-green-100 text-green-800">
                     {item.status}
@@ -223,7 +268,13 @@ export default function NotionTable({ data }: NotionTableProps) {
                 className="block border border-gray-200 rounded-xl p-4 bg-white shadow-sm hover:bg-gray-50 transition"
               >
                 <p className="text-xs text-gray-500 mb-1">📅 {formatLocalDate(item.date)}</p>
-                <p className="text-sm font-semibold text-gray-700 mb-2">📌 {item.title}</p>
+                <div className="flex justify-between items-center">
+                  <p className="text-sm font-semibold text-gray-700 mb-2">📌 {item.title}</p>
+                  <span className="ml-2 inline-flex items-center gap-1 px-2 py-1 rounded-md bg-blue-100 text-blue-700 hover:bg-blue-200 transition text-xs font-semibold">
+                    <ExternalLink className="w-4 h-4" />
+                    Abrir
+                  </span>
+                </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="inline-block rounded-full px-2 py-0.5 text-xs font-semibold bg-blue-100 text-blue-800">
                     {item.status}
