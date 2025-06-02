@@ -223,7 +223,7 @@ export default function Home() {
           <StudyPlan
             title="✨ Clase Demo"
             price="€0"
-            features={["📚 Hablemos de tus metas y hagamos un plan"]}
+            features={["📚 Hablemos de tus metas y hagamos un plan para lograr tu fluidez en inglés"]}
             cardBgColor="#907AD6"
             cta="Toma una clase demo"
             ctaBgColor="#B47AD6"

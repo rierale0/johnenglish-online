@@ -7,11 +7,10 @@ import { usePathname } from 'next/navigation'; // <--- Importa usePathname
 import { useAuth } from "@/app/(firebase auth)/context/AuthContext";
 import { auth } from "@/lib/firebase/config";
 import { signOut } from "firebase/auth";
+import { ExitIcon } from "@radix-ui/react-icons";
 
 export default function Header() {
   const { user, loading } = useAuth();
-  const displayName = user?.displayName || "";
-  const firstName = displayName.split(" ")[0] || "";
   const pathname = usePathname(); // <--- Obtiene la ruta actual
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -43,7 +42,7 @@ export default function Header() {
             alt="Logo" 
             className="w-[30px] h-[30px] object-contain"
           /> {/* Asegúrate que la ruta del favicon sea correcta desde public */}
-          <p className="text-m text-white font-bold">
+          <p className="text-m text-white font-bold hidden md:block">
             English with John
           </p>
         </span>
@@ -53,11 +52,10 @@ export default function Header() {
         {loading ? (
           <div className="h-10 w-20"></div> // Placeholder simple
         ) : user ? (
-          // Si el usuario está logueado, muestra "Mi curso" y el botón de Salir
           <> {/* Usamos Fragment para agrupar los elementos */}
             <Link href="/my"> {/* Enlace a Mi Curso */}
               <span className="flex items-center gap-2 text-white font-medium cursor-pointer hover:text-gray-300 transition-colors">
-              <Image src="/home/usa-flag.png" width={15} height={15} alt="US Flag"></Image>Welcome back, {firstName}!
+              <Image src="/home/usa-flag.png" width={15} height={15} alt="US Flag"></Image>My course
               </span>
             </Link>
             <div className="relative">
@@ -85,20 +83,11 @@ export default function Header() {
               {isMenuOpen && (
                 <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                   <div className="py-1">
-                    <Link href="/profile">
-                      <span className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                        Mi Perfil
-                      </span>
-                    </Link>
-                    <Link href="/settings">
-                      <span className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                        Configuración
-                      </span>
-                    </Link>
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
                     >
+                      <ExitIcon className="h-4 w-4" />
                       Salir
                     </button>
                   </div>

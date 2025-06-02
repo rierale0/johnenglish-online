@@ -6,6 +6,8 @@ import {
   Globe,
 } from "lucide-react";
 
+import { useAuth } from "@/app/(firebase auth)/context/AuthContext";
+
 import { Card } from "@/components/ui/card";
 import NotionTable from "@/components/NotionTable";
 import { useEffect, useState } from "react";
@@ -18,6 +20,11 @@ const fallbackLiveClassData = {
 };
 
 export default function MyCourse() {
+
+  const { user } = useAuth();
+  const displayName = user?.displayName || "";
+  const firstName = displayName.split(" ")[0] || "";
+
   const [classData, setClassData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [meetingLink, setMeetingLink] = useState<string | null>(null);
@@ -70,7 +77,12 @@ export default function MyCourse() {
         <main className="flex-1 p-6">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
             <div className="lg:col-span-3 space-y-6">
+<h1 className="text-2xl md:text-2xl font-bold bg-gradient-to-r from-white/60 to-white bg-clip-text text-transparent animate-fade-in">
+  Hi, {firstName}!
+</h1>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+               
                 <Card className="relative overflow-hidden group shadow-sm border-0 bg-white transition-all duration-300 hover:shadow-md">
                   <a
                     href={classJoinLink}
@@ -107,7 +119,7 @@ export default function MyCourse() {
           </div>
           <hr className="my-4 border-[#353259]" />
           <section>
-            <h2 className="text-lg text-white font-bold mb-4">Tus clases</h2>
+            <h2 className="text-lg text-white font-bold mb-4 hidden md:block">Tus clases</h2>
             {loading ? (
              <div className="flex flex-col items-center justify-center min-h-[120px]">
              <svg
@@ -119,7 +131,7 @@ export default function MyCourse() {
                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
              </svg>
-             <p className="text-gray-600 text-base font-medium">Cargando clases...</p>
+             <p className="text-gray-300 text-base font-medium">Cargando clases...</p>
            </div>
            
             ) : (

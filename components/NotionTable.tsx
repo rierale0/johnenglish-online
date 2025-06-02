@@ -18,8 +18,8 @@ export default function NotionTable({ data }: NotionTableProps) {
   const completed = data.filter(i => i.status === "Completado").sort((a, b) => b.date.localeCompare(a.date));
   const scheduled = data.filter(i => i.status === "Programado").sort((a, b) => a.date.localeCompare(b.date));
 
-  const [completedCount, setCompletedCount] = useState(10);
-  const [scheduledCount, setScheduledCount] = useState(10);
+  const [completedCount, setCompletedCount] = useState(2);
+  const [scheduledCount, setScheduledCount] = useState(2);
 
   const [hoveredRow, setHoveredRow] = useState<string | null>(null);
 
@@ -209,7 +209,10 @@ export default function NotionTable({ data }: NotionTableProps) {
         {/* Completadas */}
         {completedToShow.length > 0 && (
           <>
-            <div className="bg-green-50 font-bold text-green-900 rounded-lg p-2 mb-1">Clases Completadas</div>
+            <div className="font-bold text-green-50 text-xl rounded-lg p-2 mb-1 flex items-center gap-2">
+              <CheckCircle className="h-5 w-5" />
+              Clases completadas
+            </div>
             {completedToShow.map((item, idx) => (
               <a
                 key={"cm" + idx}
@@ -236,7 +239,7 @@ export default function NotionTable({ data }: NotionTableProps) {
             ))}
             {completed.length > completedCount && (
               <button
-                className="flex items-center gap-2 mx-auto text-green-700 hover:underline"
+                className="flex items-center gap-2 mx-auto text-white hover:underline"
                 onClick={() => setCompletedCount(c => c + 10)}
               >
                 <ChevronDown className="h-4 w-4" />
@@ -245,8 +248,8 @@ export default function NotionTable({ data }: NotionTableProps) {
             )}
             {completedCount > 10 && (
               <button
-                className="flex items-center gap-2 mx-auto text-green-700 hover:underline"
-                onClick={() => setCompletedCount(10)}
+                className="flex items-center gap-2 mx-auto text-white hover:underline"
+                onClick={() => setCompletedCount(2)}
               >
                 <ChevronUp className="h-4 w-4" />
                 {"Ver menos completadas"}
@@ -258,7 +261,10 @@ export default function NotionTable({ data }: NotionTableProps) {
         {/* Programadas */}
         {scheduledToShow.length > 0 && (
           <>
-            <div className="bg-blue-50 font-bold text-blue-900 rounded-lg p-2 mt-2 mb-1">Clases Programadas</div>
+            <div className="font-bold text-blue-50 text-xl rounded-lg p-2 mb-1 flex items-center gap-2">
+              <Calendar className="h-5 w-5" />
+              Clases programadas
+            </div>
             {scheduledToShow.map((item, idx) => (
               <a
                 key={"sm" + idx}
@@ -285,7 +291,7 @@ export default function NotionTable({ data }: NotionTableProps) {
             ))}
             {scheduled.length > scheduledCount && (
               <button
-                className="flex items-center gap-2 mx-auto text-blue-700 hover:underline"
+                className="flex items-center gap-2 mx-auto text-white hover:underline"
                 onClick={() => setScheduledCount(c => c + 10)}
               >
                 <ChevronDown className="h-4 w-4" />
@@ -294,7 +300,7 @@ export default function NotionTable({ data }: NotionTableProps) {
             )}
             {scheduledCount > 10 && (
               <button
-                className="flex items-center gap-2 mx-auto text-blue-700 hover:underline"
+                className="flex items-center gap-2 mx-auto text-white hover:underline"
                 onClick={() => setScheduledCount(10)}
               >
                 <ChevronUp className="h-4 w-4" />
