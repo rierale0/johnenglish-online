@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '@/lib/firebase/config';
-import { useSyncFirebaseAuthToken } from "@/hooks/useSyncFirebaseAuthToken";
+import { useSyncFirebaseAuthToken } from "@/app/hooks/useSyncFirebaseAuth";
 
 // Define the shape of the context data
 interface AuthContextType {
