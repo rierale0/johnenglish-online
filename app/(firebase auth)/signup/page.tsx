@@ -6,6 +6,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  AuthError,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase/config";
 import { db } from "@/lib/firebase/firebase-client";
@@ -68,17 +69,22 @@ export default function SignupPage() {
       const uid = userCredential.user.uid;
       await createUserPage(uid);
       router.push("/my");
-    } catch (err: any) {
-      console.error("Signup Error:", err);
-      if (err.code === "auth/email-already-in-use") {
-        setError("Este email ya está registrado.");
-      } else if (err.code === "auth/invalid-email") {
-        setError("Email no válido.");
-      } else if (err.code === "auth/weak-password") {
-        setError("Contraseña muy débil.");
-      } else {
-        setError("Error al registrar. Intenta de nuevo.");
-      }
+    } catch (err: unknown) {
+        console.error("Signup Error:", err);
+        if (err && typeof err === 'object' && 'code' in err) {
+          const authError = err as AuthError;
+          if (authError.code === "auth/email-already-in-use") {
+            setError("Este email ya está registrado.");
+          } else if (authError.code === "auth/invalid-email") {
+            setError("Email no válido.");
+          } else if (authError.code === "auth/weak-password") {
+            setError("Contraseña muy débil.");
+          } else {
+            setError("Error al registrar. Intenta de nuevo.");
+          }
+        } else {
+          setError("Ocurrió un error inesperado.");
+        }
     } finally {
       setLoading(false);
     }
@@ -94,14 +100,19 @@ export default function SignupPage() {
       const uid = result.user.uid;
       await createUserPage(uid);
       router.push("/my");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Google Signup Error:", err);
-      if (err.code === "auth/popup-closed-by-user") {
-        setError("Se cerró la ventana de Google.");
-      } else if (err.code === "auth/account-exists-with-different-credential") {
-        setError("Ya existe una cuenta con ese email.");
+      if (err && typeof err === 'object' && 'code' in err) {
+        const authError = err as AuthError;
+        if (authError.code === "auth/popup-closed-by-user") {
+          setError("Se cerró la ventana de Google.");
+        } else if (authError.code === "auth/account-exists-with-different-credential") {
+          setError("Ya existe una cuenta con ese email.");
+        } else {
+          setError("Error al usar Google. Intenta de nuevo.");
+        }
       } else {
-        setError("Error al usar Google. Intenta de nuevo.");
+        setError("Ocurrió un error inesperado.");
       }
     } finally {
       setLoading(false);

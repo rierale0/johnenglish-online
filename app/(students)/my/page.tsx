@@ -4,7 +4,6 @@ import { BookOpen } from "lucide-react"
 import { useState } from "react"
 import { useAuth } from "@/app/(firebase auth)/context/AuthContext"
 
-import Header from "@/app/global-components/Header"
 import MyCourseContent from "@/components/MyCourse"
 import Footer from "@/app/global-components/Footer"
 
@@ -62,7 +61,6 @@ export default function Dashboard() {
   // Usuario cargado y autenticado: renderizar el dashboard
   return (
     <div className="min-h-screen bg-[#2C2A4A]">
-      <Header />
       <div className="flex">
         {/* Sidebar */}
         <aside className="hidden md:block w-64 bg-[#343154] min-h-screen">

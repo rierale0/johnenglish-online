@@ -17,14 +17,24 @@ export async function GET(req: NextRequest) {
     }
     email = decoded.email;
   } catch (err) {
+    console.error("Error al verificar el token de Firebase:", err);
     return NextResponse.json({ error: "Token inválido" }, { status: 401 });
   }
 
-  // Obtiene el meeting_link
-  const link = await getMeetingLinkByEmail(email, USERS_DB_ID);
-  if (!link) {
-    return NextResponse.json({ error: "No se encontró el link de reunión" }, { status: 404 });
+  if (!USERS_DB_ID) {
+    console.error("NOTION_USERS_DB_ID no está configurado.");
+    return NextResponse.json({ error: "Configuración de Notion incompleta" }, { status: 500 });
   }
 
-  return NextResponse.json({ meeting_link: link });
+  // Obtiene el meeting_link
+  try {
+    const link = await getMeetingLinkByEmail(email, USERS_DB_ID);
+    if (!link) {
+      return NextResponse.json({ meeting_link: null }, { status: 200 }); // Devuelve null si no hay link, no 404
+    }
+    return NextResponse.json({ meeting_link: link });
+  } catch (error) {
+    console.error("Error al obtener el meeting link de Notion:", error);
+    return NextResponse.json({ error: "Error al consultar Notion" }, { status: 500 });
+  }
 }

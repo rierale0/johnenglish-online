@@ -1,315 +1,271 @@
-import { useState } from "react";
-import { BarChart3, BookOpen, Calendar, CheckCircle, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
+// Test comment to check for automatic reversion
+"use client";
+
+import { useState, ReactNode } from "react";
+import {
+  BookOpen,
+  Calendar,
+  CheckCircle,
+  ChevronDown,
+  ChevronUp,
+  ExternalLink,
+  TrendingUp,
+  Video,
+  PlayIcon,
+} from "lucide-react";
 import { formatLocalDate } from "@/lib/formatLocalDate";
 
 type RowData = {
-  date: string;
-  title: string;
-  status: "Completado" | "Programado" | "Pendiente" | string;
-  level: string;
-  link: string;
+  page_id: string;
+  datetime: string;
+  class_title: string;
+  status: "completed" | "scheduled" | "pending" | "unassigned" | string | null | undefined;
+  course: string;
+  recording: string | null;
+  icon: string | null;
 };
 
 interface NotionTableProps {
   data: RowData[];
 }
 
-export default function NotionTable({ data }: NotionTableProps) {
-  const completed = data.filter(i => i.status === "Completado").sort((a, b) => b.date.localeCompare(a.date));
-  const scheduled = data.filter(i => i.status === "Programado").sort((a, b) => a.date.localeCompare(b.date));
+interface ClassTableProps {
+  title: string;
+  data: RowData[];
+  icon: ReactNode;
+  theme: "blue" | "green";
+  initialCount?: number;
+}
 
-  const [completedCount, setCompletedCount] = useState(2);
-  const [scheduledCount, setScheduledCount] = useState(2);
+// --- Helper para el badge de estado ---
+const StatusBadge = ({ status }: { status: RowData["status"], theme: "blue" | "green" }) => {
+  const baseClasses = "inline-block rounded-full px-2.5 py-1 text-xs font-semibold";
+  let colorClasses = "";
 
-  const [hoveredRow, setHoveredRow] = useState<string | null>(null);
+  const normalizedStatus = (status || "").toLowerCase();
 
-  const completedToShow = completed.slice(0, completedCount);
-  const scheduledToShow = scheduled.slice(0, scheduledCount);
+  switch (normalizedStatus) {
+    case "completed":
+      colorClasses = "bg-green-500/20 text-green-300";
+      break;
+    case "scheduled":
+      colorClasses = "bg-blue-500/20 text-blue-300";
+      break;
+    case "unassigned":
+    case "": // Handle empty string as unassigned
+    case undefined: // Handle undefined as unassigned
+      colorClasses = "bg-yellow-500/20 text-yellow-300";
+      break;
+    default:
+      colorClasses = "bg-gray-500/20 text-gray-300";
+  }
+  
+  return <span className={`${baseClasses} ${colorClasses}`}>{status}</span>;
+};
+
+// --- Componente Reutilizable para una Tabla de Clases ---
+const ClassTable = ({ title, data, icon, theme, initialCount = 3 }: ClassTableProps) => {
+  const [count, setCount] = useState(initialCount);
+  const itemsToShow = data.slice(0, count);
+
+  const headerColor = theme === "green" ? "text-green-300" : "text-blue-300";
+  const headerBg = theme === "green" ? "bg-green-900/30" : "bg-blue-900/30";
+  const buttonHoverBg = theme === "green" ? "hover:bg-green-400/80" : "hover:bg-blue-400/80";
+  const buttonBg = theme === "green" ? "bg-green-500/80" : "bg-blue-500/80";
+
+  const handleRowClick = (pageId: string) => {
+    const notionPageId = pageId.replace(/-/g, "");
+    window.open(`https://www.notion.so/${notionPageId}`, "_blank");
+  };
+
+  const renderShowMoreButton = () => {
+    if (data.length > count) {
+      return (
+        <button
+          className="flex items-center gap-2 mx-auto px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition-all text-sm font-medium shadow-sm"
+          onClick={() => setCount(count + 5)}
+        >
+          <ChevronDown className="h-4 w-4" />
+          Ver más
+        </button>
+      );
+    }
+    return null;
+  };
+
+  const renderShowLessButton = () => {
+    if (count > initialCount) {
+      return (
+        <button
+          className="flex items-center gap-2 mx-auto px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition-all text-sm font-medium shadow-sm"
+          onClick={() => setCount(initialCount)}
+        >
+          <ChevronUp className="h-4 w-4" />
+          Ver menos
+        </button>
+      );
+    }
+    return null;
+  };
 
   return (
-    <div className="max-w-4xl sm:mx-auto md:mx-0 w-full">
-      {/* Escritorio */}
-      <div className="hidden md:block overflow-x-auto rounded-xl border border-gray-200 shadow-sm bg-white">
-        <table className="min-w-full text-sm">
-          <thead className="bg-gray-50 text-gray-600 text-left">
+    <section>
+      {/* ---- Título para Móvil ---- */}
+      <h3 className={`md:hidden font-bold ${headerColor} text-lg mb-3 flex items-center gap-2`}>
+        {icon}
+        {title}
+      </h3>
+
+      {/* ---- Tabla de Escritorio ---- */}
+      <div className="hidden md:block overflow-x-auto rounded-xl bg-[#343154] border border-white/10 shadow-lg">
+        <table className="min-w-full text-sm table-fixed">
+          <thead className="text-white/60 text-left">
             <tr>
-              <th className="px-4 py-3">
-                <div className="flex items-center gap-1">
-                  <Calendar className="w-4 h-4" />
-                  <span>Fecha</span>
-                </div>
+              <td colSpan={5} className={`${headerBg} font-bold px-4 py-2 ${headerColor}`}>
+                <div className="flex items-center gap-2">{icon} {title}</div>
+              </td>
+            </tr>
+            <tr className="bg-white/5">
+              <th className="px-4 py-3 font-medium w-[25%]">
+                <div className="flex items-center gap-2"><Calendar className="w-4 h-4" /><span>Fecha</span></div>
               </th>
-              <th className="px-4 py-3">
-                <div className="flex items-center gap-1">
-                  <BookOpen className="w-4 h-4" />
-                  <span>Título</span>
-                </div>
+              <th className="px-4 py-3 font-medium w-[15%]">
+                <div className="flex items-center gap-2"><BookOpen className="w-4 h-4" /><span>Título</span></div>
               </th>
-              <th className="px-4 py-3">
-                <div className="flex items-center gap-1">
-                  <CheckCircle className="w-4 h-4" />
-                  <span>Estado</span>
-                </div>
+              <th className="px-4 py-3 font-medium w-[15%]">
+                <div className="flex items-center gap-2"><CheckCircle className="w-4 h-4" /><span>Estado</span></div>
               </th>
-              <th className="px-4 py-3">
-                <div className="flex items-center gap-1">
-                  <BarChart3 className="w-4 h-4" />
-                  <span>Nivel</span>
-                </div>
+              <th className="px-4 py-3 font-medium w-[15%]">
+                <div className="flex items-center gap-2"><TrendingUp className="w-4 h-4" /><span>Curso</span></div>
+              </th>
+              <th className="px-4 py-3 font-medium w-[15%]">
+                <div className="flex items-center gap-2"><Video className="w-4 h-4" /><span>Grabación</span></div>
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
-            {/* ---- Completados ---- */}
-            {completedToShow.length > 0 && (
-              <>
-                <tr>
-                  <td colSpan={4} className="bg-green-50 font-bold px-4 py-2 text-green-900">Clases Completadas</td>
-                </tr>
-                {completedToShow.map((item, idx) => {
-                  const key = "c" + idx;
-                  return (
-                    <tr
-                      key={key}
-                      className="hover:bg-gray-50 transition cursor-pointer group"
-                      onMouseEnter={() => setHoveredRow(key)}
-                      onMouseLeave={() => setHoveredRow(null)}
+          <tbody className="divide-y divide-white/10">
+            {itemsToShow.map((item) => (
+              <tr key={item.page_id} className="group hover:bg-white/5 transition-colors duration-200 cursor-pointer" onClick={() => handleRowClick(item.page_id)}>
+                <td className="px-4 py-3 text-white/80">{formatLocalDate(item.datetime)}</td>
+                <td className="px-4 py-3 text-white/90 flex items-center gap-2">
+                  {item.icon && <span className="text-lg leading-none">{item.icon}</span>}
+                  {item.class_title}
+                  <ExternalLink className="w-4 h-4 text-white/50 group-hover:text-white/80" />
+                </td>
+                <td className="px-4 py-3">
+                  <StatusBadge status={item.status || ""} theme={theme} />
+                </td>
+                <td className="px-4 py-3 text-white/80">{item.course || "—"}</td>
+                <td className="px-4 py-3 text-white/80">
+                  {item.recording ? (
+                    <a
+                      href={item.recording}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md ${buttonBg} text-white ${buttonHoverBg} text-xs font-semibold`}
                     >
-                      <td className="px-4 py-2 text-gray-700">{formatLocalDate(item.date)}</td>
-                      <td className="px-4 py-2 text-gray-700 flex items-center gap-2">
-                        <span className="flex-1">{item.title}</span>
-                        <a
-                          href={item.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={e => e.stopPropagation()}
-                          className={
-                            "inline-flex items-center gap-1 px-2 py-1 rounded-md bg-blue-100 text-blue-700 hover:bg-blue-200 transition text-xs font-semibold " +
-                            (hoveredRow === key ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none")
-                          }
-                          style={{ minWidth: 64, justifyContent: 'center' }}
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                          Abrir
-                        </a>
-                      </td>
-                      <td className="px-4 py-2">
-                        <span className="inline-block rounded-full px-2 py-0.5 text-xs font-semibold bg-green-100 text-green-800">
-                          {item.status}
-                        </span>
-                      </td>
-                      <td className="px-4 py-2 text-gray-700">{item.level || "—"}</td>
-                    </tr>
-                  );
-                })}
-                {completed.length > completedCount && (
-                  <tr>
-                    <td colSpan={4} className="px-4 py-2 text-center">
-                      <button
-                        className="flex items-center gap-2 mx-auto text-green-700 hover:underline"
-                        onClick={() => setCompletedCount(c => c + 10)}
-                      >
-                        <ChevronDown className="h-4 w-4" />
-                        {`Ver ${Math.min(10, completed.length - completedCount)} más completadas`}
-                      </button>
-                    </td>
-                  </tr>
-                )}
-                {completedCount > 10 && (
-                  <tr>
-                    <td colSpan={4} className="px-4 py-2 text-center">
-                      <button
-                        className="flex items-center gap-2 mx-auto text-green-700 hover:underline"
-                        onClick={() => setCompletedCount(10)}
-                      >
-                        <ChevronUp className="h-4 w-4" />
-                        {"Ver menos completadas"}
-                      </button>
-                    </td>
-                  </tr>
-                )}
-              </>
-            )}
-            {/* ---- Programadas ---- */}
-            {scheduledToShow.length > 0 && (
-              <>
-                <tr>
-                  <td colSpan={4} className="bg-blue-50 font-bold px-4 py-2 text-blue-900">Clases Programadas</td>
-                </tr>
-                {scheduledToShow.map((item, idx) => {
-                  const key = "s" + idx;
-                  return (
-                    <tr
-                      key={key}
-                      className="hover:bg-gray-50 transition cursor-pointer group"
-                      onMouseEnter={() => setHoveredRow(key)}
-                      onMouseLeave={() => setHoveredRow(null)}
-                    >
-                      <td className="px-4 py-2 text-gray-700">{formatLocalDate(item.date)}</td>
-                      <td className="px-4 py-2 text-gray-700 flex items-center gap-2">
-                        <span className="flex-1">{item.title}</span>
-                        <a
-                          href={item.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={e => e.stopPropagation()}
-                          className={
-                            "inline-flex items-center gap-1 px-2 py-1 rounded-md bg-blue-100 text-blue-700 hover:bg-blue-200 transition text-xs font-semibold " +
-                            (hoveredRow === key ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none")
-                          }
-                          style={{ minWidth: 64, justifyContent: 'center' }}
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                          Abrir
-                        </a>
-                      </td>
-                      <td className="px-4 py-2">
-                        <span className="inline-block rounded-full px-2 py-0.5 text-xs font-semibold bg-blue-100 text-blue-800">
-                          {item.status}
-                        </span>
-                      </td>
-                      <td className="px-4 py-2 text-gray-700">{item.level || "—"}</td>
-                    </tr>
-                  );
-                })}
-                {scheduled.length > scheduledCount && (
-                  <tr>
-                    <td colSpan={4} className="px-4 py-2 text-center">
-                      <button
-                        className="flex items-center gap-2 mx-auto text-blue-700 hover:underline"
-                        onClick={() => setScheduledCount(c => c + 10)}
-                      >
-                        <ChevronDown className="h-4 w-4" />
-                        {`Ver ${Math.min(10, scheduled.length - scheduledCount)} más programadas`}
-                      </button>
-                    </td>
-                  </tr>
-                )}
-                {scheduledCount > 10 && (
-                  <tr>
-                    <td colSpan={4} className="px-4 py-2 text-center">
-                      <button
-                        className="flex items-center gap-2 mx-auto text-blue-700 hover:underline"
-                        onClick={() => setScheduledCount(10)}
-                      >
-                        <ChevronUp className="h-4 w-4" />
-                        {"Ver menos programadas"}
-                      </button>
-                    </td>
-                  </tr>
-                )}
-              </>
-            )}
+                      <PlayIcon className="w-3.5 h-3.5" />
+                      Ver
+                    </a>
+                  ) : (
+                    "—"
+                  )}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
+        <div className="p-2 flex justify-center">
+          <div className="inline-flex items-center gap-1">
+            {renderShowMoreButton()}
+            {renderShowLessButton()}
+          </div>
+        </div>
       </div>
 
-      {/* ---- Cards versión móvil ---- */}
-      <div className="md:hidden flex flex-col gap-4 mt-4">
-        {/* Completadas */}
-        {completedToShow.length > 0 && (
-          <>
-            <div className="font-bold text-green-50 text-xl rounded-lg p-2 mb-1 flex items-center gap-2">
-              <CheckCircle className="h-5 w-5" />
-              Clases completadas
+      {/* ---- Tarjetas para Móvil ---- */}
+      <div className="md:hidden flex flex-col gap-3">
+        {itemsToShow.map((item) => (
+          <div
+            key={item.page_id}
+            onClick={() => handleRowClick(item.page_id)}
+            className="block rounded-xl p-4 bg-[#343154] border border-white/10 shadow-md cursor-pointer"
+          >
+            <p className="text-sm font-semibold text-white/95 mb-2 flex items-center gap-2">
+              {item.icon && <span className="text-lg leading-none">{item.icon}</span>}
+              {item.class_title}
+              <ExternalLink className="w-4 h-4 text-white/50 group-hover:text-white/80" />
+            </p>
+            <div className="flex justify-between items-center text-xs mb-2">
+              <StatusBadge status={item.status || ""} theme={theme} />
+              <span className="text-white/60 font-medium">{item.course || "—"}</span>
             </div>
-            {completedToShow.map((item, idx) => (
-              <a
-                key={"cm" + idx}
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block border border-gray-200 rounded-xl p-4 bg-white shadow-sm hover:bg-gray-50 transition"
-              >
-                <p className="text-xs text-gray-500 mb-1">📅 {formatLocalDate(item.date)}</p>
-                <div className="flex justify-between items-center">
-                  <p className="text-sm font-semibold text-gray-700 mb-2">📌 {item.title}</p>
-                  <span className="ml-2 inline-flex items-center gap-1 px-2 py-1 rounded-md bg-blue-100 text-blue-700 hover:bg-blue-200 transition text-xs font-semibold">
-                    <ExternalLink className="w-4 h-4" />
-                    Abrir
-                  </span>
-                </div>
-                <div className="flex justify-between items-center text-sm">
-                  <span className="inline-block rounded-full px-2 py-0.5 text-xs font-semibold bg-green-100 text-green-800">
-                    {item.status}
-                  </span>
-                  <span className="text-gray-700">🧠 {item.level || "—"}</span>
-                </div>
-              </a>
-            ))}
-            {completed.length > completedCount && (
-              <button
-                className="flex items-center gap-2 mx-auto text-white hover:underline"
-                onClick={() => setCompletedCount(c => c + 10)}
-              >
-                <ChevronDown className="h-4 w-4" />
-                {`Ver ${Math.min(10, completed.length - completedCount)} más completadas`}
-              </button>
-            )}
-            {completedCount > 10 && (
-              <button
-                className="flex items-center gap-2 mx-auto text-white hover:underline"
-                onClick={() => setCompletedCount(2)}
-              >
-                <ChevronUp className="h-4 w-4" />
-                {"Ver menos completadas"}
-              </button>
-            )}
-          </>
-        )}
-
-        {/* Programadas */}
-        {scheduledToShow.length > 0 && (
-          <>
-            <div className="font-bold text-blue-50 text-xl rounded-lg p-2 mb-1 flex items-center gap-2">
-              <Calendar className="h-5 w-5" />
-              Clases programadas
+            <div className="flex justify-between items-center text-xs">
+              {item.recording ? (
+                    <a
+                      href={item.recording}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md ${buttonBg} text-white ${buttonHoverBg} text-xs font-semibold`}
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      Ver grabación
+                    </a>
+                  ) : (null)}
             </div>
-            {scheduledToShow.map((item, idx) => (
-              <a
-                key={"sm" + idx}
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block border border-gray-200 rounded-xl p-4 bg-white shadow-sm hover:bg-gray-50 transition"
-              >
-                <p className="text-xs text-gray-500 mb-1">📅 {formatLocalDate(item.date)}</p>
-                <div className="flex justify-between items-center">
-                  <p className="text-sm font-semibold text-gray-700 mb-2">📌 {item.title}</p>
-                  <span className="ml-2 inline-flex items-center gap-1 px-2 py-1 rounded-md bg-blue-100 text-blue-700 hover:bg-blue-200 transition text-xs font-semibold">
-                    <ExternalLink className="w-4 h-4" />
-                    Abrir
-                  </span>
-                </div>
-                <div className="flex justify-between items-center text-sm">
-                  <span className="inline-block rounded-full px-2 py-0.5 text-xs font-semibold bg-blue-100 text-blue-800">
-                    {item.status}
-                  </span>
-                  <span className="text-gray-700">🧠 {item.level || "—"}</span>
-                </div>
-              </a>
-            ))}
-            {scheduled.length > scheduledCount && (
-              <button
-                className="flex items-center gap-2 mx-auto text-white hover:underline"
-                onClick={() => setScheduledCount(c => c + 10)}
-              >
-                <ChevronDown className="h-4 w-4" />
-                {`Ver ${Math.min(10, scheduled.length - scheduledCount)} más programadas`}
-              </button>
-            )}
-            {scheduledCount > 10 && (
-              <button
-                className="flex items-center gap-2 mx-auto text-white hover:underline"
-                onClick={() => setScheduledCount(10)}
-              >
-                <ChevronUp className="h-4 w-4" />
-                {"Ver menos programadas"}
-              </button>
-            )}
-          </>
-        )}
+            <p className="text-xs text-white/50 mt-3">{formatLocalDate(item.datetime)}</p>
+          </div>
+        ))}
+        <div className="mt-2 flex justify-center">
+          <div className="inline-flex items-center gap-1">
+            {renderShowMoreButton()}
+            {renderShowLessButton()}
+          </div>
+        </div>
       </div>
+    </section>
+  );
+};
+
+
+// --- Componente Principal ---
+export default function NotionTable({ data }: NotionTableProps) {
+  const completed = data
+    .filter((i) => (i.status || "").toLowerCase() === "completed")
+    .sort((a, b) => new Date(b.datetime).getTime() - new Date(a.datetime).getTime());
+  const scheduled = data
+    .filter((i) => {
+      const normalizedStatus = (i.status || "").toLowerCase();
+      return normalizedStatus === "scheduled" || normalizedStatus === "unassigned" || normalizedStatus === "";
+    })
+    .sort((a, b) => {
+      const normalizedStatusA = (a.status || "").toLowerCase();
+      const normalizedStatusB = (b.status || "").toLowerCase();
+
+      // Priorizar clases agendadas sobre no asignadas o vacías
+      if ((normalizedStatusA === "unassigned" || normalizedStatusA === "") && normalizedStatusB !== "unassigned" && normalizedStatusB !== "") return 1;
+      if ((normalizedStatusB === "unassigned" || normalizedStatusB === "") && normalizedStatusA !== "unassigned" && normalizedStatusA !== "") return -1;
+      
+      // Luego ordenar por fecha
+      return new Date(a.datetime).getTime() - new Date(b.datetime).getTime();
+    });
+
+  return (
+    <div className="w-full flex flex-col gap-8">
+      <ClassTable
+        title="Clases Programadas"
+        data={scheduled}
+        icon={<Calendar className="h-5 w-5" />}
+        theme="blue"
+      />
+      <ClassTable
+        title="Clases Completadas"
+        data={completed}
+        icon={<CheckCircle className="h-5 w-5" />}
+        theme="green"
+      />
     </div>
   );
 }

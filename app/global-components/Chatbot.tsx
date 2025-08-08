@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, KeyboardEvent } from "react";
 import ReactMarkdown from 'react-markdown';
+import Image from 'next/image';
 import {
   ArrowRightIcon,
   PaperPlaneIcon,
@@ -165,7 +166,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
     if (isOpen && !isEntering) {
       setIsEntering(true);
     }
-  }, [isOpen]);
+  }, [isOpen, isEntering]);
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -520,7 +521,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
         try {
           const jsonData = JSON.parse(textData);
           botResponseText = jsonData.response;
-        } catch (parseError) {
+        } catch (_parseError) {
           // If it's not JSON, use the text directly
           botResponseText = textData;
         }
@@ -576,10 +577,12 @@ const Chatbot: React.FC<ChatbotProps> = ({
                 gap: "8px",
               }}
             >
-              <img
+              <Image
                 src={logoPath}
                 alt="Logo"
-                style={{ width: "40px", height: "auto" }}
+                width={40}
+                height={40}
+                style={{ height: "auto" }}
               />
               {companyName && (
                 <span
@@ -653,7 +656,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
                         try {
                           const jsonData = JSON.parse(textData);
                           botResponseText = jsonData.response;
-                        } catch (parseError) {
+                        } catch (_parseError) {
                           // If it's not JSON, use the text directly
                           botResponseText = textData;
                         }
@@ -765,20 +768,20 @@ const Chatbot: React.FC<ChatbotProps> = ({
                     ) : (
                       <ReactMarkdown
                         components={{
-                          p: ({node, ...props}) => <p style={{margin: '0.5em 0'}} {...props} />,
-                          a: ({node, ...props}) => <a target="_blank" style={{color: primaryColor, textDecoration: 'underline'}} {...props} />,
-                          ul: ({node, ...props}) => <ul style={{paddingLeft: '20px', margin: '0.5em 0'}} {...props} />,
-                          ol: ({node, ...props}) => <ol style={{paddingLeft: '20px', margin: '0.5em 0'}} {...props} />,
-                          li: ({node, ...props}) => <li style={{margin: '0.25em 0'}} {...props} />,
-                          h1: ({node, ...props}) => <h1 style={{fontSize: '1.5em', margin: '0.5em 0'}} {...props} />,
-                          h2: ({node, ...props}) => <h2 style={{fontSize: '1.3em', margin: '0.5em 0'}} {...props} />,
-                          h3: ({node, ...props}) => <h3 style={{fontSize: '1.1em', margin: '0.5em 0'}} {...props} />,
+                          p: ({ ...props}) => <p style={{margin: '0.5em 0'}} {...props} />,
+                          a: ({ ...props}) => <a target="_blank" style={{color: primaryColor, textDecoration: 'underline'}} {...props} />,
+                          ul: ({ ...props}) => <ul style={{paddingLeft: '20px', margin: '0.5em 0'}} {...props} />,
+                          ol: ({ ...props}) => <ol style={{paddingLeft: '20px', margin: '0.5em 0'}} {...props} />,
+                          li: ({ ...props}) => <li style={{margin: '0.25em 0'}} {...props} />,
+                          h1: ({ ...props}) => <h1 style={{fontSize: '1.5em', margin: '0.5em 0'}} {...props} />,
+                          h2: ({ ...props}) => <h2 style={{fontSize: '1.3em', margin: '0.5em 0'}} {...props} />,
+                          h3: ({ ...props}) => <h3 style={{fontSize: '1.1em', margin: '0.5em 0'}} {...props} />,
                           code: ({inline, ...props}: React.HTMLAttributes<HTMLElement> & {inline?: boolean}) =>
                             inline 
                               ? <code style={{backgroundColor: darkMode ? '#333' : '#f0f0f0', padding: '0.2em 0.4em', borderRadius: '3px'}} {...props} />
                               : <code style={{display: 'block', backgroundColor: darkMode ? '#333' : '#f0f0f0', padding: '0.5em', borderRadius: '5px', overflowX: 'auto'}} {...props} />,
-                          pre: ({node, ...props}) => <pre style={{margin: '0.5em 0', width: '100%', overflowX: 'auto'}} {...props} />,
-                          blockquote: ({node, ...props}) => <blockquote style={{borderLeft: `3px solid ${primaryColor}`, paddingLeft: '10px', margin: '0.5em 0', color: darkMode ? '#ccc' : '#666'}} {...props} />,
+                          pre: ({ ...props}) => <pre style={{margin: '0.5em 0', width: '100%', overflowX: 'auto'}} {...props} />,
+                          blockquote: ({ ...props}) => <blockquote style={{borderLeft: `3px solid ${primaryColor}`, paddingLeft: '10px', margin: '0.5em 0', color: darkMode ? '#ccc' : '#666'}} {...props} />,
                         }}
                       >
                         {msg.text}

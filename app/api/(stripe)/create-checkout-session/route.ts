@@ -19,7 +19,13 @@ export async function POST(request: Request) {
     }
 
     // Create line items for Stripe
-    const lineItems = classes.map((cls: any) => {
+    interface ClassItem {
+  type: string;
+  date: string;
+  hour: string;
+}
+
+    const lineItems = classes.map((cls: ClassItem) => {
       const classType = cls.type;
       const price = classPrices[classType as keyof typeof classPrices]?.price || 0;
       

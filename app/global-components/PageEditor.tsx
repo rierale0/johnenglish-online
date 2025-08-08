@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React, {
   useEffect,
   useState,
@@ -7,7 +8,7 @@ import React, {
   useRef,
   useCallback,
 } from "react";
-import { doc, onSnapshot, setDoc, getDoc } from "firebase/firestore";
+import { doc, onSnapshot, setDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import debounce from "lodash/debounce";
 import isEqual from "lodash/isEqual";
@@ -18,7 +19,7 @@ import Editor, { createYooptaEditor, YooptaContentValue } from "@yoopta/editor";
 import Paragraph from "@yoopta/paragraph";
 import Blockquote from "@yoopta/blockquote";
 import Embed from "@yoopta/embed";
-import Image from "@yoopta/image";
+import YooptaImage from "@yoopta/image";
 import Link from "@yoopta/link";
 import Callout from "@yoopta/callout";
 import Video from "@yoopta/video";
@@ -42,7 +43,7 @@ import {
   Highlight,
 } from "@yoopta/marks";
 
-import EmojiPicker from "emoji-picker-react";
+import EmojiPicker, { Theme } from "emoji-picker-react";
 import { db, auth } from "@/lib/firebase/firebase-client";
 
 /** Normaliza la estructura de bloques para asegurarse de que siempre tengan `elements: []` */
@@ -53,30 +54,29 @@ function normalizeBlocks(raw: Record<string, any>): YooptaContentValue {
       {
         ...blk,
         elements: Array.isArray(blk.elements) ? blk.elements : [],
-        value: Array.isArray(blk.value) ? blk.value : [],
       },
     ])
   );
 }
 
-function deepSanitize(obj: any): any {
+function deepSanitize<T>(obj: T): T {
   if (Array.isArray(obj)) {
-    return obj.map(deepSanitize);
+    return obj.map(deepSanitize) as T;
   } else if (obj !== null && typeof obj === "object") {
-    const cleaned: Record<string, any> = {};
+    const cleaned: { [key: string]: unknown } = {};
     for (const key in obj) {
-      const value = obj[key];
+      const value = (obj as Record<string, unknown>)[key];
       if (value !== undefined) {
         cleaned[key] = deepSanitize(value);
       }
     }
-    return cleaned;
+    return cleaned as T;
   }
   return obj;
 }
 
 export default function PageEditor() {
-  const [editor] = useState(() => createYooptaEditor());
+  const editor = useMemo(() => createYooptaEditor(), []);
   const [blocks, setBlocks] = useState<YooptaContentValue>({});
   const [uid, setUid] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
@@ -116,29 +116,14 @@ export default function PageEditor() {
       setUid(uidLocal);
       const pageRef = doc(db, "pages", uidLocal);
 
-      // const snap = await getDoc(pageRef);
-      // if (!snap.exists()) {
-
-      // const initialBlocks = createParagraphBlock("👋 ¡Bienvenido a tu espacio de notas!");
-
-      //   const initial = {
-      //     title: "Untitled Page",
-      //     icon: "📄",
-      //     coverImage: "",
-      //     createdAt: serverTimestamp(),
-      //     updatedAt: serverTimestamp(),
-      //     initialBlocks,
-      //   };
-      //   await setDoc(pageRef, initial);
-      // }
-
-      // Listener en tiempo real
       const unsubSnap = onSnapshot(pageRef, (snap) => {
-        const data = snap.data()!;
-        setTitle(data.title);
-        setIcon(data.icon);
-        setCoverImage(data.coverImage);
-        setBlocks(normalizeBlocks(data.blocks));
+        const data = snap.data();
+        if (data) {
+          setTitle(data.title);
+          setIcon(data.icon);
+          setCoverImage(data.coverImage);
+          setBlocks(normalizeBlocks(data.blocks));
+        }
         setReady(true);
       });
 
@@ -193,7 +178,7 @@ export default function PageEditor() {
   // Cuando cambia título, icono o cover, también dispara guardado
   useEffect(() => {
     if (ready) debouncedSave(blocks, { title, icon, coverImage });
-  }, [title, icon, coverImage]);
+  }, [title, icon, coverImage, blocks, debouncedSave, ready]);
 
   if (!ready) return <p className="p-4 text-white">Cargando editor…</p>;
 
@@ -202,9 +187,10 @@ export default function PageEditor() {
       <div className="w-full max-w-[90ch] mx-auto px-4 py-10 relative">
         {/* Cover Image */}
         {coverImage && (
-          <img
+          <Image
             src={coverImage}
             alt="Cover"
+            fill
             className="rounded-xl mb-4 max-h-60 w-full object-cover"
           />
         )}
@@ -258,7 +244,7 @@ export default function PageEditor() {
                     left: "0",
                     marginTop: "24px",
                   }}
-                  theme={"dark" as any}
+                  theme={Theme.DARK}
                 />
               </div>
             </div>
@@ -288,7 +274,7 @@ export default function PageEditor() {
             BulletedList,
             TodoList,
             Embed,
-            Image.extend({
+            YooptaImage.extend({
               options: {
                 async onUpload(file) {
                   return {

@@ -13,9 +13,9 @@ export function formatLocalDate(
     const parsedDate = typeof dateUTC === "string" ? new Date(dateUTC) : dateUTC;
   
     return parsedDate.toLocaleString(locale, {
-      weekday: "short",
+      weekday: "long",
       year: "numeric",
-      month: "short",
+      month: "long",
       day: "numeric",
       hour: "2-digit",
       minute: "2-digit",

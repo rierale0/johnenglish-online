@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 interface JsonLdProps {
-  data: any;
+  data: Record<string, any>;
 }
 
 export default function JsonLd({ data }: JsonLdProps) {

@@ -10,7 +10,6 @@ import {
   ClassPrices,
   SelectedClass,
   classPrices,
-  getClassTypeColor,
 } from "@/types/class";
 import { Loader2 } from "lucide-react";
 
@@ -83,7 +82,7 @@ export function ClassScheduler({
     } else if (Object.keys(weekAvailability).length === 0) {
       fetchAvailability(weekStart);
     }
-  }, [weekStart]);
+  }, [weekStart, weekAvailability]);
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -171,39 +170,25 @@ export function ClassScheduler({
     }
   }, [selectedSlots, onSelectionChange]);
 
-  // Get color scheme based on class type
-  const getClassTypeStyles = (type: string) => {
-    switch (type) {
+  const getClassTypeStyles = (classType: string) => {
+    switch (classType) {
       case "individual":
         return {
-          bg: "bg-blue-100",
-          border: "border-blue-500",
-          text: "text-blue-700",
-          tag: "bg-blue-500",
+          bg: "bg-blue-500",
+          border: "border-blue-700",
+          text: "text-white",
         };
-      case "grupal":
-        return {
-          bg: "bg-green-100",
-          border: "border-green-500",
-          text: "text-green-700",
-          tag: "bg-green-500",
-        };
-      case "especializada":
-        return {
-          bg: "bg-purple-100",
-          border: "border-purple-500",
-          text: "text-purple-700",
-          tag: "bg-purple-500",
-        };
+      // Add other cases for different class types if needed
       default:
         return {
-          bg: "",
-          border: "",
-          text: "",
-          tag: "",
+          bg: "bg-gray-500",
+          border: "border-gray-700",
+          text: "text-white",
         };
     }
   };
+
+  
 
   return (
     <Card className="card w-full">
@@ -290,7 +275,7 @@ export function ClassScheduler({
                 const availableSlots = isWeekend
                   ? []
                   : Object.entries(dayAvailability)
-                      .filter(([_, data]) => data.available)
+                      .filter(([_hour, data]) => data.available)
                       .sort(([hourA], [hourB]) => hourA.localeCompare(hourB));
 
                 return (

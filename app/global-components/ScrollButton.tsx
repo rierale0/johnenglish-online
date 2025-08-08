@@ -1,13 +1,15 @@
 'use client'
 import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 interface ScrollButtonProps {
+    text: string;
     link?: string;
     bgColor?: string;
     textColor?: string;
 }
 
-export function ScrollButton({ link = "#", bgColor = "7FDEFF", textColor = "#242239" }: ScrollButtonProps) {
+export function ScrollButton({ text = "", link = "#", bgColor = "7FDEFF", textColor = "#242239" }: ScrollButtonProps) {
   return (
     <Button 
       onClick={() => document.getElementById(link)?.scrollIntoView({ behavior: 'smooth' })}
@@ -19,9 +21,9 @@ export function ScrollButton({ link = "#", bgColor = "7FDEFF", textColor = "#242
         WebkitBackdropFilter: 'blur(5px)',
         border: '1px solid rgba(255, 255, 255, 0.1)'
       }}
-      className="mt-6 w-full max-w-md mx-auto hover:brightness-110 hover:text-white font-bold text-[24px] py-8 px-8 cursor-pointer transition-all shadow-lg hover:shadow-xl"
+      className="w-auto max-w-md mx-auto hover:brightness-110 hover:text-white font-bold text-[18px] py-6 px-6 cursor-pointer transition-all shadow-lg hover:shadow-xl"
     >
-      Empieza ya
+     {text} <ArrowRight/>
     </Button>
   );
 }

@@ -92,7 +92,7 @@ export function ClassSummary({ selectedClasses, total }: ClassSummaryProps) {
       
       // If all parsing attempts fail, return a more user-friendly message
       return "Fecha no disponible";
-    } catch (error) {
+    } catch (_) {
       // console.error('Error al formatear fecha:', dateStr, error);
       return "Fecha no disponible";
     }
@@ -118,15 +118,16 @@ export function ClassSummary({ selectedClasses, total }: ClassSummaryProps) {
     }
   };
 
-  // Obtener el color del tipo de clase
   const getClassTypeColor = (type: string) => {
     switch(type) {
-      case 'individual': return 'bg-blue-500';
-      case 'grupal': return 'bg-green-500';
-      case 'especializada': return 'bg-purple-500';
-      default: return 'bg-gray-500';
+      case 'individual': return 'bg-blue-200 text-blue-800';
+      case 'grupal': return 'bg-green-200 text-green-800';
+      case 'especializada': return 'bg-purple-200 text-purple-800';
+      default: return 'bg-gray-200 text-gray-800';
     }
   };
+
+  
 
   return (
     <div className="card w-full max-w-4xl rounded-lg shadow-lg p-6">

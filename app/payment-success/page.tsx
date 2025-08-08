@@ -1,12 +1,21 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { CheckCircle } from 'lucide-react'
 import { Suspense } from 'react'
 import Footer from '../global-components/Footer'
 import Header from '../global-components/Header'
+
+interface LineItem {
+  description: string;
+  amount_total: number;
+  quantity: number;
+  currency: string;
+  price?: { product_data?: { metadata?: { class_date?: string } } };
+}
 
 interface PaymentData {
   sessionId?: string;
@@ -15,16 +24,55 @@ interface PaymentData {
   email?: string;
   productName?: string;
   date?: string;
-  lineItems?: any[]; // Add this line to store line items
+  lineItems?: LineItem[];
+  paymentIntentDetails?: Record<string, unknown>;
+  amountRaw?: number;
+  currency: string;
 }
 
-const webhookUrl = process.env.PAYMENT_SUCCESS_WEBHOOK_URL;
+// const webhookUrl = process.env.PAYMENT_SUCCESS_WEBHOOK_URL;
 
 function PaymentSuccessContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [paymentData, setPaymentData] = useState<PaymentData>({})
+  const [paymentData, setPaymentData] = useState<PaymentData>({ currency: 'EUR' })
   const [isLoading, setIsLoading] = useState(true)
+
+  const sendToN8nWebhook = async (data: PaymentData) => {
+    try {
+      const response = await fetch('/api/payment-webhook', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          event: 'payment_success',
+          timestamp: new Date().toISOString(),
+          data: {
+            sessionId: data.sessionId,
+            customerName: data.customerName,
+            email: data.email,
+            amount: data.amountRaw,
+            currency: data.currency,
+            date: data.date,
+            lineItems: data.lineItems?.map((item: LineItem) => ({
+              description: item.description,
+              amount: item.amount_total / 100,
+              quantity: item.quantity
+            }))
+          }
+        }),
+      });
+      
+      if (response.ok) {
+        console.log('Successfully sent data to webhook');
+      } else {
+        console.error('Failed to send data to webhook:', await response.text());
+      }
+    } catch (error) {
+      console.error('Error sending data to webhook:', error);
+    }
+  };
 
   useEffect(() => {
     // Extract session_id from URL
@@ -38,7 +86,7 @@ function PaymentSuccessContent() {
       setIsLoading(true)
       fetch(`/api/checkout-sessions/${sessionId}`)
         .then(res => res.json())
-        .then(data => {
+        .then((data: any) => {
           
           // If we have a payment intent, we can fetch more details
           
@@ -59,8 +107,8 @@ function PaymentSuccessContent() {
           
           return data;
         })
-        .then(data => {
-          const paymentDataObj = {
+        .then((data: { customer_details?: { name?: string; email?: string; }; currency: string; amount_total: number; created: number; line_items?: { data: LineItem[] }; paymentIntentDetails?: Record<string, unknown> }) => {
+          const paymentDataObj: PaymentData = {
             sessionId,
             customerName: data.customer_details?.name,
             email: data.customer_details?.email,
@@ -73,7 +121,7 @@ function PaymentSuccessContent() {
             productName: data.line_items?.data[0]?.description,
             date: new Date(data.created * 1000).toLocaleDateString('es-ES'),
             lineItems: data.line_items?.data || [],
-            paymentIntentDetails: data.paymentIntentDetails as Record<string, unknown>
+            paymentIntentDetails: data.paymentIntentDetails || {}
           };
           
           setPaymentData(paymentDataObj);
@@ -84,45 +132,7 @@ function PaymentSuccessContent() {
         .catch(err => console.error('Error fetching payment data:', err))
         .finally(() => setIsLoading(false))
     }
-  }, [router, searchParams])
-
-  // Function to send data to n8n webhook
-  
-  const sendToN8nWebhook = async (data: any) => {
-    try {
-      const response = await fetch('/api/payment-webhook', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          event: 'payment_success',
-          timestamp: new Date().toISOString(),
-          data: {
-            sessionId: data.sessionId,
-            customerName: data.customerName,
-            email: data.email,
-            amount: data.amountRaw,
-            currency: data.currency,
-            date: data.date,
-            lineItems: data.lineItems.map((item: any) => ({
-              description: item.description,
-              amount: item.amount_total / 100,
-              quantity: item.quantity
-            }))
-          }
-        }),
-      });
-      
-      if (response.ok) {
-        console.log('Successfully sent data to webhook');
-      } else {
-        console.error('Failed to send data to webhook:', await response.text());
-      }
-    } catch (error) {
-      console.error('Error sending data to webhook:', error);
-    }
-  };
+  }, [router, searchParams]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center from-green-50 to-white p-4">
@@ -175,16 +185,16 @@ function PaymentSuccessContent() {
             >
               <h3 className="text-lg font-medium text-gray-800 mb-2">Detalle de compra:</h3>
               <div className="space-y-2">
-                {paymentData.lineItems.map((item: any, index: number) => {
+                {paymentData.lineItems.map((item: LineItem, index: number) => {
                   // Try to get class date from payment intent metadata
-                  const paymentIntentMetadata = ((paymentData as PaymentData & { paymentIntentDetails?: Record<string, unknown> }).paymentIntentDetails)?.metadata || {};
-                  const classDateKey = `class_date_${index}`;
+                  // const paymentIntentMetadata = ((paymentData as PaymentData & { paymentIntentDetails?: Record<string, unknown> }).paymentIntentDetails)?.metadata || {};
+                  // const classDateKey = `class_date_${index}`;
                   
                   // Look for class date in various places
-                  const classDate = 
-                    (paymentIntentMetadata as Record<string, string>)[classDateKey] ||
-                    item.price?.product_data?.metadata?.class_date ||
-                    '';
+                  // const classDate = 
+                  //   (paymentIntentMetadata as Record<string, string>)[classDateKey] ||
+                  //   item.price?.product_data?.metadata?.class_date ||
+                  //   '';
                   
                   return (
                     <div key={index} className="flex justify-between items-start border-b border-gray-100 pb-2">
@@ -260,10 +270,12 @@ function PaymentSuccessContent() {
       >
         <div className="flex items-center mb-3">
           <div className="w-16 h-16 rounded-full overflow-hidden mr-4 border-2 border-green-500 flex-shrink-0">
-            <img 
+            <Image 
               src="/home/john-profpic.jpg" 
               alt="John English" 
-              className="w-full h-full object-cover object-center"
+              width={64}
+              height={64}
+              className="object-cover object-center"
             />
           </div>
           <p className="text-gray-200 font-light">

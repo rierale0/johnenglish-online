@@ -9,7 +9,7 @@ export interface CalendarEvent {
   description?: string;
 }
 
-const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
+// const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
 
 const oauth2Client = new OAuth2Client({
   clientId: process.env.GOOGLE_CLIENT_ID,

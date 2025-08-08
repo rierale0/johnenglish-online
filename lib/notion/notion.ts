@@ -7,17 +7,18 @@ export async function getUserPageByEmail(email: string, usersDbId: string) {
   const response = await notion.databases.query({
     database_id: usersDbId,
     filter: {
-      property: "Email",
+      property: "email",
       rich_text: { equals: email }
     }
   });
   return response.results[0]; // Puede ser undefined si no hay match
 }
 
-export async function getClassesDataFromDatabase(databaseId: string) {
+export async function getClassesDataFromDatabase(databaseId: string, filter?: Parameters<typeof notion.databases.query>[0]["filter"]) {
   const response = await notion.databases.query({
     database_id: databaseId,
-    sorts: [{ property: "Fecha", direction: "descending" }]
+    filter,
+    sorts: [{ property: "datetime", direction: "descending" }]
   });
   return response.results;
 }
@@ -26,7 +27,7 @@ export async function getMeetingLinkByEmail(email: string, usersDbId: string): P
     const response = await notion.databases.query({
       database_id: usersDbId,
       filter: {
-        property: "Email",
+        property: "email",
         rich_text: { equals: email }
       }
     });

@@ -4,6 +4,7 @@ import './globals.css'
 import { AuthProvider } from "./(firebase auth)/context/AuthContext";
 import FacebookPixel from "@/app/global-components/FacebookPixel";
 import JsonLd from "@/app/global-components/JsonLd";
+import Header from './global-components/Header';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -12,14 +13,15 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://johnenglish.online'),
   title: 'English with John | Clases de inglés personalizadas online',
-  description: 'Aprende inglés con clases online personalizadas para mejorar tu fluidez y confianza. Profesor nativo con más de 6 años de experiencia para todos los niveles.',
+  description: 'Aprende inglés con clases online personalizadas para mejorar tu fluidez y confianza. Profesor con más de 6 años de experiencia para todos los niveles.',
   generator: 'github.com/rierale0',
   keywords: ['clases de inglés', 'inglés online', 'profesor de inglés', 'aprender inglés', 'clases personalizadas', 'inglés para profesionales', 'inglés para niños'],
   authors: [{ name: 'John English Teacher' }],
   openGraph: {
     title: 'English with John | Clases de inglés personalizadas online',
-    description: 'Aprende inglés con clases online personalizadas para mejorar tu fluidez y confianza. Profesor nativo con más de 6 años de experiencia.',
+    description: 'Aprende inglés con clases online personalizadas para mejorar tu fluidez y confianza. Profesor con más de 6 años de experiencia.',
     url: 'https://johnenglish.online',
     siteName: 'English with John',
     images: [
@@ -65,12 +67,6 @@ export default function RootLayout({
       "@type": "PostalAddress",
       "addressCountry": "Spain"
     },
-    "offers": {
-      "@type": "Offer",
-      "price": "16",
-      "priceCurrency": "EUR",
-      "availability": "https://schema.org/InStock"
-    }
   };
 
   return (
@@ -84,6 +80,7 @@ export default function RootLayout({
       {FB_PIXEL_ID && <FacebookPixel pixelId={FB_PIXEL_ID} />}
       <body>
       <AuthProvider> 
+              <Header />
         {children}
         </AuthProvider> 
         </body>

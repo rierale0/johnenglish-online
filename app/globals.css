@@ -92,13 +92,3 @@ body {
     @apply bg-background text-foreground;
   }
 }
-
-body {
-  background-color: #242239;
-}
-
-.card {
-  background-color: #2d2a4e;
-  color: white;
-  border: none;
-}

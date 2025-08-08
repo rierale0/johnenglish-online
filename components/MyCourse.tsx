@@ -3,12 +3,11 @@
 import {
   Video,
   Clock,
-  Globe,
 } from "lucide-react";
 
 import { useAuth } from "@/app/(firebase auth)/context/AuthContext";
 
-import { Card } from "@/components/ui/card";
+import GlassCard from "@/components/GlassCard";
 import NotionTable from "@/components/NotionTable";
 import { useEffect, useState } from "react";
 
@@ -19,26 +18,55 @@ const fallbackLiveClassData = {
   datetime: "2025-06-03T18:30:00Z",
 };
 
+interface ClassDataItem {
+  status: string;
+  datetime: string;
+  page_id: string; // Make page_id required
+  class_title: string; // Make class_title required
+  course: string; // Make course required
+  recording: string | null; // Make recording explicitly string | null
+  icon: string | null; // Make icon explicitly string | null
+}
+
 export default function MyCourse() {
 
   const { user } = useAuth();
   const displayName = user?.displayName || "";
   const firstName = displayName.split(" ")[0] || "";
 
-  const [classData, setClassData] = useState<any[]>([]);
+  const [classData, setClassData] = useState<ClassDataItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [meetingLink, setMeetingLink] = useState<string | null>(null);
 
   // Encuentra la siguiente clase programada
   const nextLiveClass = classData
-    .filter((c) => c.status === "Programado" && c.date)
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0] || null;
+    .filter((c) => c.status && c.status.toLowerCase() === "scheduled" && c.datetime)
+    .sort((a, b) => new Date(a.datetime).getTime() - new Date(b.datetime).getTime())[0] || null;
 
   // Carga la data de clases
   useEffect(() => {
     fetch("/api/classes")
-      .then((res) => res.json())
-      .then((data) => setClassData(Array.isArray(data) ? data : []))
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Error HTTP: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        const processedData = Array.isArray(data) ? data.map(c => ({
+          ...c,
+          status: c.status || "unassigned",
+          page_id: c.page_id || "", // Ensure page_id is always a string
+          class_title: c.class_title || "", // Ensure class_title is always a string
+          course: c.course || "", // Ensure course is always a string
+          recording: c.recording || null, // Ensure recording is always string or null
+          icon: c.icon || null, // Ensure icon is always string or null
+        })) : [];
+        setClassData(processedData);
+      })
+      .catch((error) => {
+        console.error("Error al obtener datos de clases:", error);
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -55,12 +83,12 @@ export default function MyCourse() {
   // Elige el link a mostrar (prioridad: personalizado > próxima clase programada > fallback)
   const classJoinLink =
     meetingLink ||
-    (nextLiveClass?.link && nextLiveClass.link !== "" ? nextLiveClass.link : null) ||
+    (nextLiveClass?.page_id ? `https://notion.so/${nextLiveClass.page_id.replace(/-/g, "")}` : null) ||
     fallbackLiveClassData.link;
 
   // Elige la fecha a mostrar
   const classJoinDate =
-    nextLiveClass?.date
+    nextLiveClass?.datetime
       ? new Intl.DateTimeFormat("es-ES", {
           weekday: "short",
           year: "numeric",
@@ -68,7 +96,7 @@ export default function MyCourse() {
           day: "numeric",
           hour: "2-digit",
           minute: "2-digit",
-        }).format(new Date(nextLiveClass.date))
+        }).format(new Date(nextLiveClass.datetime))
       : "Fecha pendiente";
 
   return (
@@ -83,7 +111,7 @@ export default function MyCourse() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                
-                <Card className="relative overflow-hidden group shadow-sm border-0 bg-white transition-all duration-300 hover:shadow-md">
+                <GlassCard className="hover:border-indigo-400/50 transition-all duration-300">
                   <a
                     href={classJoinLink}
                     target="_blank"
@@ -91,29 +119,25 @@ export default function MyCourse() {
                     className="block relative z-10 p-6"
                     title="Unirse a la reunión"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="p-3 bg-blue-50 rounded-lg flex items-center justify-center">
-                        <Video />
+                    <div className="flex items-center gap-5">
+                      <div className="p-3 bg-indigo-500/20 rounded-lg ring-2 ring-indigo-400/30">
+                        <Video className="w-8 h-8 text-indigo-300" />
                       </div>
-                      <div>
-                        <p className="text-lg font-bold text-gray-900">
-                          Unirse a la clase
+                      <div className="flex-1">
+                        <p className="text-lg font-bold text-white">
+                          {nextLiveClass ? nextLiveClass.class_title : "Unirse a la clase"}
                         </p>
-                        <div className="flex items-center text-gray-600 gap-1">
-                          <Globe height={14} />
-                          <p className="text-sm">Google Meet</p>
-                        </div>
-                        <p className="flex items-center text-[14px] text-green-600 font-medium gap-1">
+                        <p className="text-sm text-white/70 -mt-1">
+                          {nextLiveClass ? nextLiveClass.course : "Google Meet"}
+                        </p>
+                        <p className="flex items-center text-sm text-indigo-300 font-medium gap-1.5 mt-2">
                           <Clock height={14} />
-                          Próxima clase:&nbsp;
-                          <span className="text-gray-500">{classJoinDate}</span>
+                          <span>{classJoinDate}</span>
                         </p>
                       </div>
                     </div>
                   </a>
-                  {/* Fondo animado */}
-                  <div className="absolute bottom-0 left-0 w-full h-0 bg-gray-50 z-0 transition-all duration-300 group-hover:h-full" />
-                </Card>
+                </GlassCard>
               </div>
             </div>
           </div>

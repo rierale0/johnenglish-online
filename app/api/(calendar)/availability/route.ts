@@ -1,7 +1,7 @@
-const { NextResponse } = require('next/server');
-const { google } = require('googleapis');
-const { format, addDays } = require('date-fns');
-const { getAuthenticatedClient } = require('@/lib/google-calendar/auth.js');
+import { NextResponse } from 'next/server';
+import { google } from 'googleapis';
+import { format, addDays } from 'date-fns';
+import { getAuthenticatedClient } from '@/lib/google-calendar/auth.js';
 
 async function GET(request: Request) {
   try {
@@ -55,12 +55,17 @@ async function GET(request: Request) {
         const slotEnd = new Date(slotStart);
         slotEnd.setMinutes(slotEnd.getMinutes() + workingHours.duration);
 
-        const isSlotBusy = busySlots.some((busy: { start: string; end: string }) => {
-          const busyStart = new Date(busy.start as string);
-          const busyEnd = new Date(busy.end as string);
-          return (slotStart >= busyStart && slotStart < busyEnd) ||
-                 (slotEnd > busyStart && slotEnd <= busyEnd) ||
-                 (slotStart <= busyStart && slotEnd >= busyEnd);
+        const isSlotBusy = busySlots.some((busy) => {
+          if (busy.start && busy.end) {
+            const busyStart = new Date(busy.start);
+            const busyEnd = new Date(busy.end);
+            return (
+              (slotStart >= busyStart && slotStart < busyEnd) ||
+              (slotEnd > busyStart && slotEnd <= busyEnd) ||
+              (slotStart <= busyStart && slotEnd >= busyEnd)
+            );
+          }
+          return false;
         });
 
         availability[dateKey][timeSlot] = { available: !isSlotBusy };
@@ -77,4 +82,4 @@ async function GET(request: Request) {
   }
 }
 
-module.exports = { GET };
+export { GET };

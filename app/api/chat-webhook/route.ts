@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     try {
       const jsonResponse = JSON.parse(responseText);
       return NextResponse.json(jsonResponse);
-    } catch (e) {
+    } catch (_) {
       // Si no es JSON, devolver como texto en un objeto JSON
       return NextResponse.json({ response: responseText });
     }

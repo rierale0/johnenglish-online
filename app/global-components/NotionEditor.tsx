@@ -3,9 +3,10 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import ImageExtension from '@tiptap/extension-image'
 import LinkExtension from '@tiptap/extension-link'
+import { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { notionBlocksToTiptapDocument } from '@/lib/notion-map'
 
-export default function NotionEditor({ blocks, pageId }: { blocks: any[], pageId: string }) {
+export default function NotionEditor({ blocks, pageId }: { blocks: BlockObjectResponse[], pageId: string }) {
   const doc = notionBlocksToTiptapDocument(blocks)
 
   const editor = useEditor({

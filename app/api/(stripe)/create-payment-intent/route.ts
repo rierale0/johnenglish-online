@@ -14,8 +14,12 @@ export async function POST(request: Request) {
     const enhancedMetadata: Record<string, string> = { ...metadata };
     
     // Add class dates to metadata if provided in items
+    interface PaymentItem {
+  classDate?: string;
+}
+
     if (items && items.length > 0) {
-      items.forEach((item: any, index: number) => {
+      items.forEach((item: PaymentItem, index: number) => {
         if (item.classDate) {
           enhancedMetadata[`class_date_${index}`] = item.classDate;
         }
