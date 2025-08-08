@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌐 johnenglish.online
 
-## Getting Started
+**Official website of English with John — English Teacher**
 
-First, run the development server:
+This project is an educational platform where I offer personalized English lessons for professionals who want to improve their career opportunities through language. It is designed to be fast, accessible, visually appealing, and easy to maintain.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Technologies Used
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js** – React framework for modern web applications.
+- **Tailwind CSS** – For rapid and responsive styling.
+- **Firebase** – Authentication and Firestore database.
+- **Stripe** – Payment integration for individual or bundled lessons.
+- **n8n** – Automation for content management and class tracking.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🎯 Main Features
 
-To learn more about Next.js, take a look at the following resources:
+- 🗓️ Book demo or paid lessons
+- 💳 Process payments with Stripe
+- 📩 Automate emails and reminders
+- 🧠 Access personalized study materials
+- 🔒 Protected admin panel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📌 Project Status
 
-## Deploy on Vercel
+✅ Live at: https://johnenglish.online  
+🛠️ Upcoming features:
+- Built-in note-taking system
+- Automatic Google Meet recordings upload
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ✨ About Me
+
+I'm John Riera, an English teacher with over 6 years of experience and a web developer focused on building effective educational tools.
+
+📬 Want to get in touch?  
+👉 [Visit the website](https://johnenglish.online) or message me on WhatsApp using the floating button.
+
+---
+
+## 🧠 Contributions
+
+Contributions are welcome! Feel free to open a pull request or submit an issue with suggestions or improvements.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
