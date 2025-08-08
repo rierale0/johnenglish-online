@@ -30,6 +30,11 @@ export async function GET(req: NextRequest) {
     },
   });
 
+  // If no classes are found for the user, return a specific response
+  if (classes.length === 0) {
+    return NextResponse.json({ hasAccess: false }, { status: 200 });
+  }
+
   // 3. Filtra solo páginas completas (para asegurar properties)
   const filteredPages = classes.filter(
     (p): p is PageObjectResponse => "properties" in p

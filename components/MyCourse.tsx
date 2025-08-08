@@ -9,6 +9,7 @@ import { useAuth } from "@/app/(firebase auth)/context/AuthContext";
 
 import GlassCard from "@/components/GlassCard";
 import NotionTable from "@/components/NotionTable";
+import Courses from "@/components/home/Courses";
 import { useEffect, useState } from "react";
 
 const fallbackLiveClassData = {
@@ -37,6 +38,7 @@ export default function MyCourse() {
   const [classData, setClassData] = useState<ClassDataItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [meetingLink, setMeetingLink] = useState<string | null>(null);
+  const [hasStudentAccess, setHasStudentAccess] = useState(true); // New state variable
 
   // Encuentra la siguiente clase programada
   const nextLiveClass = classData
@@ -53,19 +55,24 @@ export default function MyCourse() {
         return res.json();
       })
       .then((data) => {
-        const processedData = Array.isArray(data) ? data.map(c => ({
-          ...c,
-          status: c.status || "unassigned",
-          page_id: c.page_id || "", // Ensure page_id is always a string
-          class_title: c.class_title || "", // Ensure class_title is always a string
-          course: c.course || "", // Ensure course is always a string
-          recording: c.recording || null, // Ensure recording is always string or null
-          icon: c.icon || null, // Ensure icon is always string or null
-        })) : [];
-        setClassData(processedData);
+        if (data.hasAccess === false) {
+          setHasStudentAccess(false);
+        } else {
+          const processedData = Array.isArray(data) ? data.map(c => ({
+            ...c,
+            status: c.status || "unassigned",
+            page_id: c.page_id || "", // Ensure page_id is always a string
+            class_title: c.class_title || "", // Ensure class_title is always a string
+            course: c.course || "", // Ensure course is always a string
+            recording: c.recording || null, // Ensure recording is always string or null
+            icon: c.icon || null, // Ensure icon is always string or null
+          })) : [];
+          setClassData(processedData);
+        }
       })
       .catch((error) => {
         console.error("Error al obtener datos de clases:", error);
+        setHasStudentAccess(false); // Assume no access on fetch error
       })
       .finally(() => setLoading(false));
   }, []);
@@ -101,69 +108,91 @@ export default function MyCourse() {
 
   return (
     <div className="min-h-screen">
-      <div className="flex">
-        <main className="flex-1 p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
-            <div className="lg:col-span-3 space-y-6">
-<h1 className="text-2xl md:text-2xl font-bold bg-gradient-to-r from-white/60 to-white bg-clip-text text-transparent animate-fade-in">
-  Hi, {firstName}!
-</h1>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-               
-                <GlassCard className="hover:border-indigo-400/50 transition-all duration-300">
-                  <a
-                    href={classJoinLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block relative z-10 p-6"
-                    title="Unirse a la reunión"
-                  >
-                    <div className="flex items-center gap-5">
-                      <div className="p-3 bg-indigo-500/20 rounded-lg ring-2 ring-indigo-400/30">
-                        <Video className="w-8 h-8 text-indigo-300" />
+      {loading ? (
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <svg
+            className="animate-spin h-10 w-10 mb-3 text-blue-600"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+          </svg>
+          <p className="text-gray-300 text-base font-medium">Cargando...</p>
+        </div>
+      ) : !hasStudentAccess ? (
+        <div className="flex flex-col items-center justify-center min-h-screen text-white p-4">
+          <h2 className="text-2xl md:text-5xl lg:text-6xl font-extrabold text-center mb-6 leading-tight bg-gradient-to-r from-purple-300 via-pink-300 to-red-300 bg-clip-text text-transparent drop-shadow-lg">
+            ¡Bienvenido a English with John! 👋
+          </h2>
+          <p className="text-sm md:text-2xl text-center max-w-2xl mb-12 text-gray-200 leading-relaxed">
+            Parece que aún no tienes clases asignadas. Explora mis cursos especializados o agenda una clase gratuita para empezar tu viaje de aprendizaje.
+          </p>
+          <Courses />
+        </div>
+      ) : (
+        <div className="flex">
+          <main className="flex-1 p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+              <div className="lg:col-span-3 space-y-6">
+                <h1 className="text-2xl md:text-2xl font-bold bg-gradient-to-r from-white/60 to-white bg-clip-text text-transparent animate-fade-in">
+                  Hi, {firstName}!
+                </h1>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <GlassCard className="hover:border-indigo-400/50 transition-all duration-300">
+                    <a
+                      href={classJoinLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block relative z-10 p-6"
+                      title="Unirse a la reunión"
+                    >
+                      <div className="flex items-center gap-5">
+                        <div className="p-3 bg-indigo-500/20 rounded-lg ring-2 ring-indigo-400/30">
+                          <Video className="w-8 h-8 text-indigo-300" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-lg font-bold text-white">
+                            {nextLiveClass ? nextLiveClass.class_title : "Unirse a la clase"}
+                          </p>
+                          <p className="text-sm text-white/70 -mt-1">
+                            {nextLiveClass ? nextLiveClass.course : "Google Meet"}
+                          </p>
+                          <p className="flex items-center text-sm text-indigo-300 font-medium gap-1.5 mt-2">
+                            <Clock height={14} />
+                            <span>{classJoinDate}</span>
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <p className="text-lg font-bold text-white">
-                          {nextLiveClass ? nextLiveClass.class_title : "Unirse a la clase"}
-                        </p>
-                        <p className="text-sm text-white/70 -mt-1">
-                          {nextLiveClass ? nextLiveClass.course : "Google Meet"}
-                        </p>
-                        <p className="flex items-center text-sm text-indigo-300 font-medium gap-1.5 mt-2">
-                          <Clock height={14} />
-                          <span>{classJoinDate}</span>
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </GlassCard>
+                    </a>
+                  </GlassCard>
+                </div>
               </div>
             </div>
-          </div>
-          <hr className="my-4 border-[#353259]" />
-          <section>
-            <h2 className="text-lg text-white font-bold mb-4 hidden md:block">Tus clases</h2>
-            {loading ? (
-             <div className="flex flex-col items-center justify-center min-h-[120px]">
-             <svg
-               className="animate-spin h-10 w-10 mb-3 text-blue-600"
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 24 24"
-             >
-               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
-             </svg>
-             <p className="text-gray-300 text-base font-medium">Cargando clases...</p>
-           </div>
-           
-            ) : (
-              <NotionTable data={classData} />
-            )}
-          </section>
-        </main>
-      </div>
+            <hr className="my-4 border-[#353259]" />
+            <section>
+              <h2 className="text-lg text-white font-bold mb-4 hidden md:block">Tus clases</h2>
+              {loading ? (
+                <div className="flex flex-col items-center justify-center min-h-[120px]">
+                  <svg
+                    className="animate-spin h-10 w-10 mb-3 text-blue-600"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                  </svg>
+                  <p className="text-gray-300 text-base font-medium">Cargando clases...</p>
+                </div>
+              ) : (
+                <NotionTable data={classData} />
+              )}
+            </section>
+          </main>
+        </div>
+      )}
     </div>
   );
 }
