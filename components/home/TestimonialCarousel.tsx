@@ -25,18 +25,6 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    videoUrl: "https://www.youtube-nocookie.com/embed/Hq6j4eR2zIc",
-    picture: "home/students/gabriel.jpg",
-    name: "Gabriel Uvillus",
-    quote:
-      "Gracias a las clases, ahora me siento cómodo hablando con clientes en inglés. El método es increíblemente efectivo.",
-    position: "CEO",
-    company: "Auditricont",
-    companyLink: "https://auditricont.com",
-    containsVideo: false,
-  },
-  {
-    id: 2,
     videoUrl: "https://www.youtube-nocookie.com/embed/37IkMXAuEAc",
     picture: "home/students/wendy.jpg",
     name: "Wendy Escobar",
@@ -49,7 +37,7 @@ const testimonials: Testimonial[] = [
   },
 
   {
-    id: 3,
+    id: 2,
     picture: "/home/students/luiscamacho.jpeg",
     name: "Luis Camacho",
     quote: "Excelente profesor, tiene mucha paciencia y dedicación.",
@@ -58,20 +46,9 @@ const testimonials: Testimonial[] = [
     companyLink: "https://csl.ec",
     containsVideo: false,
   },
-  {
-    id: 4,
-    picture: "/home/students/iryna.jpg",
-    name: "Iryna",
-    quote:
-      "Gracias, John, por su trabajo con mi hija. Ella está muy contenta con sus clases y dice que explica muy bien. Aprecio su paciencia y dedicación. ¡Muchas gracias!",
-    position: "Madre de Katy (11) - Ilustradora infantil",
-    company: "@iriska_bantikova",
-    companyLink: "https://www.behance.net/iriska_bantikova",
-    containsVideo: false,
-  },
 
   {
-    id: 5,
+    id: 3,
     videoUrl: "https://www.youtube-nocookie.com/embed/37IkMXAuEAc",
     picture: "home/students/luis.jpg",
     name: "Luis Guillen",
@@ -84,7 +61,7 @@ const testimonials: Testimonial[] = [
   },
 
   {
-    id: 6,
+    id: 4,
     picture: "/home/students/angie.jpeg",
     name: "Angie",
     quote:
@@ -93,7 +70,7 @@ const testimonials: Testimonial[] = [
     containsVideo: false,
   },
   {
-    id: 7,
+    id: 5,
     picture: "/home/students/kemnys.jpg",
     name: "Kemnys Da Silva",
     quote:
@@ -101,7 +78,7 @@ const testimonials: Testimonial[] = [
     containsVideo: false,
   },
   {
-    id: 8,
+    id: 6,
     picture: "/home/students/oliver.jpeg",
     name: "Oliver Márquez",
     quote: "Muy completo e interesado en enseñar, buena metodología.",
@@ -109,7 +86,7 @@ const testimonials: Testimonial[] = [
     containsVideo: false,
   },
   {
-    id: 9,
+    id: 7,
     picture: "/home/students/fer.jpg",
     name: "Fernando Márquez",
     quote:
