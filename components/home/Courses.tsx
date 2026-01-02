@@ -85,7 +85,7 @@ export default function Courses() {
   };
 
   const handleDemoClick = () => {
-    const whatsappUrl = `https://calendar.app.google/wVEqD41iWddFgbau6`;
+    const whatsappUrl = `https://api.whatsapp.com/send/?phone=34613696839&text=Hola%2C+me+gustar%C3%ADa+tomar+una+clase+demo+gratis.+%C2%BFCu%C3%A1ndo+podr%C3%ADamos+agendarla%3F&type=phone_number&app_absent=0`;
     window.open(whatsappUrl, '_blank');
   };
 

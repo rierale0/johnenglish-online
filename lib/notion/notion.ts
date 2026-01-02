@@ -1,42 +1,30 @@
 import { Client } from "@notionhq/client";
-import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 
 export const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
-export async function getUserPageByEmail(email: string, usersDbId: string) {
-  const response = await notion.databases.query({
-    database_id: usersDbId,
-    filter: {
-      property: "email",
-      rich_text: { equals: email }
+/**
+ * A generic and robust function to query a Notion database.
+ * @param {string} databaseId - The ID of the database to query.
+ * @param {object} [filter] - Optional: A valid Notion API filter object.
+ * @param {object[]} [sorts] - Optional: A valid Notion API sorts array.
+ * @returns {Promise<any[]>} - A promise that resolves to the array of page results.
+ */
+export async function queryDatabase(databaseId: string, filter?: any, sorts?: any[]) {
+  try {
+    const queryPayload: any = {
+      database_id: databaseId,
+    };
+    if (filter) {
+      queryPayload.filter = filter;
     }
-  });
-  return response.results[0]; // Puede ser undefined si no hay match
-}
-
-export async function getClassesDataFromDatabase(databaseId: string, filter?: Parameters<typeof notion.databases.query>[0]["filter"]) {
-  const response = await notion.databases.query({
-    database_id: databaseId,
-    filter,
-    sorts: [{ property: "datetime", direction: "descending" }]
-  });
-  return response.results;
-}
-
-export async function getMeetingLinkByEmail(email: string, usersDbId: string): Promise<string | null> {
-    const response = await notion.databases.query({
-      database_id: usersDbId,
-      filter: {
-        property: "email",
-        rich_text: { equals: email }
-      }
-    });
-    const userPage = response.results[0] as PageObjectResponse | undefined;
-    if (!userPage) return null;
-  
-    const meetingProp = userPage.properties["meeting_link"];
-    if (meetingProp && meetingProp.type === "url" && meetingProp.url) {
-      return meetingProp.url;
+    if (sorts) {
+      queryPayload.sorts = sorts;
     }
-    return null;
+    const response = await notion.databases.query(queryPayload);
+    return response.results;
+  } catch (error) {
+    console.error("Error querying Notion database:", error);
+    // Re-throw the error to be handled by the caller
+    throw error;
   }
+}

@@ -18,13 +18,9 @@ export default function Header() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      // Opcional: Redirigir al usuario después del logout, por ejemplo a la home
-      // router.push('/'); // Necesitarías importar y usar useRouter de 'next/navigation'
-      console.log("User logged out");
-      router.push('/'); // Redirige a la página principal tras el login exitoso
+      router.push('/'); // Redirige a la página principal tras el logout exitoso
     } catch (error) {
-      console.error("Error signing out: ", error); // <--- Línea seleccionada por el usuario
-      // Manejar el error, quizás mostrar un mensaje al usuario
+      console.error("Error signing out: ", error);
     }
   };
 
@@ -81,7 +77,7 @@ export default function Header() {
               </button>
 
               {isMenuOpen && (
-                <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
                   <div className="py-1">
                     <button
                       onClick={handleLogout}

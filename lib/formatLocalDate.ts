@@ -7,9 +7,11 @@
  * @returns Fecha y hora local formateada como string
  */
 export function formatLocalDate(
-    dateUTC: string | Date,
+    dateUTC: string | Date | null,
     locale?: string
   ): string {
+    if (!dateUTC) return "—";
+    
     const parsedDate = typeof dateUTC === "string" ? new Date(dateUTC) : dateUTC;
   
     return parsedDate.toLocaleString(locale, {

@@ -121,7 +121,7 @@ export default function Hero() {
 
             {/* CTA Button */}
             <a
-              href="https://calendar.app.google/wVEqD41iWddFgbau6"
+              href="https://api.whatsapp.com/send/?phone=34613696839&text=Hola%2C+me+gustar%C3%ADa+tomar+una+clase+demo+gratis.+%C2%BFCu%C3%A1ndo+podr%C3%ADamos+agendarla%3F&type=phone_number&app_absent=0"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block bg-[#7FDEFF] text-black font-bold py-3 px-8 rounded-lg text-lg hover:bg-opacity-90 transition-colors"
