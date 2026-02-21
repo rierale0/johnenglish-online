@@ -1,8 +1,6 @@
-import { v4 as uuidv4 } from "uuid";
-
 export function createParagraphBlock(text: string, order = 0) {
-  const blockId = uuidv4();
-  const textId = uuidv4();
+  const blockId = crypto.randomUUID();
+  const textId = crypto.randomUUID();
 
   return {
     [blockId]: {
