@@ -1,71 +1,82 @@
-import type { Metadata } from 'next'
-import { Poppins } from 'next/font/google'
-import './globals.css'
-import { AuthProvider } from "./(firebase auth)/context/AuthContext";
+import type { Metadata } from "next";
+import { Poppins } from "next/font/google";
+import "./globals.css";
 import FacebookPixel from "@/app/global-components/FacebookPixel";
 import JsonLd from "@/app/global-components/JsonLd";
-import Header from './global-components/Header';
+import Header from "./global-components/Header";
 
 const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['200','400', '500', '600', '700'],
-  display: 'swap',
-})
+  subsets: ["latin"],
+  weight: ["200", "400", "500", "600", "700"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://johnenglish.online'),
-  title: 'English with John | Clases de inglés personalizadas online',
-  description: 'Aprende inglés con clases online personalizadas para mejorar tu fluidez y confianza. Profesor con más de 6 años de experiencia para todos los niveles.',
-  generator: 'github.com/rierale0',
-  keywords: ['clases de inglés', 'inglés online', 'profesor de inglés', 'aprender inglés', 'clases personalizadas', 'inglés para profesionales', 'inglés para niños'],
-  authors: [{ name: 'John English Teacher' }],
+  metadataBase: new URL("https://inglesconjohn.es"),
+  title: "English with John | Clases de inglés personalizadas online",
+  description:
+    "Aprende inglés con clases online personalizadas para mejorar tu fluidez y confianza. Profesor con más de 6 años de experiencia para todos los niveles.",
+  generator: "github.com/rierale0",
+  keywords: [
+    "clases de inglés",
+    "inglés online",
+    "profesor de inglés",
+    "aprender inglés",
+    "clases personalizadas",
+    "inglés para profesionales",
+    "inglés para niños",
+  ],
+  authors: [{ name: "John English Teacher" }],
   openGraph: {
-    title: 'English with John | Clases de inglés personalizadas online',
-    description: 'Aprende inglés con clases online personalizadas para mejorar tu fluidez y confianza. Profesor con más de 6 años de experiencia.',
-    url: 'https://johnenglish.online',
-    siteName: 'English with John',
+    title: "English with John | Clases de inglés personalizadas online",
+    description:
+      "Aprende inglés con clases online personalizadas para mejorar tu fluidez y confianza. Profesor con más de 6 años de experiencia.",
+    url: "https://inglesconjohn.es",
+    siteName: "English with John",
     images: [
       {
-        url: '/home/hero-john-students.png',
+        url: "/home/hero-john-students.png",
         width: 1200,
         height: 630,
-        alt: 'English with John - Clases de inglés personalizadas',
+        alt: "English with John - Clases de inglés personalizadas",
       },
     ],
-    locale: 'es_ES',
-    type: 'website',
+    locale: "es_ES",
+    type: "website",
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'English with John | Clases de inglés personalizadas',
-    description: 'Aprende inglés con clases online personalizadas para mejorar tu fluidez y confianza.',
-    images: ['/home/hero-john-students.png'],
+    card: "summary_large_image",
+    title: "English with John | Clases de inglés personalizadas",
+    description:
+      "Aprende inglés con clases online personalizadas para mejorar tu fluidez y confianza.",
+    images: ["/home/hero-john-students.png"],
   },
   icons: {
-    icon: '/favicon.png',
+    icon: "/favicon.png",
   },
-}
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   const FB_PIXEL_ID = process.env.FB_PIXEL_ID;
-  
+
   const jsonLdData = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
-    "name": "English with John",
-    "description": "Clases de inglés online personalizadas para mejorar tu fluidez y confianza",
-    "url": "https://johnenglish.online",
-    "logo": "https://johnenglish.online/favicon.png",
-    "sameAs": [
+    name: "English with John",
+    description:
+      "Clases de inglés online personalizadas para mejorar tu fluidez y confianza",
+    url: "https://inglesconjohn.es",
+    logo: "https://inglesconjohn.es/favicon.png",
+    sameAs: [
       // Add your social profiles here
     ],
-    "address": {
+    address: {
       "@type": "PostalAddress",
-      "addressCountry": "Spain"
+      addressCountry: "Spain",
     },
   };
 
@@ -73,18 +84,15 @@ export default function RootLayout({
     <html lang="es" className={poppins.className}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="canonical" href="https://johnenglish.online" />
+        <link rel="canonical" href="https://inglesconjohn.es" />
         {/* JsonLd component should be in head */}
         <JsonLd data={jsonLdData} />
       </head>
       {FB_PIXEL_ID && <FacebookPixel pixelId={FB_PIXEL_ID} />}
       <body>
-      <AuthProvider> 
-              <Header />
+        <Header />
         {children}
-        </AuthProvider> 
-        </body>
-        
+      </body>
     </html>
-  )
+  );
 }

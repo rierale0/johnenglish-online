@@ -67,9 +67,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3HmvKTzCVlWigsnjBZ8cLCLAJe6VqZF6cfnHOcBvEXC-wZW8S6-K9vuxlpCwSmJiyc57luHBUo" className="text-gray-300 hover:text-white transition-colors">
+                <a href="https://api.whatsapp.com/send?phone=34613696839&text=%C2%A1Hola%2C%20John!%20Me%20gustar%C3%ADa%20solicitar%20una%20clase%20demo." className="text-gray-300 hover:text-white transition-colors">
                   Toma una clase demo
-                </Link>
+                </a>
               </li>
               
             </ul>
