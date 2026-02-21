@@ -1,6 +1,7 @@
 /**
  * Configuración central de redirecciones.
- * Usar enlaces internos tipo /r/clave para redirigir a destinos externos o internos.
+ * Solo edita este archivo: añade o quita entradas en REDIRECTS.
+ * - /r/clave y /clave redirigen a la URL (ej: inglesconjohn.es/katy o inglesconjohn.es/r/katy).
  */
 
 const REDIRECTS: Record<string, string> = {
@@ -11,8 +12,11 @@ const REDIRECTS: Record<string, string> = {
   contact:
     "https://api.whatsapp.com/send?phone=34613696839&text=%C2%A1Hola%2C%20John!%20Me%20interesa%20mejorar%20mi%20ingl%C3%A9s%20y%20quiero%20saber%20m%C3%A1s%20sobre%20tus%20clases.%20%C2%BFPodr%C3%ADas%20darme%20m%C3%A1s%20detalles%3F",
 
-  // Ejemplo: cualquier URL externa (descomenta y cambia a tu gusto)
-  // linkedin: "https://www.linkedin.com/in/johnenlavida/",
+  /** Notion: cursos ESL */
+  katy: "https://rierale0.notion.site/Katy-ESL-Course-11961211622b8095aeb4e43dd34a1b5e",
+  carolina: "https://www.notion.so/rierale0/Carolina-English-Practice-18c61211622b805faa9fc812db083de8",
+  pablo: "https://rierale0.notion.site/Pablo-ESL-Course-1c061211622b80abb0d5c2b9e8c7cd81",
+  luiscamacho: "https://www.notion.so/rierale0/23161211622b803bb64be9422ab96bab",
 };
 
 /**
