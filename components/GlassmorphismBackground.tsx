@@ -12,10 +12,10 @@ export default function GlassmorphismBackground({
   return (
     <div className={`min-h-screen relative overflow-hidden ${className}`}>
       {/* Glassmorphism Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900"></div>
+      <div className="absolute inset-0 bg-linear-to-br/srgb from-indigo-900 via-purple-900 to-pink-900"></div>
 
       {/* Glass Layer */}
-      <div className="absolute inset-0 backdrop-blur-sm bg-white/5 border border-white/10"></div>
+      <div className="absolute inset-0 backdrop-blur-xs bg-white/5 border border-white/10"></div>
 
       {/* Grain Texture */}
       <div className="absolute inset-0 opacity-30">

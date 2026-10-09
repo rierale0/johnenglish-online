@@ -9,8 +9,8 @@ const Welcome = () => {
         <div className="bg-gray-800 p-4 rounded-lg">
           <Sun className="h-6 w-6 mb-2 mx-auto" />
           <h2 className="text-xl font-semibold mb-2">Examples</h2>
-          <p className="text-sm">"Explain the difference between 'affect' and 'effect'."</p>
-          <p className="text-sm">"Give me some tips for improving my pronunciation."</p>
+          <p className="text-sm">&quot;Explain the difference between &apos;affect&apos; and &apos;effect&apos;.&quot;</p>
+          <p className="text-sm">&quot;Give me some tips for improving my pronunciation.&quot;</p>
         </div>
         <div className="bg-gray-800 p-4 rounded-lg">
           <Zap className="h-6 w-6 mb-2 mx-auto" />

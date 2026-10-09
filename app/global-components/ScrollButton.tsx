@@ -17,8 +17,8 @@ export function ScrollButton({ text = "", link = "#", bgColor = "7FDEFF", textCo
         background: `linear-gradient(145deg, ${bgColor}dd, ${bgColor}99),
                     radial-gradient(circle at 30% 20%, #ffffff10 0%, transparent 30%)`,
         color: textColor,
-        backdropFilter: 'blur(5px)',
-        WebkitBackdropFilter: 'blur(5px)',
+        backdropFilter: 'blur-sm(5px)',
+        WebkitBackdropFilter: 'blur-sm(5px)',
         border: '1px solid rgba(255, 255, 255, 0.1)'
       }}
       className="w-auto max-w-md mx-auto hover:brightness-110 hover:text-white font-bold text-[18px] py-6 px-6 cursor-pointer transition-all shadow-lg hover:shadow-xl"

@@ -24,7 +24,7 @@ const REDIRECTS: Record<string, string> = {
  */
 export function getRedirectUrl(key: string): string | null {
   const normalized = key.toLowerCase().trim();
-  return REDIRECTS[normalized] ?? null;
+  return Object.hasOwn(REDIRECTS, normalized) ? REDIRECTS[normalized] : null;
 }
 
 /**

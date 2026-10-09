@@ -88,8 +88,8 @@ export default function RootLayout({
         {/* JsonLd component should be in head */}
         <JsonLd data={jsonLdData} />
       </head>
-      {FB_PIXEL_ID && <FacebookPixel pixelId={FB_PIXEL_ID} />}
       <body>
+        {FB_PIXEL_ID && <FacebookPixel pixelId={FB_PIXEL_ID} />}
         <Header />
         {children}
       </body>

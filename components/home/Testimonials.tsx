@@ -28,12 +28,12 @@ export default function Testimonials() {
       </div>
 
       {/* Gradient Overlay for depth */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/20 via-transparent to-purple-50/20" />
+      <div className="absolute inset-0 bg-linear-to-br/srgb from-blue-50/20 via-transparent to-purple-50/20" />
 
       {/* Floating decorative elements */}
-      <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-100/30 to-purple-100/30 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-32 right-16 w-48 h-48 bg-gradient-to-br from-purple-100/20 to-pink-100/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}} />
-      <div className="absolute top-1/2 left-1/4 w-20 h-20 bg-gradient-to-br from-yellow-100/25 to-orange-100/25 rounded-full blur-2xl animate-pulse" style={{animationDelay: '4s'}} />
+      <div className="absolute top-20 left-10 w-32 h-32 bg-linear-to-br/srgb from-blue-100/30 to-purple-100/30 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-32 right-16 w-48 h-48 bg-linear-to-br/srgb from-purple-100/20 to-pink-100/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}} />
+      <div className="absolute top-1/2 left-1/4 w-20 h-20 bg-linear-to-br/srgb from-yellow-100/25 to-orange-100/25 rounded-full blur-2xl animate-pulse" style={{animationDelay: '4s'}} />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 relative z-10">

@@ -106,7 +106,7 @@ export default function CEFRCourses() {
                     loading="lazy"
                   />
                 </div>
-                <div className="md:p-6 p-4 flex flex-col flex-grow">
+                <div className="md:p-6 p-4 flex flex-col grow">
                   <h3 className="text-xl font-bold text-gray-800 mb-2 text-center">
                     {course.title}
                   </h3>
@@ -125,7 +125,7 @@ export default function CEFRCourses() {
                   </span>
 
                   {/* Features List */}
-                  <div className="space-y-3 mb-6 flex-grow">
+                  <div className="space-y-3 mb-6 grow">
                     {course.features.map((feature, index) => {
                       const IconComponent = feature.icon;
                       return (
@@ -134,7 +134,7 @@ export default function CEFRCourses() {
                           className="flex items-center space-x-3"
                         >
                           <div
-                            className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0"
+                            className="w-6 h-6 rounded-full flex items-center justify-center shrink-0"
                             style={{ backgroundColor: course.color + "20" }}
                           >
                             <IconComponent

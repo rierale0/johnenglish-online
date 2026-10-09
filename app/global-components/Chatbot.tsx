@@ -858,7 +858,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
               </div>
             )}
 
-            {/* Added flex-grow to push the bottom elements down */}
+            {/* Added grow to push the bottom elements down */}
             <div style={{ flexGrow: 1 }}></div>
 
             <div

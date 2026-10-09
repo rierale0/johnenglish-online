@@ -92,10 +92,10 @@ export default function Courses() {
   return (
     <section className="w-full relative overflow-hidden">
       {/* Glassmorphism Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900"></div>
+      <div className="absolute inset-0 bg-linear-to-br/srgb from-indigo-900 via-purple-900 to-pink-900"></div>
 
       {/* Glass Layer */}
-      <div className="absolute inset-0 backdrop-blur-sm bg-white/5 border border-white/10"></div>
+      <div className="absolute inset-0 backdrop-blur-xs bg-white/5 border border-white/10"></div>
 
       {/* Grain Texture */}
       <div className="absolute inset-0 opacity-30">
@@ -165,20 +165,20 @@ export default function Courses() {
       </div>
 
       {/* Floating Glass Elements */}
-      <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute top-20 left-10 w-96 h-96 bg-linear-to-br/srgb from-cyan-400/20 to-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
       <div
-        className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-purple-400/20 to-pink-500/20 rounded-full blur-3xl animate-pulse"
+        className="absolute bottom-20 right-10 w-80 h-80 bg-linear-to-br/srgb from-purple-400/20 to-pink-500/20 rounded-full blur-3xl animate-pulse"
         style={{ animationDelay: "2s" }}
       ></div>
       <div
-        className="absolute top-1/2 left-1/3 w-64 h-64 bg-gradient-to-br from-indigo-400/15 to-purple-500/15 rounded-full blur-2xl animate-pulse"
+        className="absolute top-1/2 left-1/3 w-64 h-64 bg-linear-to-br/srgb from-indigo-400/15 to-purple-500/15 rounded-full blur-2xl animate-pulse"
         style={{ animationDelay: "4s" }}
       ></div>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 relative z-10 py-44">
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl leading-[1.2] font-bold text-[#DABFFF] mb-4">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl leading-[1.2] md:leading-none font-bold text-[#DABFFF] mb-4">
             Cursos de inglés<br></br>
             <span className="font-semibold text-white">para cada meta</span>
           </h1>
@@ -194,7 +194,7 @@ export default function Courses() {
                 style={{ boxShadow: `8px 8px 0px 0px ${course.color}` }}
                 onClick={() => handleCourseClick(course)}
               >
-                <div className="h-42 w-full overflow-hidden">
+                <div className="w-full overflow-hidden">
                   <Image
                     src={course.img}
                     alt={course.title}
@@ -204,7 +204,7 @@ export default function Courses() {
                     loading="lazy"
                   />
                 </div>
-                <div className="p-6 flex flex-col flex-grow">
+                <div className="p-6 flex flex-col grow">
                   <h3 className="text-2xl font-bold text-gray-800 mb-2">
                     {course.title}
                   </h3>
@@ -219,7 +219,7 @@ export default function Courses() {
                   </span>
 
                   {/* Features List */}
-                  <div className="space-y-3 mb-6 flex-grow">
+                  <div className="space-y-3 mb-6 grow">
                     {course.features.map((feature, index) => {
                       const IconComponent = feature.icon;
                       return (
@@ -228,7 +228,7 @@ export default function Courses() {
                           className="flex items-center space-x-3"
                         >
                           <div
-                            className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                            className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
                             style={{ backgroundColor: course.color + "20" }}
                           >
                             <IconComponent
@@ -255,7 +255,7 @@ export default function Courses() {
               </div>
             ))}
             {/* Tarjeta de Clase Demo */}
-            <div id="toma-una-demo" className="md:col-span-4 bg-gradient-to-r from-[#7FDEFF] to-[#DABFFF] rounded-2xl p-8 text-center flex flex-col sm:flex-row items-center justify-between gap-6 shadow-[8px_8px_0px_0px_#54889B] hover:shadow-[10px_10px_0px_0px_#54889B] transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+            <div id="toma-una-demo" className="md:col-span-4 bg-linear-to-r/srgb from-[#7FDEFF] to-[#DABFFF] rounded-2xl p-8 text-center flex flex-col sm:flex-row items-center justify-between gap-6 shadow-[8px_8px_0px_0px_#54889B] hover:shadow-[10px_10px_0px_0px_#54889B] transition-all duration-300 hover:-translate-y-1 cursor-pointer"
               onClick={handleDemoClick}>
               <div className="text-left">
                 <h3 className="text-2xl font-bold text-indigo-900 mb-1">✨ Prueba una clase gratuita</h3>
@@ -263,7 +263,7 @@ export default function Courses() {
               </div>
               <div
                 
-                className="bg-white text-indigo-900 font-bold px-6 py-3 rounded-xl shadow-lg hover:bg-opacity-90 transition-all whitespace-nowrap"
+                className="bg-white text-indigo-900 font-bold px-6 py-3 rounded-xl shadow-lg hover:bg-white/90 transition-all whitespace-nowrap"
               >
                 Agendar Demo
               </div>

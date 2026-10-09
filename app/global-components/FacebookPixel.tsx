@@ -4,24 +4,26 @@ import { useEffect } from 'react';
 
 export default function FacebookPixel({ pixelId }: { pixelId: string }) {
   useEffect(() => {
-    // Initialize Facebook Pixel
+    if (!/^\d+$/.test(pixelId)) return;
+
     if (!window.fbq) {
-      window.fbq = function(...args: any[]) { // eslint-disable-line @typescript-eslint/no-explicit-any
-        if (window.fbq.callMethod) {
+      function pixel(...args: FacebookPixelArguments) {
+        if (window.fbq?.callMethod) {
           window.fbq.callMethod(...args);
         } else {
-          window.fbq.queue.push(args);
+          pixel.queue.push(args);
         }
-      };
-      window.fbq.push = window.fbq;
-      window.fbq.loaded = true;
-      window.fbq.version = '2.0';
-      window.fbq.queue = [];
+      }
+      pixel.push = pixel;
+      pixel.loaded = true;
+      pixel.version = '2.0';
+      pixel.queue = [] as FacebookPixelArguments[];
+      window.fbq = pixel;
+      window._fbq = pixel;
       const t = document.createElement('script');
       t.async = true;
       t.src = 'https://connect.facebook.net/en_US/fbevents.js';
-      const s = document.getElementsByTagName('script')[0];
-      s.parentNode?.insertBefore(t, s);
+      document.head.appendChild(t);
     }
     
     // Initialize with your pixel ID

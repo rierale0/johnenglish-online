@@ -16,7 +16,7 @@ const MessageBubble = forwardRef<HTMLDivElement, MessageBubbleProps>(
         }`}
       >
         <div
-          className={`max-w-xs md:max-w-md lg:max-w-lg p-3 rounded-2xl shadow 
+          className={`max-w-xs md:max-w-md lg:max-w-lg p-3 rounded-2xl shadow-sm
           ${isUser ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
         >
           {message.content}

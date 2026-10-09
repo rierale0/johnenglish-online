@@ -7,10 +7,10 @@ export default function Hero() {
   return (
     <section className="w-full relative overflow-hidden pb-20">
       {/* Glassmorphism Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900"></div>
+      <div className="absolute inset-0 bg-linear-to-br/srgb from-indigo-900 via-purple-900 to-pink-900"></div>
 
       {/* Glass Layer */}
-      <div className="absolute inset-0 backdrop-blur-sm bg-white/5 border border-white/10"></div>
+      <div className="absolute inset-0 backdrop-blur-xs bg-white/5 border border-white/10"></div>
 
       {/* Grain Texture */}
       <div className="absolute inset-0 opacity-30">
@@ -80,13 +80,13 @@ export default function Hero() {
       </div>
 
       {/* Floating Glass Elements */}
-      <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute top-20 left-10 w-96 h-96 bg-linear-to-br/srgb from-cyan-400/20 to-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
       <div
-        className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-purple-400/20 to-pink-500/20 rounded-full blur-3xl animate-pulse"
+        className="absolute bottom-20 right-10 w-80 h-80 bg-linear-to-br/srgb from-purple-400/20 to-pink-500/20 rounded-full blur-3xl animate-pulse"
         style={{ animationDelay: "2s" }}
       ></div>
       <div
-        className="absolute top-1/2 left-1/3 w-64 h-64 bg-gradient-to-br from-indigo-400/15 to-purple-500/15 rounded-full blur-2xl animate-pulse"
+        className="absolute top-1/2 left-1/3 w-64 h-64 bg-linear-to-br/srgb from-indigo-400/15 to-purple-500/15 rounded-full blur-2xl animate-pulse"
         style={{ animationDelay: "4s" }}
       ></div>
 
@@ -96,7 +96,7 @@ export default function Hero() {
           {/* Left Column - Text Content */}
           <div className="space-y-8">
             <div className="space-y-6">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl leading-[1.4]">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl leading-[1.4] md:leading-none">
                 <span className="flex gap-4 text-[#DABFFF] block mb-4 font-bold">
                   Speak English
                 </span>
@@ -124,7 +124,7 @@ export default function Hero() {
               href="https://api.whatsapp.com/send/?phone=34613696839&text=Hola%2C+me+gustar%C3%ADa+tomar+una+clase+demo+gratis.+%C2%BFCu%C3%A1ndo+podr%C3%ADamos+agendarla%3F&type=phone_number&app_absent=0"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-[#7FDEFF] text-black font-bold py-3 px-8 rounded-lg text-lg hover:bg-opacity-90 transition-colors"
+              className="inline-block bg-[#7FDEFF] text-black font-bold py-3 px-8 rounded-lg text-lg hover:bg-[#7FDEFF]/90 transition-colors"
             >
               Prueba tu primera clase gratis
             </a>

@@ -45,7 +45,7 @@ export default function VideoWithModal({
 
   const modalContent = isOpen ? (
     <div
-      className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[9999] backdrop-blur-sm"
+      className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999] backdrop-blur-xs"
       onClick={() => setIsOpen(false)}
       style={{ zIndex: 9999 }}
     >
@@ -91,8 +91,8 @@ export default function VideoWithModal({
 
         {containsVideo && (
           <>
-            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300" />
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full w-16 h-16 flex items-center justify-center opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-xl">
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300" />
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-linear-to-br/srgb from-purple-600 to-blue-600 rounded-full w-16 h-16 flex items-center justify-center opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-xl">
               <svg
                 className="w-8 h-8 text-white ml-1"
                 fill="currentColor"
