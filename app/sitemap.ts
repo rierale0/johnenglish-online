@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "",
     "/privacy",
+    "/junior-fluency",
     ...getRedirectKeys().flatMap((key) => [`/${key}`, `/r/${key}`]),
   ];
 

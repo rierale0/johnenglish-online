@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function Footer() {
+export default function Footer({ consultationHref }: { consultationHref?: string } = {}) {
   const currentYear = new Date().getFullYear();
   
   return (
@@ -67,11 +67,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/r/demo" className="text-gray-300 hover:text-white transition-colors">
-                  Toma una clase demo
+                <Link href={consultationHref ?? "/r/demo"} className="text-gray-300 hover:text-white transition-colors">
+                  {consultationHref ? "Solicitar asesoría gratuita" : "Toma una clase demo"}
                 </Link>
               </li>
-              
+              {consultationHref && <li><Link href="/privacy" className="text-gray-300 hover:text-white transition-colors">Política de privacidad</Link></li>}
             </ul>
           </div>
           

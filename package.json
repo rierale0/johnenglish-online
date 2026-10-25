@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint app components lib types --max-warnings 0",
     "typecheck": "next typegen && tsc --noEmit --incremental false",
-    "test": "node --test tests/security.test.mjs"
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.2",

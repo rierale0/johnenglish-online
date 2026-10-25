@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   description:
     "Aprende inglés con clases online personalizadas para mejorar tu fluidez y confianza. Profesor con más de 6 años de experiencia para todos los niveles.",
   generator: "github.com/rierale0",
+  alternates: { canonical: "https://inglesconjohn.es" },
   keywords: [
     "clases de inglés",
     "inglés online",
@@ -84,7 +85,6 @@ export default function RootLayout({
     <html lang="es" className={poppins.className}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="canonical" href="https://inglesconjohn.es" />
         {/* JsonLd component should be in head */}
         <JsonLd data={jsonLdData} />
       </head>

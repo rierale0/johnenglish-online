@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from "react";
 import {
   Users,
@@ -40,13 +41,13 @@ const specializedCourses: Course[] = [
     id: 1,
     title: "Junior Fluency",
     features: [
-      { icon: Clock, text: "2 meses de estudio" },
+      { icon: Clock, text: "Programas de 4 o 12 semanas" },
       { icon: User, text: "Clases individuales" },
       { icon: Baby, text: "Orientado a niños y adolescentes desde los 8 años" },
     ],
-    level: "Beginner",
+    level: "Desde los 8 años",
     img: "/home/courses/junior.png",
-    link: "/cursos/profesionales",
+    link: "/junior-fluency",
     color: "#D68C52",
   },
    {
@@ -192,7 +193,7 @@ export default function Courses() {
                 key={course.id}
                 className="bg-white/90 rounded-2xl overflow-hidden relative shadow-[8px_8px_0px_0px] mb-6 hover:shadow-[10px_10px_0px_0px] transition-all duration-300 hover:-translate-y-1 flex flex-col cursor-pointer"
                 style={{ boxShadow: `8px 8px 0px 0px ${course.color}` }}
-                onClick={() => handleCourseClick(course)}
+                onClick={course.title === "Junior Fluency" ? undefined : () => handleCourseClick(course)}
               >
                 <div className="w-full overflow-hidden">
                   <Image
@@ -206,7 +207,7 @@ export default function Courses() {
                 </div>
                 <div className="p-6 flex flex-col grow">
                   <h3 className="text-2xl font-bold text-gray-800 mb-2">
-                    {course.title}
+                    {course.title === "Junior Fluency" ? <Link href={course.link} className="after:absolute after:inset-0 focus-visible:outline-4 focus-visible:outline-purple-700">{course.title}</Link> : course.title}
                   </h3>
                   <span
                     className="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-4 w-fit"
