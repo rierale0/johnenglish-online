@@ -68,11 +68,11 @@ export default function FacebookPixel({ pixelId }: { pixelId?: string }) {
     <section className="cookie-notice" aria-labelledby="cookie-title" aria-describedby="cookie-description">
       <div className="cookie-notice-copy">
         <h2 id="cookie-title" ref={title} tabIndex={-1}>Tú eliges tus cookies</h2>
-        <p id="cookie-description">Con tu permiso, usamos cookies de Meta para medir visitas y clics en WhatsApp y mejorar nuestros anuncios. Puedes aceptar, rechazar o cambiar tu elección cuando quieras. <a href="/privacy#cookies">Más información</a></p>
+        <p id="cookie-description">¿Nos ayudas a mejorar? Con tu permiso, usamos cookies de terceros para entender cómo se utiliza nuestra web y mejorar nuestros anuncios. Puedes aceptar, rechazar o cambiar tu elección cuando quieras. <a href="/privacy#cookies">Más información</a></p>
       </div>
       <div className="cookie-notice-actions">
         <button type="button" onClick={() => choose(false)}>Rechazar</button>
-        <button type="button" onClick={() => choose(true)}>Aceptar</button>
+        <button className="cookie-accept" type="button" onClick={() => choose(true)}>Aceptar</button>
         {consent && <button className="cookie-close" type="button" onClick={() => { setPreferencesOpen(false); requestAnimationFrame(() => preferencesButton.current?.focus()); }}>Cerrar</button>}
       </div>
     </section>

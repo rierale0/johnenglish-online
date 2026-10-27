@@ -27,15 +27,17 @@
   min-width: 108px;
   min-height: 46px;
   padding: 10px 18px;
-  border: 1px solid #7650a3;
+  border: 1px solid #61339a;
   border-radius: 10px;
-  background: #f5effc;
-  color: #49216e;
+  background: #fff;
+  color: #61339a;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 160ms ease;
 }
-.cookie-notice-actions button:hover { background: #e9ddf8; }
+.cookie-notice-actions button:hover { background: #f5effc; }
+.cookie-notice-actions .cookie-accept { background: #61339a; color: #fff; }
+.cookie-notice-actions .cookie-accept:hover { background: #4f277e; }
 .cookie-notice-actions .cookie-close { flex-basis: 100%; min-height: 38px; background: #fff; }
 .cookie-preferences {
   position: fixed;
