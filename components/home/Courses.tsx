@@ -194,6 +194,7 @@ export default function Courses() {
                 className="bg-white/90 rounded-2xl overflow-hidden relative shadow-[8px_8px_0px_0px] mb-6 hover:shadow-[10px_10px_0px_0px] transition-all duration-300 hover:-translate-y-1 flex flex-col cursor-pointer"
                 style={{ boxShadow: `8px 8px 0px 0px ${course.color}` }}
                 onClick={course.title === "Junior Fluency" ? undefined : () => handleCourseClick(course)}
+                data-meta-whatsapp={course.title === "Junior Fluency" ? undefined : "plans"}
               >
                 <div className="w-full overflow-hidden">
                   <Image
@@ -257,7 +258,7 @@ export default function Courses() {
             ))}
             {/* Tarjeta de Clase Demo */}
             <div id="toma-una-demo" className="md:col-span-4 bg-linear-to-r/srgb from-[#7FDEFF] to-[#DABFFF] rounded-2xl p-8 text-center flex flex-col sm:flex-row items-center justify-between gap-6 shadow-[8px_8px_0px_0px_#54889B] hover:shadow-[10px_10px_0px_0px_#54889B] transition-all duration-300 hover:-translate-y-1 cursor-pointer"
-              onClick={handleDemoClick}>
+              onClick={handleDemoClick} data-meta-whatsapp="plans">
               <div className="text-left">
                 <h3 className="text-2xl font-bold text-indigo-900 mb-1">✨ Prueba una clase gratuita</h3>
                 <p className="text-indigo-800">Agenda una clase demo gratuita de 25 minutos para evaluar tu nivel, resolver tus dudas y definir el plan de estudio perfecto para ti.</p>

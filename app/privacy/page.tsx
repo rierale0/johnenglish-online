@@ -41,17 +41,19 @@ export default function PrivacyPolicy() {
         </ul>
       </section>
 
-      <section className="mb-12">
+      <section id="cookies" className="mb-12 scroll-mt-24">
         <h2 className="text-2xl font-serif font-semibold mb-6 text-gray-900">4. Cookies y Tecnologías de Seguimiento</h2>
         <p className="mb-6 text-justify">
-          Utilizamos cookies y tecnologías similares para mejorar tu experiencia en nuestra plataforma.
-          Estas nos ayudan a:
+          Guardamos tu elección de cookies durante 180 días en una cookie propia (ewj_marketing_v1).
+          Puedes usar la web aunque rechaces la medición publicitaria.
         </p>
         <ul className="list-disc pl-8 mb-6 space-y-2">
-          <li>Mantener tu sesión activa</li>
-          <li>Recordar tus preferencias</li>
-          <li>Analizar el uso de la plataforma</li>
+          <li>Solo si aceptas, activamos el píxel de Meta y Conversions API para medir visitas a las páginas comerciales y clics en WhatsApp y evaluar nuestros anuncios.</li>
+          <li>Compartimos con Meta el tipo y momento del evento, la URL visitada, el navegador, la dirección IP y los identificadores publicitarios _fbp y _fbc, cuando están disponibles. El envío desde nuestro servidor excluye parámetros y fragmentos de la URL. Estas cookies publicitarias duran hasta 90 días.</li>
+          <li>No enviamos nombres, correos, teléfonos ni datos de los niños mediante estos eventos. Un clic en WhatsApp no confirma que hayas enviado un mensaje ni solicitado una asesoría.</li>
+          <li>Puedes retirar el permiso desde «Preferencias de cookies», visible en la parte inferior de la página. Al rechazar, detenemos los nuevos eventos y eliminamos las cookies publicitarias propias de Meta.</li>
         </ul>
+        <p>Meta puede utilizar estos datos para medición y publicidad según su <a className="underline" href="https://www.facebook.com/privacy/policy/" target="_blank" rel="noopener noreferrer">política de privacidad</a>. Retirar el permiso no elimina los eventos compartidos previamente.</p>
       </section>
 
       <section className="mb-12">
@@ -77,7 +79,7 @@ export default function PrivacyPolicy() {
       </section>
 
       <footer className="text-sm text-gray-600 border-t pt-4 mt-12">
-        <p className="text-center">Última actualización: Marzo 2025</p>
+        <p className="text-center">Última actualización: Octubre 2026</p>
       </footer>
     </div>
   );

@@ -1,4 +1,69 @@
 @import "tailwindcss";
+
+.cookie-notice {
+  position: fixed;
+  z-index: 10000;
+  inset: auto max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  max-width: 1080px;
+  margin-inline: auto;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  color: #26203d;
+  background: #fff;
+  border: 1px solid #d7c8ee;
+  border-radius: 20px;
+  box-shadow: 0 8px 50px #20113830;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.cookie-notice-copy { flex: 1; }
+.cookie-notice h2 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+.cookie-notice a { color: #61339a; text-decoration: underline; text-underline-offset: 3px; }
+.cookie-notice-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.cookie-notice-actions button {
+  flex: 1;
+  min-width: 108px;
+  min-height: 46px;
+  padding: 10px 18px;
+  border: 1px solid #7650a3;
+  border-radius: 10px;
+  background: #f5effc;
+  color: #49216e;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 160ms ease;
+}
+.cookie-notice-actions button:hover { background: #e9ddf8; }
+.cookie-notice-actions .cookie-close { flex-basis: 100%; min-height: 38px; background: #fff; }
+.cookie-preferences {
+  position: fixed;
+  z-index: 90;
+  bottom: max(10px, env(safe-area-inset-bottom));
+  left: max(10px, env(safe-area-inset-left));
+  padding: 8px 12px;
+  min-height: 36px;
+  color: #49216e;
+  background: #fffffff5;
+  border: 1px solid #d7c8ee;
+  border-radius: 9px;
+  font-size: 11px;
+  line-height: 1.4;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #20113814;
+}
+.cookie-notice button:focus-visible, .cookie-notice a:focus-visible, .cookie-preferences:focus-visible {
+  outline: 3px solid #61339a;
+  outline-offset: 4px;
+}
+@media (max-width: 720px) {
+  .cookie-notice { padding: 20px; gap: 16px; flex-direction: column; align-items: stretch; font-size: 13px; }
+  .cookie-notice h2 { font-size: 17px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cookie-notice-actions button { transition: none; }
+}
 @config "../tailwind.config.ts";
 
 body {
