@@ -11,7 +11,7 @@ export default function FacebookPixel({ pixelId }: { pixelId?: string }) {
   const [ready, setReady] = useState(false);
   const [preferencesOpen, setPreferencesOpen] = useState(false);
   const lastPage = useRef<string | null>(null);
-  const preferencesButton = useRef<HTMLButtonElement>(null);
+  const preferencesButton = useRef<HTMLButtonElement | null>(null);
   const title = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
@@ -21,9 +21,20 @@ export default function FacebookPixel({ pixelId }: { pixelId?: string }) {
       setConsent(saved === "granted" || saved === "denied" ? saved : null);
       setReady(true);
     }
+    function openPreferences(event: MouseEvent) {
+      if (!(event.target instanceof Element)) return;
+      const button = event.target.closest<HTMLButtonElement>("button[data-cookie-preferences]");
+      if (!button) return;
+      preferencesButton.current = button;
+      setPreferencesOpen(true);
+    }
     syncConsent();
     window.addEventListener("focus", syncConsent);
-    return () => window.removeEventListener("focus", syncConsent);
+    document.addEventListener("click", openPreferences);
+    return () => {
+      window.removeEventListener("focus", syncConsent);
+      document.removeEventListener("click", openPreferences);
+    };
   }, []);
 
   useEffect(() => {
@@ -56,13 +67,10 @@ export default function FacebookPixel({ pixelId }: { pixelId?: string }) {
     saveMarketingConsent(granted);
     setConsent(granted ? "granted" : "denied");
     setPreferencesOpen(false);
-    requestAnimationFrame(() => preferencesButton.current?.focus());
+    requestAnimationFrame(() => preferencesButton.current?.focus({ preventScroll: true }));
   }
 
-  if (!ready) return null;
-  if (consent && !preferencesOpen) {
-    return <button ref={preferencesButton} className="cookie-preferences" type="button" onClick={() => setPreferencesOpen(true)}>Preferencias de cookies</button>;
-  }
+  if (!ready || (consent && !preferencesOpen)) return null;
 
   return (
     <section className="cookie-notice" aria-labelledby="cookie-title" aria-describedby="cookie-description">
@@ -73,7 +81,7 @@ export default function FacebookPixel({ pixelId }: { pixelId?: string }) {
       <div className="cookie-notice-actions">
         <button type="button" onClick={() => choose(false)}>Rechazar</button>
         <button className="cookie-accept" type="button" onClick={() => choose(true)}>Aceptar</button>
-        {consent && <button className="cookie-close" type="button" onClick={() => { setPreferencesOpen(false); requestAnimationFrame(() => preferencesButton.current?.focus()); }}>Cerrar</button>}
+        {consent && <button className="cookie-close" type="button" onClick={() => { setPreferencesOpen(false); requestAnimationFrame(() => preferencesButton.current?.focus({ preventScroll: true })); }}>Cerrar</button>}
       </div>
     </section>
   );

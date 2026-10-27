@@ -60,6 +60,9 @@ try {
     assert.equal(qa.scripts(), 0);
     assert.equal(events.length, 0);
     assert.equal(await page.locator(".cookie-notice").count(), 0);
+    assert.equal(await page.locator("footer .cookie-preferences").count(), 1, "preferences stay in the footer");
+    assert.equal(await page.locator(".cookie-preferences").evaluate(button => getComputedStyle(button).position), "static", "preferences never float");
+    assert.equal(await page.evaluate(() => scrollY), 0, "initial consent choice must not scroll to the footer");
     await page.getByRole("button", { name: "Preferencias de cookies" }).click();
     await page.getByRole("button", { name: "Aceptar", exact: true }).click();
     await page.waitForFunction(() => window.__metaCalls?.some(call => call[0] === "trackSingle"));

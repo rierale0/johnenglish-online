@@ -15,7 +15,7 @@ Los cambios en variables de Vercel requieren un nuevo despliegue. No hay token l
 
 ## Comportamiento
 
-- El consentimiento empieza sin conceder. Aceptar y rechazar tienen el mismo tamaño y contraste de texto equivalente: aceptar lleva fondo morado y rechazar, fondo blanco con borde morado. La elección dura 180 días. El control inferior permite cambiarla.
+- El consentimiento empieza sin conceder. Aceptar y rechazar tienen el mismo tamaño y contraste de texto equivalente: aceptar lleva fondo morado y rechazar, fondo blanco con borde morado. La elección dura 180 días. «Preferencias de cookies» en el pie de página permite cambiarla, sin ningún botón flotante.
 - Antes de aceptar no se carga `fbevents.js`, no se crean `_fbp` / `_fbc` y no se llama al endpoint de medición. Rechazar revoca el píxel, descarta eventos pendientes de su cola y borra esas cookies propias (hasta 90 días de duración).
 - Solo `/` y `/junior-fluency` producen `PageView`. La navegación interna también se mide una vez por cambio de ruta. Las páginas de alumnos y las redirecciones no generan eventos propios.
 - Los enlaces a WhatsApp, los enlaces internos de demo/contacto y las tarjetas comerciales que abren WhatsApp producen `WhatsAppClick`. Es un evento personalizado de intención, **no** un `Lead`, una conversación confirmada, una reserva ni una compra.

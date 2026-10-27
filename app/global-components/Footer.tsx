@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import CookiePreferencesButton from './CookiePreferencesButton';
 
 export default function Footer({ consultationHref }: { consultationHref?: string } = {}) {
   const currentYear = new Date().getFullYear();
@@ -102,6 +103,7 @@ export default function Footer({ consultationHref }: { consultationHref?: string
         
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 text-sm">
           <p>© {currentYear} English with John. Todos los derechos reservados.</p>
+          <CookiePreferencesButton />
         </div>
       </div>
     </footer>

@@ -40,22 +40,22 @@
 .cookie-notice-actions .cookie-accept:hover { background: #4f277e; }
 .cookie-notice-actions .cookie-close { flex-basis: 100%; min-height: 38px; background: #fff; }
 .cookie-preferences {
-  position: fixed;
-  z-index: 90;
-  bottom: max(10px, env(safe-area-inset-bottom));
-  left: max(10px, env(safe-area-inset-left));
-  padding: 8px 12px;
-  min-height: 36px;
-  color: #49216e;
-  background: #fffffff5;
-  border: 1px solid #d7c8ee;
-  border-radius: 9px;
-  font-size: 11px;
-  line-height: 1.4;
+  display: inline-flex;
+  align-items: center;
+  margin-top: 8px;
+  padding: 6px 2px;
+  min-height: 44px;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
   cursor: pointer;
-  box-shadow: 0 2px 8px #20113814;
 }
-.cookie-notice button:focus-visible, .cookie-notice a:focus-visible, .cookie-preferences:focus-visible {
+.cookie-preferences:hover { text-decoration-thickness: 2px; }
+.cookie-preferences:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
+.cookie-notice button:focus-visible, .cookie-notice a:focus-visible {
   outline: 3px solid #61339a;
   outline-offset: 4px;
 }
