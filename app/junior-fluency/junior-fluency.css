@@ -49,6 +49,73 @@ body:has(.jf-page) > nav.flex.justify-between { display: none; }
 .jf-hero-language .jf-hero-flag { width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; object-fit: contain; }
 .jf-hero-art figcaption { position: relative; width: fit-content; margin: 18px auto 0; background: #ffffff0c; color: #f3eafa; border: 1px solid #ffffff24; border-radius: 30px; padding: 8px 16px; font-size: .8rem; }
 .jf-hero-art figcaption span { color: var(--jf-cyan); margin-right: 6px; }
+/* The introduction settles once; the message and consultation link are never hidden. */
+@keyframes jf-hero-copy-in {
+  from { transform: translateY(var(--jf-hero-copy-offset)); }
+  to { transform: translateY(0); }
+}
+@keyframes jf-hero-art-welcome {
+  0% { transform: translateY(var(--jf-hero-art-offset)); }
+  45% { transform: translateY(var(--jf-hero-float-offset)); }
+  100% { transform: translateY(0); }
+}
+@keyframes jf-hero-card-settle {
+  from { transform: rotate(-4deg) scale(.97); }
+  to { transform: rotate(-2deg) scale(1); }
+}
+@keyframes jf-hero-badge-in {
+  from { transform: translateY(8px) rotate(10deg) scale(.95); }
+  to { transform: translateY(0) rotate(6deg) scale(1); }
+}
+@keyframes jf-hero-spark-welcome {
+  0% { transform: scale(.8) rotate(-15deg); opacity: .65; }
+  45% { transform: scale(1.12) rotate(8deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+@keyframes jf-hero-orbit-in {
+  from { transform: translate(-50%, -50%) rotate(-18deg) scale(.96); }
+  to { transform: translate(-50%, -50%) rotate(0) scale(1); }
+}
+@keyframes jf-hero-grid-in {
+  from { opacity: .5; }
+  to { opacity: 1; }
+}
+@keyframes jf-hero-highlight-in {
+  from { background-size: 0% 100%; }
+  to { background-size: 100% 100%; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .jf-hero-shell { --jf-hero-copy-offset: 10px; --jf-hero-art-offset: 14px; --jf-hero-float-offset: -6px; }
+  .jf-hero-shell::before { animation: jf-hero-grid-in 1.2s ease-out backwards; }
+  .jf-hero-copy h1, .jf-hero .jf-lead, .jf-hero .jf-chips, .jf-hero .jf-microcopy { animation: jf-hero-copy-in .65s cubic-bezier(.22, 1, .36, 1) backwards; }
+  .jf-hero .jf-lead { animation-delay: .08s; }
+  .jf-hero .jf-chips { animation-delay: .14s; }
+  .jf-hero .jf-microcopy { animation-delay: .22s; }
+  .jf-hero-highlight { background-repeat: no-repeat; animation: jf-hero-highlight-in .9s cubic-bezier(.22, 1, .36, 1) .22s backwards; }
+  .jf-hero-art { animation: jf-hero-art-welcome 2.8s cubic-bezier(.22, 1, .36, 1) .08s backwards; }
+  .jf-hero-illustration { animation: jf-hero-card-settle .85s cubic-bezier(.22, 1, .36, 1) .12s backwards; }
+  .jf-hero-language { animation: jf-hero-badge-in .7s cubic-bezier(.22, 1, .36, 1) .35s backwards; }
+  .jf-hero-spark { animation: jf-hero-spark-welcome 1.6s ease-out .25s backwards; }
+  .jf-hero-art::after { animation: jf-hero-orbit-in 2.2s cubic-bezier(.22, 1, .36, 1) .15s backwards; }
+}
+@media (prefers-reduced-motion: no-preference) and (max-width: 767px) {
+  .jf-hero-shell { --jf-hero-copy-offset: 7px; --jf-hero-art-offset: 8px; --jf-hero-float-offset: -4px; }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .jf-page .jf-cta svg, .jf-teacher-cta svg, .jf-testimonial-source a svg { transition: transform .2s ease-out; }
+  .jf-page .jf-cta:hover svg, .jf-page .jf-cta:focus-visible svg,
+  .jf-teacher-cta:hover svg, .jf-teacher-cta:focus-visible svg,
+  .jf-testimonial-source a:hover svg, .jf-testimonial-source a:focus-visible svg { transform: translate(2px, -2px); }
+  .jf-video-play { transition: background-color .2s ease-out, transform .2s ease-out; }
+  .jf-video-preview:hover .jf-video-play, .jf-video-preview:focus-visible .jf-video-play { transform: scale(1.04); }
+}
+@keyframes jf-detail-in {
+  from { opacity: .85; translate: 0 -4px; }
+  to { opacity: 1; translate: 0 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .jf-faq details[open] > p, .jf-plan-more[open] .jf-plan-guidance { animation: jf-detail-in .2s ease-out; }
+}
 .jf-section { padding-block: 80px; }
 .jf-section-heading { max-width: 760px; margin: 0 auto 42px; text-align: center; }
 .jf-section-heading > p:last-child { color: #515468; }
@@ -130,34 +197,54 @@ body:has(.jf-page) > nav.flex.justify-between { display: none; }
 .jf-includes-icon { display: grid; place-items: center; width: 36px; height: 36px; flex-shrink: 0; border-radius: 11px; color: #a7eaff; background: #7fdeff16; }
 .jf-includes-list li:nth-child(even) .jf-includes-icon { color: #dfc9ff; background: #dabfff19; }
 .jf-includes-list li:last-child { grid-column: 1 / -1; align-items: center; background: #7fdeff0b; border-color: #7fdeff2e; }
-.jf-pricing { background: radial-gradient(ellipse at 15% 10%, #22d3ee18, transparent 40%), linear-gradient(135deg, var(--color-indigo-900, #312e81), var(--color-purple-900, #581c87), var(--color-pink-900, #831843)); color: white; }
+.jf-pricing { background: radial-gradient(ellipse at 15% 10%, #22d3ee18, transparent 40%), linear-gradient(135deg, var(--color-indigo-900, #312e81), var(--color-purple-900, #581c87), var(--color-pink-900, #831843)); color: white; overflow-wrap: anywhere; }
 .jf-pricing .jf-eyebrow { color: var(--jf-cyan); }
 .jf-pricing .jf-section-heading > p:last-child { color: #eee6f6; }
-.jf-frequency { text-align: center; margin-bottom: 38px; }
-.jf-frequency legend { margin-bottom: 14px; width: 100%; font-weight: 500; }
-.jf-options { display: inline-flex; gap: 6px; border: 1px solid #ffffff40; background: #ffffff12; border-radius: 12px; padding: 6px; }
-.jf-options label { position: relative; cursor: pointer; }
+.jf-frequency-panel { display: flex; flex-direction: column; align-items: center; gap: 10px; max-width: 1000px; margin: 0 auto 30px; text-align: center; }
+.jf-frequency-panel > p { font-size: .8rem; color: #e3d7ef; }
+.jf-frequency { flex: 0 1 auto; min-width: 0; max-width: 100%; border: 0; padding: 0; text-align: center; }
+.jf-frequency legend { margin-bottom: 12px; width: 100%; font-size: .9rem; font-weight: 500; color: #eee6f6; }
+.jf-options { display: inline-grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; max-width: 100%; border: 1px solid #ffffff40; background: #ffffff12; border-radius: 12px; padding: 6px; }
+.jf-options label { position: relative; min-width: 0; cursor: pointer; }
 .jf-options input { position: absolute; opacity: 0; width: 100%; height: 100%; inset: 0; cursor: pointer; }
-.jf-options span { display: block; padding: 10px 24px; border-radius: 8px; min-height: 44px; }
+.jf-options span { display: block; padding: 10px 20px; border-radius: 8px; min-height: 44px; font-size: .9rem; }
 .jf-options input:checked + span { background: var(--jf-cyan); color: #242239; font-weight: 600; }
 .jf-options input:focus-visible + span { outline: 3px solid var(--jf-cyan); outline-offset: 3px; }
-.jf-price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; max-width: 1000px; margin-inline: auto; }
-.jf-price-card { padding: 32px; border: 1px solid #ffffff80; border-radius: 16px; background: #fffffff2; color: var(--jf-ink); display: flex; flex-direction: column; box-shadow: 8px 8px 0 #967db8; }
-.jf-featured { border: 2px solid var(--jf-cyan); background: white; box-shadow: 8px 8px 0 #54889b; }
+.jf-price-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; max-width: 1000px; margin-inline: auto; }
+.jf-price-card { min-width: 0; padding: 28px; border: 1px solid #ffffff80; border-radius: 24px; background: #fdfbff; color: var(--jf-ink); display: flex; flex-direction: column; box-shadow: 0 16px 40px #17112d20; }
+.jf-featured { border: 1px solid var(--jf-cyan); background: white; box-shadow: 0 0 0 2px #7fdeff55, 0 16px 40px #17112d20; }
 .jf-price-card :focus-visible { outline-color: #7154c7; }
-.jf-plan-tag { align-self: flex-start; padding: 4px 12px; background: #f1edf9; color: #534078; border-radius: 20px; font-size: .75rem; margin-bottom: 24px; font-weight: 500; }
-.jf-featured .jf-plan-tag { background: #7fdeff55; color: #315768; }
-.jf-price-card h3 { font-size: 1.45rem; }
-.jf-duration { color: #515468; }
-.jf-total { font-size: 2.9rem; letter-spacing: -.05em; line-height: 1.3; font-weight: 600; margin-block: 22px; }
-.jf-total span { font-size: .85rem; letter-spacing: 0; font-weight: 400; color: #515468; }
-.jf-plan-description { font-size: 1rem; margin-bottom: 24px; color: #515468; }
-.jf-plan-list { margin-bottom: 24px; }
-.jf-plan-list li { display: flex; gap: 10px; font-size: 1rem; margin-bottom: 12px; }
-.jf-plan-list svg { flex-shrink: 0; color: #5c4098; margin-top: 4px; }
-.jf-plan-short-label { display: none; }
-.jf-pricing-footer { max-width: 1000px; margin: 28px auto 0; padding: 14px 22px 20px; border: 1px solid #ffffff29; border-radius: 18px; background: #ffffff0a; }
-.jf-plan-more summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 16px; list-style: none; font-size: .95rem; font-weight: 600; }
+.jf-plan-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin-bottom: 14px; }
+.jf-plan-tag { padding: 4px 10px; background: #eee7f7; color: #534078; border-radius: 8px; font-size: .7rem; font-weight: 600; }
+.jf-featured .jf-plan-tag { background: #def5ff; color: #315768; }
+.jf-duration { font-size: .8rem; font-weight: 500; color: #515468; }
+.jf-price-card h3 { font-size: 1.5rem; margin-bottom: 10px; }
+.jf-plan-description { font-size: .9rem; line-height: 1.65; color: #515468; }
+.jf-session-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-top: 20px; line-height: 1.1; }
+.jf-session-price strong { font-size: 3.25rem; letter-spacing: -.05em; font-weight: 600; }
+.jf-session-price > span { font-size: 1rem; color: #515468; }
+.jf-session-detail { margin-top: 9px; font-size: .8rem; color: #515468; }
+.jf-program-total { margin-block: 20px; padding: 16px 18px; border: 1px solid var(--jf-border); border-radius: 14px; background: #f2eef8; }
+.jf-featured .jf-program-total { background: #f0faff; border-color: #ccebf6; }
+.jf-program-amount { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
+.jf-program-amount dt { font-size: .85rem; font-weight: 500; }
+.jf-total { font-size: 1.5rem; letter-spacing: -.035em; line-height: 1.3; font-weight: 600; }
+.jf-program-payment { margin-top: 6px; font-size: .75rem; color: #515468; }
+.jf-plan-list { display: grid; gap: 10px; margin-bottom: 20px; }
+.jf-plan-list li { display: flex; gap: 10px; font-size: .9rem; line-height: 1.6; }
+.jf-plan-list svg { flex-shrink: 0; color: #5c4098; margin-top: 3px; }
+.jf-savings { margin: 0 0 20px; padding: 10px 12px; border-left: 3px solid #8bcfe5; background: #f0faff; border-radius: 0 10px 10px 0; font-size: .8rem; line-height: 1.6; color: #315768; }
+.jf-savings strong { display: block; font-weight: 600; }
+.jf-savings > span { display: block; font-size: .75rem; margin-top: 2px; }
+.jf-price-card .jf-cta { width: 100%; margin-top: auto; min-height: 50px; border: 1px solid #b8eaff; border-radius: 12px; font-size: .875rem; }
+.jf-pricing-footer { max-width: 1000px; margin: 28px auto 0; padding: 24px 26px; border: 1px solid #ffffff29; border-radius: 20px; background: #ffffff0a; }
+.jf-pricing-next-step { margin-bottom: 20px; }
+.jf-pricing-next-step > div { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.jf-pricing-help-icon { flex-shrink: 0; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid #7fdeff30; border-radius: 14px; background: #7fdeff12; color: var(--jf-cyan); }
+.jf-pricing-next-step p { color: #eee6f6; font-size: .9rem; line-height: 1.7; }
+.jf-pricing-next-step strong { font-size: 1rem; font-weight: 600; color: white; }
+.jf-plan-more { border-top: 1px solid #ffffff20; padding-top: 10px; }
+.jf-plan-more summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 16px; list-style: none; font-size: .875rem; font-weight: 500; }
 .jf-plan-more summary::-webkit-details-marker { display: none; }
 .jf-plan-more summary > span { display: flex; align-items: center; gap: 12px; }
 .jf-plan-more summary svg { color: var(--jf-cyan); flex-shrink: 0; }
@@ -166,9 +253,39 @@ body:has(.jf-page) > nav.flex.justify-between { display: none; }
 .jf-plan-guidance { max-width: 820px; padding-block: 8px 14px; }
 .jf-plan-guidance p { font-size: .9rem; line-height: 1.7; color: #f3ebfa; }
 .jf-plan-guidance p + p { margin-top: 12px; }
-.jf-savings { margin-top: auto; margin-bottom: 22px; font-size: .85rem; color: #534078; }
-.jf-price-note { margin-top: 10px; padding-top: 14px; border-top: 1px solid #ffffff20; font-size: .8rem; line-height: 1.65; color: #e3d7ef; }
+.jf-price-note { margin-top: 12px; padding-top: 16px; border-top: 1px solid #ffffff20; font-size: .8rem; line-height: 1.7; color: #e3d7ef; }
 .jf-price-note strong { font-weight: 500; color: #f7f1fc; }
+.jf-testimonials { background: #f3faff; border-top: 1px solid var(--jf-border); overflow-wrap: anywhere; }
+.jf-testimonials h2 span { color: #7050a0; }
+.jf-testimonial-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.jf-testimonial-card { display: flex; flex-direction: column; min-width: 0; margin: 0; padding: 28px; border: 1px solid var(--jf-border); border-radius: 24px; background: white; box-shadow: 0 10px 28px #34315408; }
+.jf-testimonial-featured { border-color: #cbb8e7; background: #faf7ff; box-shadow: 0 10px 28px #533b7e0c; }
+.jf-testimonial-stars { display: flex; align-items: center; gap: 4px; margin-bottom: 20px; color: #8c641f; }
+.jf-testimonial-card blockquote { margin: 0 0 24px; font-size: 1.05rem; line-height: 1.7; }
+.jf-testimonial-card figcaption { margin-top: auto; }
+.jf-testimonial-card figcaption strong { display: block; font-weight: 600; }
+.jf-testimonial-card figcaption > span { display: block; margin-top: 4px; font-size: .85rem; line-height: 1.5; color: #515468; }
+.jf-testimonial-source { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 12px; margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--jf-border); font-size: .75rem; color: #515468; }
+.jf-testimonial-source a { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; color: #5c4098; text-decoration: underline; text-underline-offset: 4px; }
+.jf-testimonial-source a:hover, .jf-review-ratings a:hover { color: var(--jf-ink); }
+.jf-testimonial-source svg { flex-shrink: 0; }
+.jf-review-trust { margin-top: 32px; text-align: center; color: #515468; }
+.jf-review-ratings { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0 14px; font-size: .95rem; }
+.jf-review-ratings > span { display: inline-flex; align-items: center; gap: 14px; min-width: 0; max-width: 100%; }
+.jf-review-ratings a { display: inline-block; min-height: 44px; padding-block: 8px; color: #5c4098; text-decoration: underline; text-underline-offset: 4px; }
+.jf-review-ratings strong { font-weight: 600; }
+.jf-review-trust > p:last-child { margin-top: 6px; font-size: .8rem; }
+@media (min-width: 768px) and (max-width: 1023px) {
+  .jf-testimonial-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  .jf-testimonial-featured { grid-column: 1 / -1; }
+}
+@media (max-width: 767px) {
+  .jf-testimonial-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .jf-testimonial-card { padding: 22px; border-radius: 18px; }
+  .jf-testimonial-card blockquote { font-size: 1rem; margin-bottom: 20px; }
+  .jf-review-ratings { flex-direction: column; }
+  .jf-review-divider { display: none; }
+}
 .jf-teacher { background: radial-gradient(ellipse at 100% 20%, #7fdeff20, transparent 55%), #f7f4ff; border-block: 1px solid var(--jf-border); }
 .jf-teacher-layout { display: grid; grid-template-columns: 1fr 1.15fr; grid-template-areas: "intro video" "details video"; column-gap: 64px; row-gap: 22px; align-items: start; }
 .jf-teacher-intro { grid-area: intro; }
@@ -259,8 +376,6 @@ body:has(.jf-page) > nav.flex.justify-between { display: none; }
   .jf-steps p { font-size: .9rem; line-height: 1.65; }
   .jf-method .jf-interest-note { padding: 20px; margin-top: 24px; font-size: .9rem; }
   .jf-includes-grid { gap: 24px; }
-  .jf-options span { padding: 10px 18px; }
-  .jf-price-card { padding: 26px; }
   .jf-teacher-layout { grid-template-columns: 1fr; grid-template-areas: "intro" "video" "details"; gap: 28px; }
   .jf-teacher-identity { gap: 16px; margin-bottom: 22px; }
   .jf-teacher-avatar { width: 64px; height: 64px; }
@@ -270,11 +385,11 @@ body:has(.jf-page) > nav.flex.justify-between { display: none; }
   .jf-teacher-video { padding: 10px; border-radius: 22px; }
   .jf-teacher-values { margin-block: 24px; }
   .jf-closing h2 { font-size: 2rem; }
-  .jf-benefits, .jf-pricing { padding-block: 24px; }
-  .jf-benefits .jf-section-heading, .jf-pricing .jf-section-heading { margin-bottom: 18px; }
-  .jf-benefits .jf-eyebrow, .jf-pricing .jf-eyebrow { margin-bottom: 8px; font-size: .65rem; }
-  .jf-benefits h2, .jf-pricing h2 { font-size: 1.5rem; margin-bottom: 10px; }
-  .jf-benefits .jf-section-heading > p:last-child, .jf-pricing .jf-section-heading > p:last-child { font-size: .9rem; line-height: 1.5; }
+  .jf-benefits { padding-block: 24px; }
+  .jf-benefits .jf-section-heading { margin-bottom: 18px; }
+  .jf-benefits .jf-eyebrow { margin-bottom: 8px; font-size: .65rem; }
+  .jf-benefits h2 { font-size: 1.5rem; margin-bottom: 10px; }
+  .jf-benefits .jf-section-heading > p:last-child { font-size: .9rem; line-height: 1.5; }
   .jf-benefits { padding-block: 32px; }
   .jf-benefits-heading { grid-template-columns: 1fr; gap: 12px; }
   .jf-benefits-heading h2 { margin-bottom: 0; }
@@ -289,37 +404,36 @@ body:has(.jf-page) > nav.flex.justify-between { display: none; }
   .jf-benefit-copy .jf-benefit-label { font-size: .6rem; margin-bottom: 5px; }
   .jf-benefit-card h3 { font-size: 1rem; margin-bottom: 6px; text-wrap: initial; }
   .jf-benefit-card p { font-size: .875rem; line-height: 1.5; }
-  .jf-frequency { margin-bottom: 16px; }
-  .jf-frequency legend { font-size: .875rem; margin-bottom: 8px; }
-  .jf-options { padding: 4px; }
-  .jf-options span { padding: 8px 18px; }
-  .jf-price-grid { gap: 14px; }
-  .jf-price-card { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 14px; border-radius: 12px; box-shadow: 4px 4px 0 #967db8; }
-  .jf-featured { box-shadow: 4px 4px 0 #54889b; }
-  .jf-plan-tag { display: none; }
-  .jf-price-card h3 { grid-column: 1; grid-row: 1; font-size: 1.125rem; margin: 0; align-self: end; }
-  .jf-duration { grid-column: 1; grid-row: 2; font-size: .8rem; }
-  .jf-total { grid-column: 2; grid-row: 1 / 3; font-size: 2rem; margin: 0; align-self: center; text-align: right; }
-  .jf-total span { display: block; font-size: .7rem; }
-  .jf-plan-list { grid-column: 1 / -1; margin: 6px 0; }
-  .jf-plan-list li { font-size: .8rem; line-height: 1.4; gap: 6px; margin-bottom: 2px; }
-  .jf-plan-list svg { width: 14px; height: 14px; margin-top: 3px; }
-  .jf-plan-full-label { display: none; }
-  .jf-plan-short-label { display: inline; }
-  .jf-savings { grid-column: 1 / -1; font-size: .7rem; line-height: 1.4; margin: 0 0 6px; }
-  .jf-price-card .jf-cta { grid-column: 1 / -1; min-height: 44px; padding: 9px 12px; font-size: .8rem; }
-  .jf-pricing-footer { margin-top: 10px; padding: 6px 12px 12px; border-radius: 14px; }
-  .jf-plan-more summary { font-size: .85rem; }
+  .jf-pricing .jf-section-heading { margin-bottom: 24px; }
+  .jf-pricing .jf-eyebrow { margin-bottom: 12px; }
+  .jf-pricing h2 { font-size: 1.8rem; margin-bottom: 16px; }
+  .jf-pricing .jf-section-heading > p:last-child { font-size: .95rem; line-height: 1.7; }
+  .jf-frequency-panel { gap: 10px; margin-bottom: 24px; }
+  .jf-frequency-panel > p { font-size: .75rem; }
+  .jf-frequency { width: 100%; text-align: center; }
+  .jf-options { width: 100%; padding: 4px; gap: 4px; text-align: center; }
+  .jf-options span { padding: 10px 6px; font-size: .875rem; }
+  .jf-price-grid { gap: 22px; }
+  .jf-price-card { padding: 22px; border-radius: 20px; }
+  .jf-plan-heading { margin-bottom: 16px; }
+  .jf-plan-tag { font-size: .65rem; padding-inline: 8px; }
+  .jf-duration { font-size: .75rem; }
+  .jf-price-card h3 { font-size: 1.4rem; }
+  .jf-session-price { margin-top: 18px; }
+  .jf-session-price strong { font-size: 3rem; }
+  .jf-program-total { margin-block: 20px; padding: 14px; }
+  .jf-program-amount dt { font-size: .8rem; }
+  .jf-total { font-size: 1.4rem; }
+  .jf-plan-list { gap: 10px; }
+  .jf-plan-list li { font-size: .875rem; }
+  .jf-price-card .jf-cta { font-size: .85rem; }
+  .jf-pricing-footer { margin-top: 24px; padding: 20px; border-radius: 18px; }
+  .jf-pricing-help-icon { width: 36px; height: 36px; border-radius: 12px; }
+  .jf-pricing-help-icon svg { width: 19px; height: 19px; }
+  .jf-pricing-next-step p { font-size: .875rem; }
+  .jf-pricing-next-step strong { font-size: .95rem; }
   .jf-plan-more summary > span { gap: 9px; }
-  .jf-plan-more summary > span svg { width: 18px; height: 18px; }
-  .jf-plan-guidance p { font-size: .85rem; }
-  .jf-price-note { margin-top: 2px; padding-top: 8px; font-size: .72rem; line-height: 1.5; text-align: left; }
-  .jf-pricing { padding-block: 16px; }
-  .jf-pricing .jf-section-heading { margin-bottom: 8px; }
-  .jf-frequency { margin-bottom: 12px; }
-  .jf-price-grid { gap: 12px; }
-  .jf-price-card { padding: 10px; row-gap: 2px; }
-  .jf-plan-list { margin-block: 4px; }
+  .jf-price-note { font-size: .75rem; }
   .jf-includes { min-height: 100svh; display: flex; align-items: center; padding-block: 20px; }
   .jf-includes-grid { gap: 16px; }
   .jf-includes .jf-eyebrow { font-size: .65rem; line-height: 1.5; margin-bottom: 8px; }

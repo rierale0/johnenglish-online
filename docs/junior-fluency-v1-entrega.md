@@ -64,7 +64,7 @@ node tests/junior-fluency.browser.mjs
 - `npm test`: 9 aprobados, 0 fallos; incluye los 4 tests existentes de seguridad y 5 nuevos.
 - `npm run build`: aprobado con generación estática de `/junior-fluency`.
 - Primer intento de build: bloqueado por DNS al descargar la fuente Poppins existente. Se completó con acceso de red autorizado.
-- El build mostró un aviso de vulnerabilidad conocida en Next.js 16.4.0 y detuvo una ejecución con `SecurityFatalError`; la repetición permitida por la herramienta completó la compilación. Ese aviso sigue siendo un pendiente de seguridad antes de publicar, aunque el build termine correctamente.
+- El build inicial mostró un aviso de vulnerabilidad conocida en Next.js 16.4.0 y detuvo una ejecución con `SecurityFatalError`; la repetición permitida por la herramienta completó la compilación. Este pendiente se resolvió el 27 de octubre de 2026 con Next.js 16.4.3; véase [la verificación de seguridad](nextjs-security-update.md).
 - Avisos adicionales del stack existente: React 18 está deprecado para Next.js 16 y falta `type: module` explícito en package.json. No se ha migrado el stack.
 - Chrome headless: aprobado en 360, 375, 390, 768, 1024 y 1440 px. Se verifica render, único H1, canonical único, título, frecuencia inicial, cambios 1/2/3, cantidades, precios, ahorro, teclado, FAQ, hero decodificado, ausencia de formularios y de overflow horizontal.
 - Clics de todos los CTA principales: popup con `wa.me/34613696839` y mensaje exclusivo de Junior Fluency. Las solicitudes se interceptan localmente: no se envían mensajes ni se verifica la aplicación nativa de WhatsApp.
@@ -98,7 +98,7 @@ El 25 de octubre de 2026 se adaptó la landing al estilo de `/`, sustituyendo la
 
 Revisión de comentarios de navegador: el hero comienza con «Quiero que tu hijo…»; «Hola, soy John» pasa a ser el H2 de la presentación y se eliminan el saludo adicional y el enlace a LinkedIn de esa sección. Beneficios tiene copy más breve y tarjetas compactas. Programas presenta ambos planes completos en móvil, con cantidades, totales y CTA; la explicación ampliada se conserva en un desplegable. Se comprueba que hero, beneficios y programas caben por separado en las vistas de 360/375/390 × 844 px y 393 × 852 px con los desplegables cerrados. Al ampliar texto o abrir la explicación, el contenido puede crecer libremente. Evidencia local en `junior-comments`. Las pruebas funcionales se repiten también en tableta y escritorio.
 
-1. Revisar la actualización de seguridad recomendada por el build de Next.js; hacerla como tarea separada con su propia validación. No se actualizaron dependencias en esta entrega.
+1. **Resuelto el 27 de octubre de 2026:** actualización de seguridad a Next.js 16.4.3, validada como tarea posterior. Véase [la verificación de seguridad](nextjs-security-update.md).
 2. Aprobar copy, precios finales y tratamiento fiscal. No se ha inventado «IVA incluido» ni exención.
 3. Aprobar las condiciones de horarios, cambios, ausencias, pausas, cancelación, vencimiento, desistimiento y devoluciones; falta una página completa de términos y aviso legal.
 4. Revisar la política `/privacy`: existe y está enlazada, pero usa la denominación John English Online y el correo `privacy@johnenglish.com`. Su validez y correspondencia con el negocio no se han dado por supuestas ni se ha reescrito el documento legal.

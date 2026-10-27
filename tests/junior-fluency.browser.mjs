@@ -1,4 +1,4 @@
-// Run against a local production server. Requires Playwright in NODE_PATH or node_modules.
+// Run against a local server. Requires Playwright in NODE_PATH or node_modules.
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { mkdir, writeFile } from "node:fs/promises";
@@ -31,17 +31,22 @@ try {
     assert.match(await page.title(), /^Junior Fluency/);
     assert.equal(await page.locator('input[value="1"]').isChecked(), true);
     const prices = async () => (await page.locator("[data-price]").allTextContents()).map(text => text.replace(/\s+/g, " ").trim());
-    assert.deepEqual(await prices(), ["72 € en total", "192 € en total"]);
+    assert.deepEqual(await prices(), ["72 €", "192 €"]);
     for (const [frequency, start, continuity] of [[1, 72, 192], [3, 216, 576], [2, 144, 384]]) {
       await page.getByRole("radio", { name: `${frequency} ${frequency === 1 ? "clase" : "clases"}`, exact: true }).check();
       await page.waitForFunction(expected => document.querySelector('[data-plan="start"] [data-price]')?.textContent?.includes(`${expected} €`), start);
-      assert.deepEqual(await prices(), [`${start} € en total`, `${continuity} € en total`]);
+      assert.deepEqual(await prices(), [`${start} €`, `${continuity} €`]);
       for (const [key, weeks] of [["start", 4], ["continuity", 12]]) {
         const plan = page.locator(`[data-plan="${key}"]`);
-        assert.match(await plan.innerText(), new RegExp(`${weeks * frequency} clases ${width < 768 ? "de 60 min" : "individuales"}`));
-        assert.match(await plan.innerText(), new RegExp(`${weeks * frequency / 2} actividades ${width < 768 ? "con corrección" : "personalizadas"}`));
+        assert.match(await plan.innerText(), new RegExp(`${weeks * frequency} clases individuales de 60 minutos`));
+        assert.match(await plan.innerText(), new RegExp(`${weeks * frequency / 2} actividades personalizadas con corrección`));
         const reviews = weeks * frequency / 4;
         assert.match(await plan.innerText(), new RegExp(`${reviews} ${reviews === 1 ? "revisión" : "revisiones"}`));
+        assert.match(await plan.locator(".jf-session-price").innerText(), new RegExp(`${key === "start" ? 18 : 16}\\s*€\\s*/\\s*clase`));
+        assert.equal(await plan.locator(".jf-duration").innerText(), `${weeks} semanas`);
+        assert.match(await plan.locator(".jf-program-total").innerText(), /Un único pago antes de empezar\./);
+        assert.ok(await plan.locator(".jf-program-total").isVisible(), "the full program price stays visible");
+        assert.ok(await plan.evaluate(element => parseFloat(getComputedStyle(element.querySelector(".jf-session-price strong")).fontSize) > parseFloat(getComputedStyle(element.querySelector("[data-price]")).fontSize)), "the session rate leads the price hierarchy");
       }
       assert.match(await page.locator(".jf-featured .jf-savings").innerText(), new RegExp(`${24 * frequency} €`));
     }
@@ -67,7 +72,9 @@ try {
       const heroShell = await page.locator(".jf-hero-shell").boundingBox();
       const scrollOffset = await page.evaluate(() => scrollY);
       assert.ok(heroShell && heroShell.y + scrollOffset + heroShell.height <= height, `hero exceeds the ${height}px mobile viewport at ${width}px`);
-      for (const selector of [".jf-benefits", ".jf-includes", "#programas"]) {
+      // Pricing cards can grow vertically so prices, payment terms and benefits
+      // remain legible; horizontal overflow is checked for the complete page.
+      for (const selector of [".jf-benefits", ".jf-includes"]) {
         const section = await page.locator(selector).boundingBox();
         if (section && section.height > height) {
           await page.locator(selector).screenshot({ path: join(output, `oversize-${width}.png`) });

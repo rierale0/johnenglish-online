@@ -8,6 +8,8 @@ import ProgramPricing from "@/components/junior-fluency/ProgramPricing";
 import InterestCarousel from "@/components/junior-fluency/InterestCarousel";
 import LearningJourney from "@/components/junior-fluency/LearningJourney";
 import TeacherVideo from "@/components/junior-fluency/TeacherVideo";
+import TestimonialsSection from "@/components/junior-fluency/TestimonialsSection";
+import SectionMotion from "@/components/junior-fluency/SectionMotion";
 import { juniorWhatsAppUrl } from "@/lib/junior-fluency";
 import "./junior-fluency.css";
 
@@ -61,6 +63,7 @@ const faqs = [
 export default function JuniorFluencyPage() {
   return (
     <div className="jf-page">
+      <SectionMotion />
       <a className="jf-skip" href="#junior-contenido">Saltar al contenido</a>
       <main id="junior-contenido">
       <div className="jf-hero-shell">
@@ -155,6 +158,7 @@ export default function JuniorFluencyPage() {
             <ul className="jf-includes-list">{includes.map(({ icon: Icon, text }) => <li key={text}><span className="jf-includes-icon"><Icon size={20} aria-hidden="true" /></span><span>{text}</span></li>)}</ul>
           </div>
         </section>
+        <TestimonialsSection />
         <ProgramPricing />
         <section className="jf-section jf-teacher" id="conoce-a-john" aria-labelledby="teacher-title">
           <div className="jf-container jf-teacher-layout">
