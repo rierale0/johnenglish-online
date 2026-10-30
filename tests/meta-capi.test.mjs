@@ -34,12 +34,23 @@ test("Meta requires explicit consent, same origin and JSON", () => {
   }
 });
 
-test("only the two marketing pages and explicit non-conversion events are accepted", () => {
+test("only allowed marketing events and confirmed Junior Fluency conversion labels are accepted", () => {
   assert.deepEqual(parseMetaEvent(event), event);
   assert.ok(parseMetaEvent({ ...event, eventName: "WhatsAppClick", placement: "hero" }));
   for (const value of [null, [], { ...event, eventName: "Lead" }, { ...event, pagePath: "/katy" }, { ...event, pagePath: "/?email=private" }, { ...event, eventId: "reused-id" }, { ...event, user_data: { email: "private" } }, { ...event, pixelId: "other" }, { ...event, placement: "hero" }, { ...event, eventName: "WhatsAppClick" }, { ...event, eventName: "WhatsAppClick", placement: "child-name" }]) {
     assert.equal(parseMetaEvent(value), null);
   }
+});
+
+test("Junior Fluency Ask is limited to its landing and carries the same deduplication ID", () => {
+  const lead = { ...event, eventName: "Junior Fluency Ask" };
+  assert.deepEqual(parseMetaEvent(lead), lead);
+  assert.equal(parseMetaEvent({ ...lead, pagePath: "/" }), null);
+  assert.equal(parseMetaEvent({ ...lead, placement: "hero" }), null);
+  assert.equal(parseMetaEvent({ ...lead, phone: "+34612345678" }), null);
+  const payload = capi.buildMetaServerEvent(lead, new Headers());
+  assert.equal(payload.event_name, "Junior Fluency Ask");
+  assert.equal(payload.event_id, lead.eventId);
 });
 
 test("body is bounded even without a trustworthy content-length", async () => {

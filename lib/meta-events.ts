@@ -6,7 +6,7 @@ export const META_PLACEMENTS = ["nav", "hero", "start", "continuity", "teacher",
 export type MetaPagePath = (typeof META_PAGE_PATHS)[number];
 export type MetaPlacement = (typeof META_PLACEMENTS)[number];
 export type MetaEvent = {
-  eventName: "PageView" | "WhatsAppClick";
+  eventName: "PageView" | "WhatsAppClick" | "Junior Fluency Ask";
   eventId: string;
   pagePath: MetaPagePath;
   placement?: MetaPlacement;
@@ -30,10 +30,11 @@ export function parseMetaEvent(value: unknown): MetaEvent | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
   const event = value as Record<string, unknown>;
   if (Object.keys(event).some((key) => !["eventName", "eventId", "pagePath", "placement"].includes(key))) return null;
-  if (event.eventName !== "PageView" && event.eventName !== "WhatsAppClick") return null;
+  if (event.eventName !== "PageView" && event.eventName !== "WhatsAppClick" && event.eventName !== "Junior Fluency Ask") return null;
   if (typeof event.eventId !== "string" || !/^[\da-f]{8}-[\da-f]{4}-4[\da-f]{3}-[89ab][\da-f]{3}-[\da-f]{12}$/i.test(event.eventId)) return null;
   if (typeof event.pagePath !== "string" || !isMetaPagePath(event.pagePath)) return null;
   if (event.eventName === "PageView" && event.placement !== undefined) return null;
   if (event.eventName === "WhatsAppClick" && !META_PLACEMENTS.some((allowed) => allowed === event.placement)) return null;
+  if (event.eventName === "Junior Fluency Ask" && (event.pagePath !== "/junior-fluency" || event.placement !== undefined)) return null;
   return event as MetaEvent;
 }

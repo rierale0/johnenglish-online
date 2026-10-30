@@ -10,7 +10,7 @@ import LearningJourney from "@/components/junior-fluency/LearningJourney";
 import TeacherVideo from "@/components/junior-fluency/TeacherVideo";
 import TestimonialsSection from "@/components/junior-fluency/TestimonialsSection";
 import SectionMotion from "@/components/junior-fluency/SectionMotion";
-import { juniorWhatsAppUrl } from "@/lib/junior-fluency";
+import ConsultationForm from "@/components/junior-fluency/ConsultationForm";
 import "./junior-fluency.css";
 
 const title = "Junior Fluency | Clases de inglés online para niños y adolescentes | English with John";
@@ -69,19 +69,19 @@ export default function JuniorFluencyPage() {
       <div className="jf-hero-shell">
       <nav className="jf-subnav jf-container" aria-label="Junior Fluency">
         <Link href="/" className="jf-wordmark">Junior Fluency<span>by English with John</span></Link>
-        <div><a href="#como-funciona">Cómo funciona</a><a href="#programas">Programas</a><a href={juniorWhatsAppUrl} target="_blank" rel="noopener noreferrer" className="jf-nav-cta">Asesoría gratuita<span className="sr-only"> (WhatsApp, abre en otra pestaña)</span></a></div>
+        <div><a href="#como-funciona">Cómo funciona</a><a href="#programas">Programas</a><a href="#solicitar-llamada" className="jf-nav-cta">Te llamo gratis</a></div>
       </nav>
         <section className="jf-hero jf-container" aria-labelledby="junior-title">
           <div className="jf-hero-copy">
             <h1 id="junior-title">Quiero que tu hijo <em className="jf-hero-highlight">gane confianza</em> <span>y disfrute aprendiendo inglés.</span></h1>
             <p className="jf-lead">Clases particulares de inglés online desde los 8 años, adaptadas a su nivel, intereses y forma de aprender.</p>
             <ul className="jf-chips"><li><UsersRound size={14} aria-hidden="true" />Clases 1 a 1</li><li><Clock3 size={14} aria-hidden="true" />De 1 a 3 clases por semana</li><li><TrendingUp size={14} aria-hidden="true" />Progreso acompañado</li></ul>
-            <ConsultationLink placement="hero" />
-            <p className="jf-microcopy">Una conversación inicial de 15–20 minutos para conocer sus necesidades y resolver tus dudas.</p>
+
           </div>
+          <ConsultationForm />
           <figure className="jf-hero-art">
             <div className="jf-hero-illustration">
-              <Image src="/junior-fluency/junior-fluency-hero.webp" alt="Ilustración de cuatro niños conversando junto a un portátil, con globos que dicen Hi y Let's talk!" width={1536} height={1024} sizes="(max-width: 767px) 290px, 50vw" unoptimized={false} preload />
+              <Image src="/junior-fluency/junior-fluency-hero.webp" alt="Ilustración de cuatro niños conversando junto a un portátil, con globos que dicen Hi y Let's talk!" width={1536} height={1024} sizes="(max-width: 767px) 240px, 300px" unoptimized={false} preload />
               <Sparkles className="jf-hero-spark" size={34} strokeWidth={1.5} aria-hidden="true" />
               <span className="jf-hero-language" lang="en"><Image className="jf-hero-flag" src="/home/usa-flag.png" alt="United States flag" width={20} height={20} />English</span>
             </div>
@@ -90,20 +90,6 @@ export default function JuniorFluencyPage() {
         </section>
         <div className="jf-wave" aria-hidden="true"><svg viewBox="0 0 1440 150" preserveAspectRatio="none"><path d="M0,32 C360,96 1080,0 1440,80 L1440,150 L0,150 Z" fill="#FFFFFF" /></svg></div>
       </div>
-        <section className="jf-section jf-benefits" id="beneficios" aria-labelledby="benefits-title">
-          <div className="jf-container">
-            <div className="jf-section-heading jf-benefits-heading">
-              <div><p className="jf-eyebrow">Aprender inglés puede ser diferente</p><h2 id="benefits-title">Que se sienta cómodo, participe y <span>descubra lo que es capaz de hacer.</span></h2></div>
-              <p>Quizá necesita refuerzo, confianza para hablar o recuperar la motivación. Partimos de lo que necesita y de lo que le interesa.</p>
-            </div>
-            <div className="jf-benefit-grid">{benefits.map(({ icon: Icon, label, note, title, text }) => (
-              <article className="jf-benefit-card" key={title}>
-                <div className="jf-benefit-art" aria-hidden="true"><span className="jf-icon"><Icon size={36} strokeWidth={1.5} /></span><span className="jf-benefit-note">{note}</span></div>
-                <div className="jf-benefit-copy"><p className="jf-benefit-label">{label}</p><h3>{title}</h3><p>{text}</p></div>
-              </article>
-            ))}</div>
-          </div>
-        </section>
         <section className="jf-section jf-interests" id="intereses" aria-labelledby="interests-title">
           <div className="jf-container">
             <div className="jf-section-heading jf-interests-heading">
@@ -125,6 +111,20 @@ export default function JuniorFluencyPage() {
                 </article>
               ))}
             </InterestCarousel>
+          </div>
+        </section>
+        <section className="jf-section jf-benefits" id="beneficios" aria-labelledby="benefits-title">
+          <div className="jf-container">
+            <div className="jf-section-heading jf-benefits-heading">
+              <div><p className="jf-eyebrow">Aprender inglés puede ser diferente</p><h2 id="benefits-title">Que se sienta cómodo, participe y <span>descubra lo que es capaz de hacer.</span></h2></div>
+              <p>Quizá necesita refuerzo, confianza para hablar o recuperar la motivación. Partimos de lo que necesita y de lo que le interesa.</p>
+            </div>
+            <div className="jf-benefit-grid">{benefits.map(({ icon: Icon, label, note, title, text }) => (
+              <article className="jf-benefit-card" key={title}>
+                <div className="jf-benefit-art" aria-hidden="true"><span className="jf-icon"><Icon size={36} strokeWidth={1.5} /></span><span className="jf-benefit-note">{note}</span></div>
+                <div className="jf-benefit-copy"><p className="jf-benefit-label">{label}</p><h3>{title}</h3><p>{text}</p></div>
+              </article>
+            ))}</div>
           </div>
         </section>
         <section className="jf-section jf-method" id="como-funciona" aria-labelledby="method-title">
@@ -179,14 +179,14 @@ export default function JuniorFluencyPage() {
                 <li><Sparkles size={20} aria-hidden="true" /><span><strong>Sus intereses, nuestro punto de partida</strong>Para practicar inglés con curiosidad y sentido.</span></li>
                 <li><TrendingUp size={20} aria-hidden="true" /><span><strong>Seguimiento para las familias</strong>Compartimos avances y próximos objetivos.</span></li>
               </ul>
-              <a className="jf-teacher-cta" href={juniorWhatsAppUrl} target="_blank" rel="noopener noreferrer" data-junior-cta="teacher">Hablemos de lo que necesita tu hijo<ArrowUpRight size={18} aria-hidden="true" /><span className="sr-only"> (Asesoría gratuita por WhatsApp, abre en otra pestaña)</span></a>
+              <a className="jf-teacher-cta" href="#solicitar-llamada" data-junior-cta="teacher">Hablemos de lo que necesita tu hijo<ArrowUpRight size={18} aria-hidden="true" /></a>
             </div>
           </div>
         </section>
         <section className="jf-section jf-faq jf-container" aria-labelledby="faq-title"><div className="jf-section-heading"><p className="jf-eyebrow">Resolvemos tus dudas</p><h2 id="faq-title">Preguntas habituales de las familias</h2></div><div className="jf-faq-list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div></section>
         <section className="jf-section jf-closing" aria-labelledby="closing-title"><div className="jf-container"><p className="jf-eyebrow">El primer paso es hablar</p><h2 id="closing-title">¿Empezamos a trabajar en su inglés?</h2><p>Podemos tener una conversación gratuita de 15–20 minutos en la que me cuentes cuáles son sus necesidades, qué dificultades encuentra y qué os gustaría conseguir. Te explicaré cómo funciona Junior Fluency y valoraremos qué programa encaja mejor.</p><ConsultationLink placement="closing" /><p className="jf-microcopy">Sin compromiso. La asesoría se realiza con la madre, el padre o el tutor legal.</p></div></section>
       </main>
-      <Footer consultationHref={juniorWhatsAppUrl} />
+      <Footer consultationHref="#solicitar-llamada" />
     </div>
   );
 }

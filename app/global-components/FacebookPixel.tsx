@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { getWhatsAppPlacement, revokeMetaTracking, saveMarketingConsent, trackMetaEvent } from "@/lib/meta-browser";
-import { MARKETING_CONSENT_COOKIE, readCookie } from "@/lib/meta-events";
+import { MARKETING_CONSENT_COOKIE, parseMetaEvent, readCookie } from "@/lib/meta-events";
 
 export default function FacebookPixel({ pixelId }: { pixelId?: string }) {
   const pathname = usePathname();
@@ -55,8 +55,17 @@ export default function FacebookPixel({ pixelId }: { pixelId?: string }) {
       const placement = getWhatsAppPlacement(anchor);
       if (placement) trackMetaEvent(pixelId!, "WhatsAppClick", placement);
     }
+    function onJuniorConsultation(event: Event) {
+      const eventId: unknown = (event as CustomEvent).detail?.eventId;
+      const conversion = parseMetaEvent({ eventName: "Junior Fluency Ask", eventId, pagePath: pathname });
+      if (conversion) trackMetaEvent(pixelId!, conversion.eventName, undefined, conversion.eventId);
+    }
     document.addEventListener("click", onClick, { capture: true });
-    return () => document.removeEventListener("click", onClick, { capture: true });
+    document.addEventListener("junior-consultation-accepted", onJuniorConsultation);
+    return () => {
+      document.removeEventListener("click", onClick, { capture: true });
+      document.removeEventListener("junior-consultation-accepted", onJuniorConsultation);
+    };
   }, [consent, pathname, pixelId]);
 
   useEffect(() => {

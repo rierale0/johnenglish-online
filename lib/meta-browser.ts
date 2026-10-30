@@ -64,11 +64,12 @@ function setMatchingCookies() {
   }
 }
 
-export function trackMetaEvent(pixelId: string, eventName: MetaEvent["eventName"], placement?: MetaPlacement) {
+export function trackMetaEvent(pixelId: string, eventName: MetaEvent["eventName"], placement?: MetaPlacement, eventId = crypto.randomUUID()) {
   const pagePath = location.pathname;
+  if (eventName === "Junior Fluency Ask" && pagePath !== "/junior-fluency") return;
   if (!isMetaPagePath(pagePath) || !initializeMetaPixel(pixelId)) return;
   setMatchingCookies();
-  const event: MetaEvent = { eventName, eventId: crypto.randomUUID(), pagePath, ...(placement ? { placement } : {}) };
+  const event: MetaEvent = { eventName, eventId, pagePath, ...(placement ? { placement } : {}) };
   const parameters = placement ? { placement } : {};
   window.fbq?.(eventName === "PageView" ? "trackSingle" : "trackSingleCustom", pixelId, eventName, parameters, { eventID: event.eventId });
   // Keep navigation immediate, including opening WhatsApp in a new tab.

@@ -50,7 +50,7 @@ export default function PrivacyPolicy() {
               <h2><span aria-hidden="true">01</span>Información que recopilamos</h2>
               <p>En John English Online, nos tomamos muy en serio la privacidad de nuestros usuarios. Recopilamos la siguiente información:</p>
               <ul>
-                <li>Información de contacto (nombre, correo electrónico)</li>
+                <li>Información de contacto (nombre, correo electrónico y teléfono cuando solicitas una llamada)</li>
                 <li>Información de progreso en el aprendizaje</li>
                 <li>Datos de uso de la plataforma</li>
               </ul>
@@ -60,6 +60,8 @@ export default function PrivacyPolicy() {
               <h2><span aria-hidden="true">02</span>Uso de la información</h2>
               <p>Utilizamos la información recopilada para:</p>
               <ul>
+                <li>Atender tu solicitud de asesoría de Junior Fluency y contactarte por teléfono con los datos que facilitas en el formulario.</li>
+                <li>Gestionar las solicitudes de llamada mediante n8n y recibir en Telegram un aviso con el nombre y teléfono facilitados.</li>
                 <li>Personalizar tu experiencia de aprendizaje</li>
                 <li>Mejorar nuestros servicios</li>
                 <li>Comunicarnos contigo sobre tu progreso</li>
@@ -81,7 +83,7 @@ export default function PrivacyPolicy() {
               <h2><span aria-hidden="true">04</span>Cookies y tecnologías de seguimiento</h2>
               <p>Guardamos tu elección de cookies durante 180 días en una cookie propia (ewj_marketing_v1). Puedes usar la web aunque rechaces la medición publicitaria.</p>
               <ul>
-                <li>Solo si aceptas, activamos el píxel de Meta y Conversions API para medir visitas a las páginas comerciales y clics en WhatsApp y evaluar nuestros anuncios.</li>
+                <li>Solo si aceptas, activamos el píxel de Meta y Conversions API para medir visitas a las páginas comerciales, clics en WhatsApp y solicitudes confirmadas de asesoría de Junior Fluency y evaluar nuestros anuncios.</li>
                 <li>Compartimos con Meta el tipo y momento del evento, la URL visitada, el navegador, la dirección IP y los identificadores publicitarios _fbp y _fbc, cuando están disponibles. El envío desde nuestro servidor excluye parámetros y fragmentos de la URL. Estas cookies publicitarias duran hasta 90 días.</li>
                 <li>No enviamos nombres, correos, teléfonos ni datos de los niños mediante estos eventos. Un clic en WhatsApp no confirma que hayas enviado un mensaje ni solicitado una asesoría.</li>
                 <li>Puedes retirar el permiso desde «Preferencias de cookies», en el pie de página. Al rechazar, detenemos los nuevos eventos y eliminamos las cookies publicitarias propias de Meta.</li>

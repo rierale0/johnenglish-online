@@ -19,6 +19,7 @@ Los cambios en variables de Vercel requieren un nuevo despliegue. No hay token l
 - Antes de aceptar no se carga `fbevents.js`, no se crean `_fbp` / `_fbc` y no se llama al endpoint de medición. Rechazar revoca el píxel, descarta eventos pendientes de su cola y borra esas cookies propias (hasta 90 días de duración).
 - Solo `/` y `/junior-fluency` producen `PageView`. La navegación interna también se mide una vez por cambio de ruta. Las páginas de alumnos y las redirecciones no generan eventos propios.
 - Los enlaces a WhatsApp, los enlaces internos de demo/contacto y las tarjetas comerciales que abren WhatsApp producen `WhatsAppClick`. Es un evento personalizado de intención, **no** un `Lead`, una conversación confirmada, una reserva ni una compra.
+- `Junior Fluency Ask` es el nombre exacto del evento personalizado de solicitud de llamada confirmada. Solo se dispara en `/junior-fluency`, después de HTTP correcto y `{ accepted: true }` en el formulario. Se usa el `submissionId` como identificador compartido de Pixel y CAPI. Se respeta el consentimiento publicitario vigente; aceptar cookies después de enviar el formulario no reproduce conversiones anteriores. El aviso solo transporta el UUID, sin nombre ni teléfono.
 - Cada acción genera un UUID compartido entre `eventID` del píxel y `event_id` de CAPI, con el mismo nombre de evento. La configuración automática del píxel está desactivada para evitar eventos adicionales de botones.
 - Se envían tipo/momento del evento, URL comercial canónica, ubicación del botón, navegador, IP facilitada por Vercel y cookies de atribución, cuando están disponibles. No se recogen nombres, correos, teléfonos ni información de alumnos. El envío del servidor elimina parámetros y fragmentos de la URL; el píxel de Meta recibe también la URL del navegador según su funcionamiento habitual.
 - No se reintenta automáticamente una entrega fallida: la interacción del visitante sigue funcionando. Los logs solo incluyen estado HTTP y código numérico de Meta. Sin token/configuración válida el servidor omite la entrega; el píxel puede seguir funcionando con consentimiento.
@@ -39,6 +40,10 @@ Respuestas sin datos personales: `202` aceptado por Meta o duplicado local, `204
 6. Quitar `META_CAPI_TEST_EVENT_CODE` y desplegar otra vez para habilitar el envío normal. No dejar el código de pruebas activo permanentemente.
 
 Las pruebas automatizadas simulan Graph y el píxel; no prueban permisos del token ni confirman recepción real en Meta.
+
+## Conversión personalizada Junior Fluency Ask
+
+Cuenta: John English Online (`1164463585142163`). Dataset: Datos de inglesconjohn.es (`28816945551285566`). El conector confirmó que no existen conversiones personalizadas en esta cuenta y no ofrece operación para crearlas. El Administrador de eventos abierto en el navegador integrado requiere iniciar sesión. Pendiente crear allí la conversión con nombre `Junior Fluency Ask`, evento del mismo nombre y categoría de optimización Cliente potencial. No usar como regla una simple visita a `/junior-fluency`, que no acredita una solicitud. La implementación del evento sigue en el código local; requiere despliegue y verificación de recepción en Meta.
 
 ## Referencias oficiales
 

@@ -23,7 +23,7 @@ body:has(.jf-page) > nav.flex.justify-between { display: none; }
 .jf-subnav > div > a { display: inline-flex; align-items: center; min-height: 44px; }
 .jf-nav-cta { background: var(--jf-cyan); color: #242239; padding: 8px 18px; border-radius: 12px; font-weight: 600; }
 .jf-subnav a:hover, .jf-text-link:hover { text-decoration: underline; text-underline-offset: 5px; }
-.jf-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; padding-block: 64px 80px; }
+.jf-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 48px; align-items: start; padding-block: 48px 60px; }
 .jf-eyebrow { font-size: .75rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 20px; color: #63488d; }
 .jf-hero h1 { font-size: clamp(2.3rem, 4.1vw, 3.55rem); letter-spacing: -.045em; margin-bottom: 24px; }
 .jf-hero h1 { font-weight: 700; }
@@ -449,3 +449,34 @@ body:has(.jf-page) > nav.flex.justify-between { display: none; }
   .jf-includes-icon svg { width: 16px; height: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .jf-page *, .jf-page *::before, .jf-page *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; } }
+/* Callback form: one destination for every consultation CTA. */
+.jf-contact-card { grid-column: 2; grid-row: 1 / span 2; align-self: center; min-width: 0; padding: 32px; border: 1px solid #eee8f5; border-radius: 26px; background: #fff; color: var(--jf-ink); box-shadow: 0 24px 64px #17112d35; scroll-margin-top: 24px; }
+.jf-contact-badge { display: flex; align-items: center; gap: 8px; color: #63488d; font-size: .75rem; font-weight: 600; margin-bottom: 16px; }
+.jf-contact-card h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); margin-bottom: 14px; letter-spacing: -.035em; text-wrap: pretty; }
+.jf-contact-intro { color: #61596e; font-size: .9rem; line-height: 1.65; margin-bottom: 24px; }
+.jf-contact-field { display: block; font-size: .85rem; font-weight: 600; margin-top: 16px; }
+.jf-contact-field span { font-weight: 400; color: #61596e; }
+.jf-contact-field input { display: block; width: 100%; min-height: 50px; margin-top: 6px; padding: 12px 14px; background: #faf9ff; border: 1px solid #cfc6df; border-radius: 10px; font-size: 16px; font-weight: 400; color: #242239; }
+.jf-contact-field input::placeholder { color: #777080; }
+.jf-contact-card :focus-visible { outline: 3px solid #7154c7; outline-offset: 3px; }
+.jf-contact-help { font-size: .72rem; color: #61596e; margin-top: 6px; line-height: 1.5; }
+.jf-contact-consent { display: flex; gap: 10px; align-items: flex-start; margin-block: 20px; font-size: .75rem; line-height: 1.6; color: #61596e; cursor: pointer; }
+.jf-contact-consent input { flex-shrink: 0; width: 18px; height: 18px; margin-top: 2px; accent-color: #63488d; }
+.jf-contact-consent a { text-decoration: underline; text-underline-offset: 3px; color: #63488d; }
+.jf-contact-card .jf-cta { width: 100%; cursor: pointer; }
+.jf-contact-card .jf-cta:disabled { opacity: .65; cursor: wait; }
+.jf-contact-duration { text-align: center; margin-top: 14px; font-size: .75rem; color: #61596e; }
+.jf-contact-alternative { display: block; text-align: center; border-top: 1px solid #e5dff0; padding-top: 18px; margin-top: 20px; font-size: .78rem; color: #63488d; text-decoration: underline; text-underline-offset: 4px; }
+.jf-contact-error { margin-top: 16px; color: #9b2437; font-size: .85rem; }
+.jf-contact-success { padding-block: 24px; }
+.jf-contact-success svg { color: #347461; margin-bottom: 16px; }
+.jf-contact-success p { font-size: .9rem; margin-top: 14px; }
+.jf-contact-trap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.jf-hero > .jf-hero-art { grid-column: 1; grid-row: 2; width: min(300px, 85%); margin: 0 auto; padding: 0; }
+.jf-hero > .jf-hero-art figcaption { font-size: .7rem; }
+@media (max-width: 767px) {
+  .jf-contact-card { grid-column: 1; grid-row: 2; padding: 24px 20px; border-radius: 20px; }
+  .jf-hero > .jf-hero-art { grid-row: 3; width: min(240px, 76vw); margin-top: 16px; }
+  .jf-hero { padding-bottom: 30px; gap: 24px; }
+  .jf-contact-badge { font-size: .68rem; }
+}
