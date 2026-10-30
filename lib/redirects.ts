@@ -16,6 +16,7 @@ const REDIRECTS: Record<string, string> = {
   katy: "https://rierale0.notion.site/Katy-ESL-Course-11961211622b8095aeb4e43dd34a1b5e",
   carolina: "https://www.notion.so/rierale0/Carolina-English-Practice-18c61211622b805faa9fc812db083de8",
   pablo: "https://rierale0.notion.site/Pablo-ESL-Course-1c061211622b80abb0d5c2b9e8c7cd81",
+  pablorodilla: "https://rierale0.notion.site/Pablo-Rodilla-ESL-Course-40961211622b80629e82e3cdce5c52c9",
   luiscamacho: "https://www.notion.so/rierale0/23161211622b803bb64be9422ab96bab",
 };
 
