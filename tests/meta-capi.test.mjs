@@ -50,6 +50,7 @@ test("Junior Fluency Ask is limited to its landing and carries the same deduplic
   assert.equal(parseMetaEvent({ ...lead, phone: "+34612345678" }), null);
   const payload = capi.buildMetaServerEvent(lead, new Headers());
   assert.equal(payload.event_name, "Junior Fluency Ask");
+  assert.deepEqual(payload.custom_data, { conversion_name: "Junior Fluency Ask" });
   assert.equal(payload.event_id, lead.eventId);
 });
 

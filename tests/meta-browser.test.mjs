@@ -24,6 +24,7 @@ test("Junior Fluency Ask respects consent and shares the confirmed submission ID
   const tracked = calls.find(call => call[0] === "trackSingleCustom");
   assert.equal(tracked[2], "Junior Fluency Ask");
   assert.equal(tracked[4].eventID, id);
+  assert.equal(tracked[3].conversion_name, "Junior Fluency Ask");
   assert.deepEqual(requests[0].body, { eventName: "Junior Fluency Ask", eventId: id, pagePath: "/junior-fluency" });
   location.pathname = "/";
   exports.trackMetaEvent("28816945551285566", "Junior Fluency Ask", undefined, id);

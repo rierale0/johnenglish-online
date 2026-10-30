@@ -78,7 +78,7 @@ export function buildMetaServerEvent(event: MetaEvent, headers: Headers, now = D
       fbp: matchingCookie(cookies, "_fbp"),
       fbc: matchingCookie(cookies, "_fbc"),
     },
-    custom_data: event.placement ? { placement: event.placement } : undefined,
+    custom_data: event.eventName === "Junior Fluency Ask" ? { conversion_name: "Junior Fluency Ask" } : event.placement ? { placement: event.placement } : undefined,
   };
 }
 
