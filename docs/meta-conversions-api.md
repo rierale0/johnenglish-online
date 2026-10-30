@@ -43,11 +43,8 @@ Las pruebas automatizadas simulan Graph y el píxel; no prueban permisos del tok
 
 ## Conversión personalizada Junior Fluency Ask
 
-Cuenta: John English Online (`1164463585142163`). Dataset: Datos de inglesconjohn.es (`28816945551285566`). El conector confirmó que no existen conversiones personalizadas en esta cuenta y no ofrece operación para crearlas. El Administrador de eventos abierto en el navegador integrado requiere iniciar sesión. Pendiente crear allí la conversión con nombre `Junior Fluency Ask`, evento del mismo nombre y categoría de optimización Cliente potencial. No usar como regla una simple visita a `/junior-fluency`, que no acredita una solicitud. La implementación del evento sigue en el código local; requiere despliegue y verificación de recepción en Meta.
+Creada en Meta el 30/10/2026. Cuenta John English Online (1164463585142163), dataset Datos de inglesconjohn.es (28816945551285566). ID de conversión: 1669171581225460. Categoría: LEAD (Cliente potencial).
 
-## Referencias oficiales
+Regla verificada desde el conector: PageView y conversion_name igual a Junior Fluency Ask. La visita inicial nunca lleva esa etiqueta. Tras recibir accepted:true, la vista de confirmación genera un PageView etiquetado y el evento personalizado Junior Fluency Ask. Se conserva el submissionId como identificador de ambos eventos; Meta deduplica las copias navegador/servidor por nombre e identificador. La misma solicitud produce una sola conversión, porque solo la vista de confirmación cumple la regla. El total de PageView incluye esa vista adicional de confirmación.
 
-- [SDK de Meta: versión de Graph](https://github.com/facebook/facebook-nodejs-business-sdk/blob/main/src/api.js).
-- [Meta: estructura de eventos de servidor](https://github.com/facebook/facebook-nodejs-business-sdk/blob/main/src/objects/serverside/server-event.js) y [solicitudes con código de prueba](https://github.com/facebook/facebook-nodejs-business-sdk/blob/main/src/objects/serverside/event-request.js).
-- [Meta: datos de coincidencia](https://github.com/facebook/facebook-nodejs-business-sdk/blob/main/src/objects/serverside/user-data.js).
-- [Vercel: cabeceras de IP](https://vercel.com/docs/headers/request-headers).
+Solo se mide con consentimiento publicitario vigente. Ningún evento incluye nombre ni teléfono. El evento personalizado y la etiqueta se verificaron como Procesado en la herramienta de pruebas de Meta; CAPI respondió HTTP 202. La landing y el webhook están publicados en producción. Meta puede mostrar la conversión inactiva hasta que procese una coincidencia posterior a su creación. Las campañas todavía deben seleccionar esta conversión como objetivo; esta tarea no cambia campañas ni presupuestos.

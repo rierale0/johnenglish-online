@@ -58,7 +58,12 @@ export default function FacebookPixel({ pixelId }: { pixelId?: string }) {
     function onJuniorConsultation(event: Event) {
       const eventId: unknown = (event as CustomEvent).detail?.eventId;
       const conversion = parseMetaEvent({ eventName: "Junior Fluency Ask", eventId, pagePath: pathname });
-      if (conversion) trackMetaEvent(pixelId!, conversion.eventName, undefined, conversion.eventId);
+      if (conversion) {
+        trackMetaEvent(pixelId!, conversion.eventName, undefined, conversion.eventId);
+        // The newly displayed success view is the basis of the Meta custom conversion.
+        // The initial landing PageView never receives this conversion label.
+        trackMetaEvent(pixelId!, "PageView", undefined, conversion.eventId, true);
+      }
     }
     document.addEventListener("click", onClick, { capture: true });
     document.addEventListener("junior-consultation-accepted", onJuniorConsultation);

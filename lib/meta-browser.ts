@@ -64,13 +64,14 @@ function setMatchingCookies() {
   }
 }
 
-export function trackMetaEvent(pixelId: string, eventName: MetaEvent["eventName"], placement?: MetaPlacement, eventId = crypto.randomUUID()) {
+export function trackMetaEvent(pixelId: string, eventName: MetaEvent["eventName"], placement?: MetaPlacement, eventId = crypto.randomUUID(), juniorConfirmation = false) {
   const pagePath = location.pathname;
+  if (juniorConfirmation && (eventName !== "PageView" || pagePath !== "/junior-fluency" || placement)) return;
   if (eventName === "Junior Fluency Ask" && pagePath !== "/junior-fluency") return;
   if (!isMetaPagePath(pagePath) || !initializeMetaPixel(pixelId)) return;
   setMatchingCookies();
-  const event: MetaEvent = { eventName, eventId, pagePath, ...(placement ? { placement } : {}) };
-  const parameters = eventName === "Junior Fluency Ask" ? { conversion_name: "Junior Fluency Ask" } : placement ? { placement } : {};
+  const event: MetaEvent = { eventName, eventId, pagePath, ...(placement ? { placement } : {}), ...(juniorConfirmation ? { juniorConfirmation: true as const } : {}) };
+  const parameters = eventName === "Junior Fluency Ask" || juniorConfirmation ? { conversion_name: "Junior Fluency Ask" } : placement ? { placement } : {};
   window.fbq?.(eventName === "PageView" ? "trackSingle" : "trackSingleCustom", pixelId, eventName, parameters, { eventID: event.eventId });
   // Keep navigation immediate, including opening WhatsApp in a new tab.
   void fetch("/api/meta/events", {

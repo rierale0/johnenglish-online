@@ -52,6 +52,12 @@ test("Junior Fluency Ask is limited to its landing and carries the same deduplic
   assert.equal(payload.event_name, "Junior Fluency Ask");
   assert.deepEqual(payload.custom_data, { conversion_name: "Junior Fluency Ask" });
   assert.equal(payload.event_id, lead.eventId);
+  const confirmation = { ...event, juniorConfirmation: true };
+  assert.deepEqual(parseMetaEvent(confirmation), confirmation);
+  assert.deepEqual(capi.buildMetaServerEvent(confirmation, new Headers()).custom_data, { conversion_name: "Junior Fluency Ask" });
+  assert.equal(capi.buildMetaServerEvent(event, new Headers()).custom_data, undefined);
+  assert.equal(parseMetaEvent({ ...confirmation, pagePath: "/" }), null);
+  assert.equal(parseMetaEvent({ ...confirmation, eventName: "Junior Fluency Ask" }), null);
 });
 
 test("body is bounded even without a trustworthy content-length", async () => {

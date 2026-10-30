@@ -26,7 +26,14 @@ test("Junior Fluency Ask respects consent and shares the confirmed submission ID
   assert.equal(tracked[4].eventID, id);
   assert.equal(tracked[3].conversion_name, "Junior Fluency Ask");
   assert.deepEqual(requests[0].body, { eventName: "Junior Fluency Ask", eventId: id, pagePath: "/junior-fluency" });
+  exports.trackMetaEvent("28816945551285566", "PageView", undefined, id, true);
+  assert.equal(requests[1].body.juniorConfirmation, true);
+  assert.equal(calls.find(call => call[0] === "trackSingle")[3].conversion_name, "Junior Fluency Ask");
+  exports.trackMetaEvent("28816945551285566", "PageView");
+  assert.equal(requests[2].body.juniorConfirmation, undefined);
+  assert.equal(calls.filter(call => call[0] === "trackSingle")[1][3].conversion_name, undefined);
   location.pathname = "/";
   exports.trackMetaEvent("28816945551285566", "Junior Fluency Ask", undefined, id);
-  assert.equal(requests.length, 1);
+  exports.trackMetaEvent("28816945551285566", "PageView", undefined, id, true);
+  assert.equal(requests.length, 3);
 });
